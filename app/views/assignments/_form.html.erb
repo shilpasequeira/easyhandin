@@ -1,0 +1,53 @@
+<%= form_for(@assignment) do |f| %>
+  <% if @assignment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
+
+      <ul>
+      <% @assignment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :slug %><br>
+    <%= f.text_field :slug %>
+  </div>
+  <div class="field">
+    <%= f.label :is_published %><br>
+    <%= f.check_box :is_published %>
+  </div>
+  <div class="field">
+    <%= f.label :deadline %><br>
+    <%= f.datetime_select :deadline %>
+  </div>
+  <div class="field">
+    <%= f.label :grace_period %><br>
+    <%= f.datetime_select :grace_period %>
+  </div>
+  <div class="field">
+    <%= f.label :is_team_mode %><br>
+    <%= f.check_box :is_team_mode %>
+  </div>
+  <div class="field">
+    <%= f.label :bk_moss_build_id %><br>
+    <%= f.number_field :bk_moss_build_id %>
+  </div>
+  <div class="field">
+    <%= f.label :bk_moss_job_id %><br>
+    <%= f.number_field :bk_moss_job_id %>
+  </div>
+  <div class="field">
+    <%= f.label :moss_output %><br>
+    <%= f.text_area :moss_output %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

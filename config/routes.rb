@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :assignments
+  resources :courses
   root 'application#index'
 
   get 'sessions/create'

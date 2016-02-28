@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Assignments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Slug</th>
+      <th>Is published</th>
+      <th>Deadline</th>
+      <th>Grace period</th>
+      <th>Is team mode</th>
+      <th>Bk moss build</th>
+      <th>Bk moss job</th>
+      <th>Moss output</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @assignments.each do |assignment| %>
+      <tr>
+        <td><%= assignment.name %></td>
+        <td><%= assignment.slug %></td>
+        <td><%= assignment.is_published %></td>
+        <td><%= assignment.deadline %></td>
+        <td><%= assignment.grace_period %></td>
+        <td><%= assignment.is_team_mode %></td>
+        <td><%= assignment.bk_moss_build_id %></td>
+        <td><%= assignment.bk_moss_job_id %></td>
+        <td><%= assignment.moss_output %></td>
+        <td><%= link_to 'Show', assignment %></td>
+        <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
+        <td><%= link_to 'Destroy', assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Assignment', new_assignment_path %>

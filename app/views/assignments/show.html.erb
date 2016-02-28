@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @assignment.name %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @assignment.slug %>
+</p>
+
+<p>
+  <strong>Is published:</strong>
+  <%= @assignment.is_published %>
+</p>
+
+<p>
+  <strong>Deadline:</strong>
+  <%= @assignment.deadline %>
+</p>
+
+<p>
+  <strong>Grace period:</strong>
+  <%= @assignment.grace_period %>
+</p>
+
+<p>
+  <strong>Is team mode:</strong>
+  <%= @assignment.is_team_mode %>
+</p>
+
+<p>
+  <strong>Bk moss build:</strong>
+  <%= @assignment.bk_moss_build_id %>
+</p>
+
+<p>
+  <strong>Bk moss job:</strong>
+  <%= @assignment.bk_moss_job_id %>
+</p>
+
+<p>
+  <strong>Moss output:</strong>
+  <%= @assignment.moss_output %>
+</p>
+
+<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
+<%= link_to 'Back', assignments_path %>
