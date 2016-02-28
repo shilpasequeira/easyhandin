@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
 
   def self.create_with_omniauth(auth, role)
     if user = User.find_by(uid: auth["uid"])
+      user.access_token = auth["credentials"]["token"]
       return user
     else
       create! do |user|
@@ -26,7 +27,7 @@ class User < ActiveRecord::Base
         user.name = auth["info"]["name"]
         user.email = auth["info"]["email"]
         user.username = auth["info"]["nickname"]
-        user.access_token = auth["info"]["nickname"]
+        user.access_token = auth["credentials"]["token"]
         user.role = role
       end
     end

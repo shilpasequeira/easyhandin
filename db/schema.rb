@@ -76,10 +76,12 @@ ActiveRecord::Schema.define(version: 20160228042804) do
     t.text     "grading_test_output"
     t.integer  "bk_test_build_id"
     t.integer  "bk_test_job_id"
+    t.integer  "assignment_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
 
+  add_index "submissions", ["assignment_id"], name: "index_submissions_on_assignment_id", using: :btree
   add_index "submissions", ["submitter_type", "submitter_id"], name: "index_submissions_on_submitter_type_and_submitter_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
@@ -100,8 +102,9 @@ ActiveRecord::Schema.define(version: 20160228042804) do
     t.integer  "role"
     t.string   "provider"
     t.string   "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "access_token"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
