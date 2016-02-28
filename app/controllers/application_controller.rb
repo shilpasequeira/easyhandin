@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def index
-    render inline: "<%= link_to 'Sign in with Github as Instructor', '/auth/github?role=student' %>"
+    render inline: "<%= link_to 'Sign in with Github as Instructor', '/auth/github?role=instructor' %>"
   end
 end

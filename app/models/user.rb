@@ -7,7 +7,9 @@ class User < ActiveRecord::Base
   end
 
   def self.create_with_omniauth(auth, role)
-    if !Client.find_by(uid: auth["uid"])
+    if user = User.find_by(uid: auth["uid"])
+      return user
+    else
       create! do |user|
         user.provider = auth["provider"]
         user.uid = auth["uid"]
