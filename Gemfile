@@ -57,3 +57,6 @@ gem 'figaro'
 
 # Buildkite gem
 gem 'buildkit'
+
+# Use puma as the webserver on Heroku
+gem 'puma'
