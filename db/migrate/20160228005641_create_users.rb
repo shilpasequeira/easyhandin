@@ -7,7 +7,6 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :role
       t.string :provider
       t.string :uid
-      t.string :access_token
 
       t.timestamps null: false
     end

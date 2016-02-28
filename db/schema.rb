@@ -102,9 +102,8 @@ ActiveRecord::Schema.define(version: 20160228042804) do
     t.integer  "role"
     t.string   "provider"
     t.string   "uid"
-    t.string   "access_token"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
