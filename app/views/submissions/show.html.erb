@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Grade:</strong>
+  <%= @submission.grade %>
+</p>
+
+<p>
+  <strong>Feedback:</strong>
+  <%= @submission.feedback %>
+</p>
+
+<p>
+  <strong>Grading test output:</strong>
+  <%= @submission.grading_test_output %>
+</p>
+
+<p>
+  <strong>Bk test build:</strong>
+  <%= @submission.bk_test_build_id %>
+</p>
+
+<p>
+  <strong>Bk test job:</strong>
+  <%= @submission.bk_test_job_id %>
+</p>
+
+<%= link_to 'Edit', edit_submission_path(@submission) %> |
+<%= link_to 'Back', submissions_path %>

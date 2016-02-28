@@ -10,7 +10,7 @@ class CreateAssignments < ActiveRecord::Migration
       t.integer :bk_moss_build_id
       t.integer :bk_moss_job_id
       t.text :moss_output
-      t.belongs_to :course
+      t.belongs_to :course, index: true
 
       t.timestamps null: false
     end

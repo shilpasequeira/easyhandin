@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Submissions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Grade</th>
+      <th>Feedback</th>
+      <th>Grading test output</th>
+      <th>Bk test build</th>
+      <th>Bk test job</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @submissions.each do |submission| %>
+      <tr>
+        <td><%= submission.grade %></td>
+        <td><%= submission.feedback %></td>
+        <td><%= submission.grading_test_output %></td>
+        <td><%= submission.bk_test_build_id %></td>
+        <td><%= submission.bk_test_job_id %></td>
+        <td><%= link_to 'Show', submission %></td>
+        <td><%= link_to 'Edit', edit_submission_path(submission) %></td>
+        <td><%= link_to 'Destroy', submission, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Submission', new_submission_path %>

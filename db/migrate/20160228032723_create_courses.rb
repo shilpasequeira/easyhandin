@@ -10,12 +10,12 @@ class CreateCourses < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    create_table :courses_instructors, id: false do |t|
+    create_table :course_instructors, id: false do |t|
       t.belongs_to :course, index: true
       t.belongs_to :user, index: true
     end
 
-    create_table :courses_students, id: false do |t|
+    create_table :course_students, id: false do |t|
       t.belongs_to :course, index: true
       t.belongs_to :user, index: true
       t.string :student_repository

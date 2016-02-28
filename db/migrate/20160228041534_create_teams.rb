@@ -4,7 +4,7 @@ class CreateTeams < ActiveRecord::Migration
       t.string :name
       t.string :slug
       t.string :repository
-      t.belongs_to :course
+      t.belongs_to :course, index: true
 
       t.timestamps null: false
     end
