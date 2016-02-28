@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  has_many: courses
-
   enum role: [ :instructor, :student ]
   after_initialize :set_default_role, :if => :new_record?
 

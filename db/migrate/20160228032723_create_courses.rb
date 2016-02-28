@@ -5,6 +5,7 @@ class CreateCourses < ActiveRecord::Migration
       t.string :slug
       t.boolean :is_published
       t.string :test_repository
+      t.string :skeleton_repository
 
       t.timestamps null: false
     end

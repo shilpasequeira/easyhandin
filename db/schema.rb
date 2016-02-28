@@ -36,8 +36,9 @@ ActiveRecord::Schema.define(version: 20160228040425) do
     t.string   "slug"
     t.boolean  "is_published"
     t.string   "test_repository"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "skeleton_repository"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "courses_instructors", id: false, force: :cascade do |t|
