@@ -8,4 +8,14 @@ class Course < ActiveRecord::Base
   has_many :students, through: :course_students, source: 'User'
 
   has_many :teams
+
+  validates :name, :slug, presence: true
+
+  validate :test_repository_cannot_be_nil_when_published
+
+  def test_repository_cannot_be_nil_when_published
+    if is_published.present? && test_repository.nil?
+      errors.add(:test_repository, "can't be nil when course is published")
+    end
+  end
 end
