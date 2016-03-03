@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     user = User.create_with_omniauth(auth, request.params[:role])
     session[:user_id] = user.id
     session[:access_token] = auth["credentials"]["token"]
-    redirect_to root_url
+    redirect_to "/courses"
   end
 
   def destroy

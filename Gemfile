@@ -60,7 +60,10 @@ gem 'omniauth-github'
 gem 'figaro'
 
 # Buildkite gem
-gem 'buildkit'
+gem 'buildkit', '1.2.0', :path => "vendor/buildkit-1.2.0"
 
 # Use puma as the webserver on Heroku
 gem 'puma'
+
+# Strategy pattern to create operations and pipelines
+gem 'composable_operations'
