@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Buildkit v0.1.0
+      - Buildkit v1.2.0
       Accept:
       - application/json
       Content-Type:

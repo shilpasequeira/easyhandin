@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: put
-    uri: https://api.buildkite.com/v2/organizations/shopify/agents/16940c91-f12d-4122-8154-0edf6c0978c2/stop
+    method: get
+    uri: https://api.buildkite.com/v2/organizations/shopify/pipelines/shopify-borgified/builds/68/jobs/ea3a25bc-5512-49f4-b9fe-3a37a407cedd/log
     body:
-      encoding: UTF-8
-      string: '{"force":false}'
+      encoding: US-ASCII
+      string: ''
     headers:
       User-Agent:
       - Buildkit v1.2.0
@@ -17,17 +17,21 @@ http_interactions:
       - Bearer <<ACCESS_TOKEN>>
   response:
     status:
-      code: 204
+      code: 200
       message: 
     headers:
       server:
       - nginx/1.6.3
       date:
-      - Thu, 23 Apr 2015 19:02:08 GMT
+      - Thu, 23 Apr 2015 17:40:15 GMT
+      content-type:
+      - application/json; charset=utf-8
+      transfer-encoding:
+      - chunked
       connection:
       - close
       status:
-      - 204 No Content
+      - 200 OK
       x-frame-options:
       - SAMEORIGIN, SAMEORIGIN
       x-xss-protection:
@@ -37,22 +41,27 @@ http_interactions:
       access-control-allow-origin:
       - "*"
       x-accepted-oauth-scopes:
-      - write_agents
+      - read_builds
       x-oauth-scopes:
       - read_user,read_organizations,read_pipelines,write_pipelines,read_builds,write_builds,read_build_logs,read_agents,write_agents
       cache-control:
-      - no-cache
+      - max-age=0, private, must-revalidate
       x-request-id:
-      - 85445ba2-6093-4ed3-bfdb-44f47f857ec2
+      - ecf33eda-2a18-46ee-be8d-4db60954c335
       x-runtime:
-      - '0.087036'
+      - '0.291642'
       strict-transport-security:
       - max-age=31536000; includeSubdomains
       x-ua-compatible:
       - chrome=1
     body:
       encoding: UTF-8
-      string: ''
+      string: |
+        {
+          "url": "https://api.buildkite.com/v2/organizations/shopify/pipelines/shopify-borgified/builds/68/jobs/ea3a25bc-5512-49f4-b9fe-3a37a407cedd/log",
+          "content": "This is the job's log output",
+          "size": 28
+        }
     http_version: 
-  recorded_at: Thu, 23 Apr 2015 19:02:08 GMT
+  recorded_at: Thu, 23 Apr 2015 17:40:15 GMT
 recorded_with: VCR 2.9.3

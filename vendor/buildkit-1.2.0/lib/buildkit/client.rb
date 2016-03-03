@@ -1,4 +1,5 @@
 require 'sawyer'
+require 'buildkit/client/jobs'
 require 'buildkit/client/agents'
 require 'buildkit/client/builds'
 require 'buildkit/client/organizations'
@@ -7,6 +8,7 @@ require 'buildkit/response/raise_error'
 
 module Buildkit
   class Client
+    include Jobs
     include Agents
     include Builds
     include Organizations
