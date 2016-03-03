@@ -10,5 +10,13 @@ FactoryGirl.define do
     bk_moss_job_id nil
     moss_output "MyText"
     course
+
+    after(:build) do |assignment|
+      assignment.submissions << build(:submission, assignment: assignment)
+    end
+
+    after(:create) do |assignment|
+      assignment.submissions.each { |submissions| submissions.save! }
+    end
   end
 end

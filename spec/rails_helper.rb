@@ -7,6 +7,22 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# Omniauth github mock
+OmniAuth.config.test_mode = true
+omniauth_hash = { 'provider' => 'github',
+                  'uid' => Faker::Number.number(5),
+                  'info' => {
+                      'name' => Faker::Name.name,
+                      'email' => Faker::Internet.email,
+                      'nickname' => Faker::Internet.user_name
+                  },
+                  'credentials' => {
+                    'token' => Faker::Number.number(10)
+                  }
+                }
+
+OmniAuth.config.add_mock(:github, omniauth_hash)
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end

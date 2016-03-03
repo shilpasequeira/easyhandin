@@ -1,11 +1,11 @@
 FactoryGirl.define do
   factory :user do
-    name "John Doe"
-    email "john.doe@gmail.com"
-    username "johndoe"
+    name Faker::Name.name
+    email Faker::Internet.email
+    username Faker::Internet.user_name
     role :student
     provider "github"
-    uid "12345"
+    uid Faker::Number.number(5)
 
     factory :instructor do
       role :instructor

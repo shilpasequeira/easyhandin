@@ -1,6 +1,6 @@
 class Assignment < ActiveRecord::Base
   belongs_to :course
-  has_many :submissions, as: :submitter
+  has_many :submissions
 
   validates :name, :slug, :course, presence: true
   validate :test_deadline_cannot_be_nil_when_published, :test_grace_period_cannot_be_before_deadline
