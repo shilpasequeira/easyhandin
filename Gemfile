@@ -49,6 +49,8 @@ end
 # Use rspec for testing
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
 # OAuth Gems
