@@ -1,9 +1,9 @@
 class User < ActiveRecord::Base
-  has_many :course_instructors
-  has_many :teach_courses, through: :course_instructors, source: 'Course'
+  has_many :course_instructors, dependent: :destroy
+  has_many :teach_courses, through: :course_instructors, source: :course
 
-  has_many :course_students
-  has_many :enrolled_courses, through: :course_students, source: 'Course'
+  has_many :course_students, dependent: :destroy
+  has_many :enrolled_courses, through: :course_students, source: :course
 
   has_and_belongs_to_many :teams
 

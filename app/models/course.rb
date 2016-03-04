@@ -1,13 +1,13 @@
 class Course < ActiveRecord::Base
-  has_many :assignments
+  has_many :assignments, dependent: :destroy
 
-  has_many :course_instructors
-  has_many :instructors, through: :course_instructors, source: 'User'
+  has_many :course_instructors, dependent: :destroy
+  has_many :instructors, through: :course_instructors, source: :user
 
-  has_many :course_students
-  has_many :students, through: :course_students, source: 'User'
+  has_many :course_students, dependent: :destroy
+  has_many :students, through: :course_students, source: :user
 
-  has_many :teams
+  has_many :teams, dependent: :destroy
 
   validates :name, :slug, presence: true
 

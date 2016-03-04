@@ -1,4 +1,5 @@
 class CoursesController < ApplicationController
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
   # GET /courses
@@ -62,6 +63,13 @@ class CoursesController < ApplicationController
   end
 
   private
+    def check_user_is_instructor
+      unless current_user.instructor?
+        flash[:danger] = "You do not have permissions to access this page."
+        redirect_to root_url
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_course
       @course = Course.find(params[:id])

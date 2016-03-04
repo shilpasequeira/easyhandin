@@ -15,10 +15,14 @@ class CreateCourses < ActiveRecord::Migration
       t.belongs_to :user, index: true
     end
 
+    add_index :course_instructors, [:course_id, :user_id], unique: true
+
     create_table :course_students, id: false do |t|
       t.belongs_to :course, index: true
       t.belongs_to :user, index: true
       t.string :student_repository
     end
+
+    add_index :course_students, [:course_id, :user_id], unique: true
   end
 end

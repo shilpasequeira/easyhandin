@@ -13,5 +13,7 @@ class CreateTeams < ActiveRecord::Migration
       t.belongs_to :user, index: true
       t.belongs_to :team, index: true
     end
+
+    add_index :student_teams, [:user_id, :team_id], unique: true
   end
 end

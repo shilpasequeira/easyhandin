@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20160228042804) do
     t.integer "user_id"
   end
 
+  add_index "course_instructors", ["course_id", "user_id"], name: "index_course_instructors_on_course_id_and_user_id", unique: true, using: :btree
   add_index "course_instructors", ["course_id"], name: "index_course_instructors_on_course_id", using: :btree
   add_index "course_instructors", ["user_id"], name: "index_course_instructors_on_user_id", using: :btree
 
@@ -47,6 +48,7 @@ ActiveRecord::Schema.define(version: 20160228042804) do
     t.string  "student_repository"
   end
 
+  add_index "course_students", ["course_id", "user_id"], name: "index_course_students_on_course_id_and_user_id", unique: true, using: :btree
   add_index "course_students", ["course_id"], name: "index_course_students_on_course_id", using: :btree
   add_index "course_students", ["user_id"], name: "index_course_students_on_user_id", using: :btree
 
@@ -66,6 +68,7 @@ ActiveRecord::Schema.define(version: 20160228042804) do
   end
 
   add_index "student_teams", ["team_id"], name: "index_student_teams_on_team_id", using: :btree
+  add_index "student_teams", ["user_id", "team_id"], name: "index_student_teams_on_user_id_and_team_id", unique: true, using: :btree
   add_index "student_teams", ["user_id"], name: "index_student_teams_on_user_id", using: :btree
 
   create_table "submissions", force: :cascade do |t|

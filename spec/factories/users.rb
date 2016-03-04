@@ -5,7 +5,7 @@ FactoryGirl.define do
     username Faker::Internet.user_name
     role :student
     provider "github"
-    uid Faker::Number.number(5)
+    sequence(:uid)
 
     factory :instructor do
       role :instructor
