@@ -221,7 +221,6 @@ DEPENDENCIES
   composable_operations
   factory_girl_rails
   faker
-  faraday
   figaro
   jbuilder (~> 2.0)
   jquery-rails

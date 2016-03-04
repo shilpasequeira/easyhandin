@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+  root 'welcome#index'
+
   resources :submissions
   resources :teams
   resources :assignments
   resources :courses
-  root 'application#index'
+
+  get 'welcome/index'
 
   get 'sessions/create'
 

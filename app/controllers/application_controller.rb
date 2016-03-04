@@ -3,9 +3,18 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   helper_method :current_user
+  before_action :require_login
 
   def index
-    render inline: "<%= link_to 'Sign in with Github as Instructor', '/auth/github?role=instructor' %>"
+  end
+
+  private
+
+  def require_login
+    unless current_user
+      flash[:danger] = "Please log in."
+      redirect_to root_url
+    end
   end
 
   def current_user
