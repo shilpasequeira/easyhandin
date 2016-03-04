@@ -30,7 +30,6 @@ class ApplicationController < ActionController::Base
     @path ||= Rails.application.routes.recognize_path(current_uri)
   end
 
-
   def current_controller
     @current_controller ||= path[:controller]
   end
