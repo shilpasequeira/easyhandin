@@ -6,8 +6,8 @@ FactoryGirl.define do
     deadline "2016-02-12 21:40:24"
     grace_period "2016-02-13 21:40:24"
     is_team_mode false
-    bk_moss_build_id nil
-    bk_moss_job_id nil
+    bk_moss_build_id 1
+    bk_moss_job_id "34efd"
     moss_output "MyText"
     course
 

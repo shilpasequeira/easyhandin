@@ -8,7 +8,7 @@ class CreateAssignments < ActiveRecord::Migration
       t.datetime :grace_period
       t.boolean :is_team_mode
       t.integer :bk_moss_build_id
-      t.integer :bk_moss_job_id
+      t.string :bk_moss_job_id
       t.text :moss_output
       t.references :course, index: true, foreign_key: true
 

@@ -4,7 +4,7 @@ FactoryGirl.define do
     feedback Faker::Hacker.say_something_smart
     grading_test_output "MyText"
     bk_test_build_id 12
-    bk_test_job_id 13
+    bk_test_job_id "12mfj3l"
     association :submitter, factory: :student
     assignment
 

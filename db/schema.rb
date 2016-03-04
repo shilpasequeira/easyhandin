@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20160228042804) do
     t.datetime "grace_period"
     t.boolean  "is_team_mode"
     t.integer  "bk_moss_build_id"
-    t.integer  "bk_moss_job_id"
+    t.string   "bk_moss_job_id"
     t.text     "moss_output"
     t.integer  "course_id"
     t.datetime "created_at",       null: false
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20160228042804) do
     t.text     "feedback"
     t.text     "grading_test_output"
     t.integer  "bk_test_build_id"
-    t.integer  "bk_test_job_id"
+    t.string   "bk_test_job_id"
     t.integer  "assignment_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
