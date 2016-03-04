@@ -1,53 +1,83 @@
 <%= form_for(@assignment) do |f| %>
-  <% if @assignment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
-
-      <ul>
-      <% @assignment.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+<% if @assignment.errors.any? %>
+<div id="error_explanation">
+  <p><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</p>
+  <ul>
+    <% @assignment.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="row">
+  <div class="large-4 columns">
+    <%= f.label :course_id %>
+    <%= f.collection_select(:course_id, Course.all, :id, :name) %>
   </div>
-  <div class="field">
-    <%= f.label :slug %><br>
-    <%= f.text_field :slug %>
+  <div class="large-4 columns">
+    <%= f.label :deadline %>
+    <%= f.text_field :deadline, id: 'datetimepicker' %>
   </div>
-  <div class="field">
-    <%= f.label :is_published %><br>
+  <div class="large-4 columns">
+    <%= f.label "Student repository branch name" %>
+    <%= f.text_field :branch_name, value: 'assignment_1' %>
+  </div>
+</div>
+<div class="row">
+  <div class="large-4 columns">
+    <%= f.label "Assignment Title" %>
+    <%= f.text_field :name, value: 'Assignment_1' %>
+  </div>
+  <div class="large-4 columns">
+    <%= f.label "Grace period" %>
+    <%= f.text_field :grace_period, id: 'datetimepicker2' %>
+  </div>
+  <div class="large-4 columns">
+    <%= f.label "Instructor skeleton repository" %>
+    <%= f.text_field :slug, value: 'repo_assignment_1' %>
+  </div>
+</div>
+<div class="row">
+  <div class="large-2 columns">
+    <label> Assignment mode
+    </label>
+  </div>
+  <div class="large-1 columns">
+    <%= f.radio_button :is_team_mode, value: 'false', :checked => true %> single
+  </div>
+  <div class="large-1 columns">
+    <%= f.radio_button :is_team_mode, value: 'true' %> team
+  </div>
+  <div class="large-4 columns">
+  </div>
+  <div class="large-4 columns">
+    <%= f.label "Instructor test branch name" %>
+    <%= f.text_field :test_branch, value: 'test_assignment_1' %>
+  </div>
+</div>
+<div class="row">
+  <div class="large-12 columns" style="text-align: right;">
     <%= f.check_box :is_published %>
+    <%= f.label "To publish the assignment now, please check the box." %>
   </div>
-  <div class="field">
-    <%= f.label :deadline %><br>
-    <%= f.datetime_select :deadline %>
+</div>
+<div class="row">
+  <div class="large-12 columns" style="text-align: right;">
+    <%= f.button 'Save',  :class => 'tiny', :type => 'submit' %>
   </div>
-  <div class="field">
-    <%= f.label :grace_period %><br>
-    <%= f.datetime_select :grace_period %>
-  </div>
-  <div class="field">
-    <%= f.label :is_team_mode %><br>
-    <%= f.check_box :is_team_mode %>
-  </div>
-  <div class="field">
-    <%= f.label :bk_moss_build_id %><br>
-    <%= f.number_field :bk_moss_build_id %>
-  </div>
-  <div class="field">
-    <%= f.label :bk_moss_job_id %><br>
-    <%= f.number_field :bk_moss_job_id %>
-  </div>
-  <div class="field">
-    <%= f.label :moss_output %><br>
-    <%= f.text_area :moss_output %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+</div>
+
+<div class="field" style="visibility:hidden">
+  <%= f.label :bk_moss_build_id %><br>
+  <%= f.number_field :bk_moss_build_id %>
+</div>
+<div class="field" style="visibility:hidden">
+  <%= f.label :bk_moss_job_id %><br>
+  <%= f.number_field :bk_moss_job_id %>
+</div>
+<div class="field" style="visibility:hidden">
+  <%= f.label :moss_output %><br>
+  <%= f.text_area :moss_output %>
+</div>
+
 <% end %>
