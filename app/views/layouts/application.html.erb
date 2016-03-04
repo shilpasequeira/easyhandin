@@ -42,7 +42,7 @@
           <div class="side-bar">
             <ul id="menu-showhide" class="topnav slicknav">
               <li><!-- id="menu-select" -->
-                <%= link_to :controller => "dashboard", :action => "index" do %>
+                <%= link_to dashboard_path do %>
                 <i class="icon-monitor"></i><span>Dashboard</span>
                 <% end %>
               </li>
@@ -190,7 +190,7 @@
       <!-- breadcrumbs -->
       <ul class="breadcrumbs">
         <li><!-- link to dashboard once it is set up -->
-          <%= link_to :controller => "dashboard", :action => "index" do %>
+          <%= link_to dashboard_path do %>
           <span class="entypo-home"></span>
           <% end %>
         </li>
