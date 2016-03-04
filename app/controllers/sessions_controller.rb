@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     user = User.create_with_omniauth(auth, request.params[:role])
     session[:user_id] = user.id
     session[:access_token] = auth["credentials"]["token"]
-    render "dashboard#index"
+    redirect_to dashboard_url
   end
 
   def destroy
