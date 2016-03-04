@@ -19,11 +19,11 @@
 </div>
 <!-- End of preloader -->
 
-<% if !current_user.present? %>
+<% if current_user.present? %>
 <%= render :template => "index/index" %>
 <% end %>
 
-<% if current_user.present? %>
+<% if !current_user.present? %>
 <div class="off-canvas-wrap" data-offcanvas>
   <!-- right sidebar wrapper -->
   <div class="inner-wrap">
