@@ -2,12 +2,10 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  helper_method :current_user
-  helper_method :current_uri, :path, :current_controller, :current_action
+  helper_method :current_user, :current_uri, :path, :current_controller, :current_action
 
   def index
-    # render inline: "<%= link_to 'Sign in with Github as Instructor', '/auth/github?role=instructor' %>"
-    render template: "index/index"
+    render template: "layouts/application"
   end
 
   def current_user

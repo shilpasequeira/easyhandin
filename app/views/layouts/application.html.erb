@@ -19,6 +19,11 @@
 </div>
 <!-- End of preloader -->
 
+<% if !current_user.present? %>
+<%= render :template => "index/index" %>
+<% end %>
+
+<% if current_user.present? %>
 <div class="off-canvas-wrap" data-offcanvas>
   <!-- right sidebar wrapper -->
   <div class="inner-wrap">
@@ -170,7 +175,7 @@
               <li class=" has-dropdown bg-white">
                 <a class="bg-white" href="#"><img class="admin-pic img-circle"
                                                   src="https://fleep.io/blog/wp-content/uploads/2014/07/github_icon.png"><span
-                    class="admin-pic-text text-gray">Hi, Dave Mattew </span>
+                    class="admin-pic-text text-gray"><!--%= current_user.name %--></span>
                 </a>
                 <ul class="dropdown dropdown-nest profile-dropdown">
                   <li>
@@ -215,6 +220,8 @@
 <!-- end of inner-wrap -->
 </div>
 <!-- end of off-canvas-wrap -->
+<% end %>
+
 <%= javascript_include_tag 'waypoints.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'preloader-script.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'foundation.min.js', 'data-turbolinks-track' => true %>
