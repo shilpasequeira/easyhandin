@@ -1,49 +1,135 @@
-<p id="notice"><%= notice %></p>
+<%= stylesheet_link_tag    'jquery.dataTables.min', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.core', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.standalone', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'validate', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'jquery.idealforms', media: 'all', 'data-turbolinks-track' => true %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box">
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><i class="fontello-doc-1"></i>
+          <span><%= @assignment.name %></span>
+        </h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <span style="position: absolute; top:20px; right: 20px;"><%= link_to 'Back', assignments_path %></span>
+        <div class="row">
+          <div class="large-12 columns">
+            <span><%= notice %></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag 'Course' %>
+          </div>
+          <div class="large-8 columns">
+            <span><%= @assignment.course_id %></span> <!-- needs to be replaced with course name given the id -->
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag "Assignment Title" %>
+          </div>
+          <div class="large-8 columns">
+            <span><%= @assignment.name %></span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <label> Is a team assignment?
+            </label>
+          </div>
+          <div class="large-8 columns">
+            <%= @assignment.is_team_mode %>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag :deadline %>
+          </div>
+          <div class="large-8 columns">
+            <span><%= @assignment.deadline %></span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag "Grace period" %>
+          </div>
+          <div class="large-8 columns">
+            <span><%= @assignment.grace_period %></span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag "Student repository branch name" %>
+          </div>
+          <div class="large-8 columns">
+            <span><!--%= @assignment.branch_name % --></span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag "Instructor skeleton repository" %>
+          </div>
+          <div class="large-8 columns">
+            <span><%= @assignment.slug %></span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag "Instructor test branch name" %>
+          </div>
+          <div class="large-8 columns">
+            <span><!--%= @assignment.test_branch % --></span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-4 columns">
+            <%= label_tag "Is published? " %>
+          </div>
+          <div class="large-8 columns">
+            <span><%= @assignment.is_published %></span>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="large-12 columns">
+            <%= link_to edit_assignment_path(@assignment) do %>
+            <%= button_tag 'Edit',  :class => 'tiny' %>
+            <% end %>
+          </div>
+        </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @assignment.name %>
-</p>
+        <span style="visibility:hidden">
+          <strong>Bk moss build:</strong>
+          <%= @assignment.bk_moss_build_id %>
+        </span>
+        <span style="visibility:hidden">
+          <strong>Bk moss job:</strong>
+          <%= @assignment.bk_moss_job_id %>
+        </span>
+        <span style="visibility:hidden">
+          <strong>Moss output:</strong>
+          <%= @assignment.moss_output %>
+        </span>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @assignment.slug %>
-</p>
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+</div>
+<!-- End of Container Begin -->
 
-<p>
-  <strong>Is published:</strong>
-  <%= @assignment.is_published %>
-</p>
 
-<p>
-  <strong>Deadline:</strong>
-  <%= @assignment.deadline %>
-</p>
-
-<p>
-  <strong>Grace period:</strong>
-  <%= @assignment.grace_period %>
-</p>
-
-<p>
-  <strong>Is team mode:</strong>
-  <%= @assignment.is_team_mode %>
-</p>
-
-<p>
-  <strong>Bk moss build:</strong>
-  <%= @assignment.bk_moss_build_id %>
-</p>
-
-<p>
-  <strong>Bk moss job:</strong>
-  <%= @assignment.bk_moss_job_id %>
-</p>
-
-<p>
-  <strong>Moss output:</strong>
-  <%= @assignment.moss_output %>
-</p>
-
-<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
-<%= link_to 'Back', assignments_path %>
