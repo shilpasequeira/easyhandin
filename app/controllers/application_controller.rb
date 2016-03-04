@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :current_uri, :path, :current_controller, :current_action
 
   def index
-    render template: "layouts/application"
+    render template: "index/dashboard"
   end
 
   def current_user
