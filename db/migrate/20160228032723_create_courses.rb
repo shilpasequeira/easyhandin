@@ -11,15 +11,15 @@ class CreateCourses < ActiveRecord::Migration
     end
 
     create_table :course_instructors, id: false do |t|
-      t.belongs_to :course, index: true
-      t.belongs_to :user, index: true
+      t.references :course, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
     end
 
     add_index :course_instructors, [:course_id, :user_id], unique: true
 
     create_table :course_students, id: false do |t|
-      t.belongs_to :course, index: true
-      t.belongs_to :user, index: true
+      t.references :course, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.string :student_repository
     end
 

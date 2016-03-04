@@ -111,4 +111,13 @@ ActiveRecord::Schema.define(version: 20160228042804) do
 
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
+  add_foreign_key "assignments", "courses"
+  add_foreign_key "course_instructors", "courses"
+  add_foreign_key "course_instructors", "users"
+  add_foreign_key "course_students", "courses"
+  add_foreign_key "course_students", "users"
+  add_foreign_key "student_teams", "teams"
+  add_foreign_key "student_teams", "users"
+  add_foreign_key "submissions", "assignments"
+  add_foreign_key "teams", "courses"
 end

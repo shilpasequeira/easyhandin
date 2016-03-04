@@ -4,14 +4,14 @@ class CreateTeams < ActiveRecord::Migration
       t.string :name
       t.string :slug
       t.string :repository
-      t.belongs_to :course, index: true
+      t.references :course, index: true, foreign_key: true
 
       t.timestamps null: false
     end
 
     create_table :student_teams, id: false do |t|
-      t.belongs_to :user, index: true
-      t.belongs_to :team, index: true
+      t.references :user, index: true, foreign_key: true
+      t.references :team, index: true, foreign_key: true
     end
 
     add_index :student_teams, [:user_id, :team_id], unique: true
