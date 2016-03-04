@@ -1,4 +1,4 @@
 class DashboardController < ApplicationController
-  def dashboard
+  def index
   end
 end

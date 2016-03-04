@@ -1,14 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Easyhandin</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <%= javascript_include_tag 'pace', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'pace-theme-flash', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'slicknav', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'vendor/modernizr', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<!-- preloader -->
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
+<!-- End of preloader -->
 
-<%= yield %>
+<div class="off-canvas-wrap" data-offcanvas>
+  <!-- right sidebar wrapper -->
+  <div class="inner-wrap">
+    <!-- Right sidemenu -->
+    <div id="skin-select">
+      <!--      Toggle sidemenu icon button -->
+      <a id="toggle">
+        <span class="fa icon-menu"></span>
+      </a>
+      <!-- End of Toggle sidemenu icon button -->
+      <div class="skin-part">
+        <div id="tree-wrap">
+          <!-- Profile -->
+          <div class="profile">
+            <%= image_tag "logo.png" %>
+            <h3>EASY HAND-IN</h3>
+          </div>
+          <!-- End of Profile -->
 
+          <!-- Menu sidebar begin-->
+          <div class="side-bar">
+            <ul id="menu-showhide" class="topnav slicknav">
+              <li><!-- id="menu-select" -->
+                <%= link_to dashboard_path do %>
+                <i class="icon-monitor"></i><span>Dashboard</span>
+                <% end %>
+              </li>
+
+              <li>
+                <a class="tooltip-tip" href="#" title="Assignments">
+                  <i class=" icon-preview"></i>
+                  <span>Assignments</span>
+                </a>
+
+                <ul>
+                  <li>
+                    <%= link_to( "View all Assignments",
+                    :controller => "assignments",
+                    :action => "index") %>
+                  </li>
+                  <li>
+                    <%= link_to( "Add a new Assignment",
+                    :controller => "assignments",
+                    :action => "new") %>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <a class="tooltip-tip" href="#" title="Courses">
+                  <i class=" icon-window"></i>
+                  <span>Courses</span>
+                </a>
+
+                <ul>
+                  <li>
+                    <%= link_to( "View all Courses",
+                    :controller => "courses",
+                    :action => "index") %>
+                  </li>
+                  <li>
+                    <%= link_to( "Add a new Course",
+                    :controller => "courses",
+                    :action => "new") %>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <a class="tooltip-tip" href="#" title="Students">
+                  <i class=" icon-preview"></i>
+                  <span>Students</span>
+                </a>
+
+                <ul>
+                  <li>
+                    <%= link_to( "View all Students",
+                    :controller => "users",
+                    :action => "index") %>
+                  </li>
+                  <li>
+                    <%= link_to( "Add a new Student",
+                    :controller => "users",
+                    :action => "new") %>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- end of Menu sidebar  -->
+        </div>
+      </div>
+    </div>
+    <!-- end of Rightsidemenu -->
+
+    <div class="wrap-fluid" id="paper-bg">
+      <!-- top nav -->
+      <div class="top-bar-nest">
+        <nav class="top-bar" data-topbar role="navigation" data-options="is_hover: false">
+          <ul class="title-area left">
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span></span></a>
+            </li>
+          </ul>
+          <section class="top-bar-section ">
+            <!-- Right Nav Section -->
+            <ul class="left">
+              <li class="has-dropdown bg-white">
+                <a class="bg-white" href="#"><i class="text-green fa fa-bell"></i> <span
+                    class="label edumix-noft">3</span></a>
+                <ul class="dropdown dropdown-nest">
+                  <li class="top-dropdown-nest"><span class="label round bg-green">INFO</span>
+                  </li>
+                  <li>
+                    <div class="slim-scroll">
+                      <div>
+                        <i class="fontello-megaphone"></i>
+                        <a href="#">
+                          <h3>New Assignment <span class="text-green fontello-record"></span></h3>
+                          <p>New assignment added!</p>
+                        </a>
+                      </div>
+                      <div>
+                        <i class="fontello-calendar-1"></i>
+                        <a href="#">
+                          <h3>Assignment 6<span class="text-yellow fontello-record"></span></h3>
+                          <p>due February, 20th</p>
+                        </a>
+                      </div>
+                      <div>
+                        <i class="fontello-pencil"></i>
+                        <a href="#">
+                          <h3>Grades<span class="text-yellow fontello-record"></span></h3>
+                          <p>A new grade was added</p>
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="active right label bg-white">
+                    <%= link_to :controller => "assignments", :action => "index" do %>
+                    <div class="label bg-white">View all Assignments</div>
+                    <% end %>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <ul class="right">
+              <li class=" has-dropdown bg-white">
+                <a class="bg-white" href="#"><img class="admin-pic img-circle"
+                                                  src="https://fleep.io/blog/wp-content/uploads/2014/07/github_icon.png"><span
+                    class="admin-pic-text text-gray"><!--%= current_user.name %--></span>
+                </a>
+                <ul class="dropdown dropdown-nest profile-dropdown">
+                  <li>
+                    <i class="icon-upload"></i>
+                    <a href="login.html">
+                      <h4>Logout<span class="text-dark-blue"></span></h4>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </nav>
+      </div>
+      <!-- end of top nav -->
+
+      <!-- breadcrumbs -->
+      <ul class="breadcrumbs">
+        <li><!-- link to dashboard once it is set up -->
+          <%= link_to dashboard_path do %>
+          <span class="entypo-home"></span>
+          <% end %>
+        </li>
+        <li><%= current_controller %>
+        </li>
+        <li><%= current_action %>
+        </li>
+      </ul>
+      <!-- end of breadcrumbs -->
+
+      <%= yield %>
+
+      <footer>
+        <div id="footer">Copyright &copy; 2015 <a href="http://github.com/shilpasequeira/easyhandin">MSS Group 3</a>
+          Made with <i class="fontello-heart-1 text-green"></i></div>
+      </footer>
+    </div>
+    <!-- End of Container Begin -->
+  </div>
+  <!-- end paper bg -->
+</div>
+<!-- end of inner-wrap -->
+</div>
+<!-- end of off-canvas-wrap -->
+
+<%= javascript_include_tag 'waypoints.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'preloader-script.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'foundation.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.slimscroll.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.slicknav.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'sliding-menu.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'scriptbreaker-multiple-accordion-1.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.counterup.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.circliful.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'app', 'data-turbolinks-track.js' => true %>
 </body>
 </html>

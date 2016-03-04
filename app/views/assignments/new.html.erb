@@ -1,5 +1,54 @@
-<h1>New Assignment</h1>
+<%= stylesheet_link_tag    'jquery.datetimepicker', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'jquery.dataTables.min', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.core', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.standalone', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'validate', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'jquery.idealforms', media: 'all', 'data-turbolinks-track' => true %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box">
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><i class="fontello-doc-1"></i>
+          <span>Add a new Assignment</span>
+        </h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <span style="position: absolute; top:20px; right: 20px;"><%= link_to 'Cancel', assignments_path %></span>
 
-<%= render 'form' %>
+        <%= render 'form' %>
 
-<%= link_to 'Back', assignments_path %>
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+</div>
+<!-- End of Container Begin -->
+<%= javascript_include_tag 'jquery.date-dropdowns.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.datetimepicker.js', 'data-turbolinks-track' => true %>
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        //default date & time picker
+        $('#datetimepicker').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en',
+            format:'d/M/Y H:m',
+            defaultDate: new Date()
+        });
+        $('#datetimepicker2').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en',
+            format:'d/M/Y H:m',
+            defaultDate: new Date()
+        });
+    })(jQuery);
+    </script>
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+    })(jQuery);
+</script>

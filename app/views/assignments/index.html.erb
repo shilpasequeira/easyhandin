@@ -1,19 +1,86 @@
-<p id="notice"><%= notice %></p>
+<%= stylesheet_link_tag    'jquery.dataTables.min', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.core', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.standalone', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box">
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><i class="fontello-doc-1"></i>
+          <span>Assignment Overview</span>
+        </h3>
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn" data-widget="new">
+            <%= link_to new_assignment_path do %>
+              <i class="fontello-plus" title="new"></i>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <span><%= notice %></span>
+        <% @assignments.each do |assignment| %>
+        <div class="school-timetable">
+          <hr>
+          <!-- tools box -->
+          <div class="pull-right box-tools">
+            <span class="box-btn" data-widget="show">
+              <%= link_to assignment do %>
+                <i class="fontello-eye" title="show"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="edit">
+              <%= link_to edit_assignment_path(assignment) do %>
+                <i class="fontello-pencil" title="edit"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="delete">
+              <%= link_to assignment, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fontello-trash-2" title="delete"></i>
+              <% end %>
+            </span>
+          </div>
+          <h5>
+            <%= link_to assignment do %>
+              <strong><%= assignment.name %></strong>
+            <% end %>
+          </h5>
+          <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= assignment.slug %></a></h6>
+          <h6><i class=" fontello-tag"></i><span class="bg-green">
+            <% if assignment.course_id? %>
+              <%= Course.find_by(id: assignment.course_id).name %>
+            <% end %>
+          </span></h6>
+          <h6><i class=" fontello-clock"></i><span><%= assignment.deadline %><span></h6>
+          <hr>
+        </div>
+        <% end %>
+        <br />
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+</div>
+<!-- End of Container Begin -->
 
-<h1>Listing Assignments</h1>
-
+<!--
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Slug</th>
-      <th>Is published</th>
+      <th>Course</th>
+      <th>Assignment Title</th>
+      <th>Is team mode</th>
+      <th>Repository</th>
       <th>Deadline</th>
       <th>Grace period</th>
-      <th>Is team mode</th>
       <th>Bk moss build</th>
       <th>Bk moss job</th>
       <th>Moss output</th>
+      <th>Is published</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -21,23 +88,21 @@
   <tbody>
     <% @assignments.each do |assignment| %>
       <tr>
+        <td><%= assignment.course_id %></td>
         <td><%= assignment.name %></td>
+        <td><%= assignment.is_team_mode %></td>
         <td><%= assignment.slug %></td>
-        <td><%= assignment.is_published %></td>
         <td><%= assignment.deadline %></td>
         <td><%= assignment.grace_period %></td>
-        <td><%= assignment.is_team_mode %></td>
         <td><%= assignment.bk_moss_build_id %></td>
         <td><%= assignment.bk_moss_job_id %></td>
         <td><%= assignment.moss_output %></td>
+        <td><%= assignment.is_published %></td>
         <td><%= link_to 'Show', assignment %></td>
         <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
-        <td><%= link_to 'Destroy', assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Assignment', new_assignment_path %>
+-->

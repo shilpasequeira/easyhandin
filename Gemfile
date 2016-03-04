@@ -67,3 +67,6 @@ gem 'puma'
 
 # Strategy pattern to create operations and pipelines
 gem 'composable_operations'
+
+# Use the foundation rails gem
+gem 'foundation-rails',  '=5.4.3.1'
