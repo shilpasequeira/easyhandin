@@ -19,11 +19,6 @@
 </div>
 <!-- End of preloader -->
 
-<% if current_user.present? %>
-<%= render :template => "index/index" %>
-<% end %>
-
-<% if !current_user.present? %>
 <div class="off-canvas-wrap" data-offcanvas>
   <!-- right sidebar wrapper -->
   <div class="inner-wrap">
@@ -47,7 +42,7 @@
           <div class="side-bar">
             <ul id="menu-showhide" class="topnav slicknav">
               <li><!-- id="menu-select" -->
-                <%= link_to :controller => "application", :action => "index" do %>
+                <%= link_to :controller => "dashboard", :action => "index" do %>
                 <i class="icon-monitor"></i><span>Dashboard</span>
                 <% end %>
               </li>
@@ -195,7 +190,7 @@
       <!-- breadcrumbs -->
       <ul class="breadcrumbs">
         <li><!-- link to dashboard once it is set up -->
-          <%= link_to :controller => "application", :action => "index" do %>
+          <%= link_to :controller => "dashboard", :action => "index" do %>
           <span class="entypo-home"></span>
           <% end %>
         </li>
@@ -220,7 +215,6 @@
 <!-- end of inner-wrap -->
 </div>
 <!-- end of off-canvas-wrap -->
-<% end %>
 
 <%= javascript_include_tag 'waypoints.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'preloader-script.js', 'data-turbolinks-track' => true %>

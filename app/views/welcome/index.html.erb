@@ -1,2 +1,55 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<%= stylesheet_link_tag    'login', media: 'all', 'data-turbolinks-track' => true %>
+<div class="inner-wrap">
+  <div class="wrap-fluid">
+    <br>
+    <br>
+    <!-- Container Begin -->
+    <div class="large-offset-4 large-4 columns">
+      <div class="box bg-white">
+        <!-- Profile -->
+        <div class="profile">
+          <%= image_tag "logo.png" %>
+          <h3>EASY HAND-IN <small>1.0</small></h3>
+        </div>
+        <!-- End of Profile -->
+
+        <!-- /.box-header -->
+        <div class="box-body " style="display: block;">
+          <div class="row">
+            <div class="large-12 columns">
+              <div class="row">
+                <div class="edumix-signup-panel">
+                  <p class="welcome"> Welcome to Easy Hand-in!</p>
+                  <h2><span>Sign in as Instructor</span></h2>
+                </div>
+              </div>
+              <div class="row">
+                <div >
+                  <div class="edumix-footer-panel">
+                    <%= link_to '/auth/github?role=instructor' do %>
+                    <span class="bg-blue"><i class="fa fa-github"></i>&nbsp;&nbsp;Sign in with Github as Instructor</span>
+                    <% end %>
+                  </div>
+                </div>
+              </div><div class="row">
+              <br />
+              <div class="edumix-signup-panel">
+                <h2><span>Sign in as Student</span></h2>
+              </div>
+            </div>
+              <div class="row">
+                <div >
+                  <div class="edumix-footer-panel">
+                    <%= link_to '/auth/github?role=student' do %>
+                    <span class="bg-blue"><i class="fa fa-github"></i>&nbsp;&nbsp;Sign in with Github as Student</span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- box -->

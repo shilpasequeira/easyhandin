@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'dashboard/dashboard'
-
   root 'welcome#index'
 
   resources :submissions
@@ -9,6 +7,8 @@ Rails.application.routes.draw do
   resources :courses
 
   get 'welcome/index'
+
+  get 'dashboard/index'
 
   get 'sessions/create'
 
