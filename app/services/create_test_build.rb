@@ -5,7 +5,7 @@ class CreateTestBuild < ComposableOperations::Operation
   def execute
     client = Buildkit.new(token: ENV['BUILDKITE_ACCESS_TOKEN'])
     response = client.create_build('easy-handin', 'test-maven-project', '{
-      "commit": "e4f1e5cad63994d33e71d89b3311d44dad703094",
+      "commit": "HEAD",
       "branch": "master",
       "message": "' + message + '",
       "env": {

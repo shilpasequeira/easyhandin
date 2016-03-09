@@ -10,6 +10,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions/1
   # GET /submissions/1.json
   def show
+    @submission.grading_test_output = TestBuildJobParser.perform(@submission.bk_test_build_id, @submission.bk_test_job_id)
   end
 
   # GET /submissions/new
@@ -59,6 +60,21 @@ class SubmissionsController < ApplicationController
       format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def test
+    @submission = Submission.find(params[:id])
+    response = CreateTestBuild.perform(@submission.submitter.course_students.first.student_repository, 
+      @submission.assignment.slug, @submission.assignment.course.test_repository, 
+      message: "Creating build for assignment #{@submission.assignment.course.name} #{@submission.assignment.name}")
+
+    @submission.bk_test_build_id = response["number"]
+    @submission.bk_test_job_id = response["jobs"][0]["id"]
+
+    @submission.save!
+
+    flash[:notice] = "Started test build"
+    redirect_to "submissions/show"
   end
 
   private

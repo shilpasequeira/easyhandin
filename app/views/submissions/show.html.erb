@@ -12,7 +12,7 @@
 
 <p>
   <strong>Grading test output:</strong>
-  <%= @submission.grading_test_output %>
+  <%= @submission.grading_test_output.html_safe %>
 </p>
 
 <p>
@@ -25,5 +25,7 @@
   <%= @submission.bk_test_job_id %>
 </p>
 
+
+<%= link_to 'Run Test', test_path(@submission) %> |
 <%= link_to 'Edit', edit_submission_path(@submission) %> |
 <%= link_to 'Back', submissions_path %>
