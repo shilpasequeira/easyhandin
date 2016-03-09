@@ -7,21 +7,12 @@ Rails.application.routes.draw do
   resources :courses
   resources :users
 
-  get 'welcome/index'
-
-  get 'dashboard/index'
-
-  get 'sessions/create'
-
-  get 'sessions/destroy'
-
+  get 'dashboard', to: 'dashboard#index'
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
-  match 'dashboard' => 'dashboard#index', :as => :dashboard, via: [:get, :post]
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

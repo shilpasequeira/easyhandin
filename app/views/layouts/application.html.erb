@@ -55,14 +55,10 @@
 
                 <ul>
                   <li>
-                    <%= link_to( "View all Assignments",
-                    :controller => "assignments",
-                    :action => "index") %>
+                    <%= link_to( "View all Assignments", assignments_path) %>
                   </li>
                   <li>
-                    <%= link_to( "Add a new Assignment",
-                    :controller => "assignments",
-                    :action => "new") %>
+                    <%= link_to( "Add a new Assignment", new_assignment_path) %>
                   </li>
                 </ul>
               </li>
@@ -75,14 +71,10 @@
 
                 <ul>
                   <li>
-                    <%= link_to( "View all Courses",
-                    :controller => "courses",
-                    :action => "index") %>
+                    <%= link_to( "View all Courses", courses_path) %>
                   </li>
                   <li>
-                    <%= link_to( "Add a new Course",
-                    :controller => "courses",
-                    :action => "new") %>
+                    <%= link_to( "Add a new Course", new_course_path) %>
                   </li>
                 </ul>
               </li>
@@ -95,14 +87,10 @@
 
                 <ul>
                   <li>
-                    <%= link_to( "View all Students",
-                    :controller => "users",
-                    :action => "index") %>
+                    <%= link_to( "View all Students", users_path) %>
                   </li>
                   <li>
-                    <%= link_to( "Add a new Student",
-                    :controller => "users",
-                    :action => "new") %>
+                    <%= link_to( "Add a new Student", new_user_path) %>
                   </li>
                 </ul>
               </li>
@@ -158,7 +146,7 @@
                     </div>
                   </li>
                   <li class="active right label bg-white">
-                    <%= link_to :controller => "assignments", :action => "index" do %>
+                    <%= link_to assignments_path do %>
                     <div class="label bg-white">View all Assignments</div>
                     <% end %>
                   </li>
@@ -175,9 +163,9 @@
                 <ul class="dropdown dropdown-nest profile-dropdown">
                   <li>
                     <i class="icon-upload"></i>
-                    <a href="login.html">
+                    <%= link_to signout_path do %>
                       <h4>Logout<span class="text-dark-blue"></span></h4>
-                    </a>
+                    <% end %>
                   </li>
                 </ul>
               </li>
