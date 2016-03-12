@@ -10,7 +10,15 @@ class SubmissionsController < ApplicationController
   # GET /submissions/1
   # GET /submissions/1.json
   def show
-    @submission.grading_test_output = TestBuildJobParser.perform(@submission.bk_test_build_id, @submission.bk_test_job_id)
+    response = TestBuildJobParser.perform(@submission.bk_test_build_id, @submission.bk_test_job_id)
+
+    if Submission.test_results.keys.to_a.include?(response["status"])
+      @submission.test_result = response["status"]
+    else
+      @submission.test_result = "error"
+    end
+
+    @submission.test_output = response["output"]
   end
 
   # GET /submissions/new
