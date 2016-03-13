@@ -4,8 +4,11 @@ class CreateRepo < ComposableOperations::Operation
             :process_org_name,
             :process_access_token
 
-  property :property_private, default: "true"
+  property :property_private, default: true,
+                              accepts: [true, false]
+
   property :property_description, default: "A generic description of the repo."
+
   property :property_auto_init, default: true,
                                 accepts: [true, false]
 
@@ -16,6 +19,6 @@ class CreateRepo < ComposableOperations::Operation
                                                  :private => property_private, 
                                                  :description => property_description,
                                                  :auto_init => property_auto_init})
-
    end
  end
+ 
