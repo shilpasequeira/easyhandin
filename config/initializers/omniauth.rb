@@ -2,7 +2,7 @@ SETUP_PROC = lambda do |env|
   request = Rack::Request.new(env)
 
   if request.params["role"] == "instructor"
-    scope = "user:email,admin:org"
+    scope = "user:email,admin:org,repo"
   else
     scope = "user:email"
   end
