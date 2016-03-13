@@ -70,6 +70,3 @@ gem 'composable_operations'
 
 # Use the foundation rails gem
 gem 'foundation-rails',  '=5.4.3.1'
-
-# Use octokit for github integration
-gem "octokit", "~> 4.0"
