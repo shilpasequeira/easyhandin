@@ -7,6 +7,8 @@ class Course < ActiveRecord::Base
   has_many :course_students, dependent: :destroy
   has_many :students, through: :course_students, source: :user
 
+  has_many :invites
+
   has_many :teams, dependent: :destroy
 
   validates :name, :slug, presence: true

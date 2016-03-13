@@ -1,0 +1,7 @@
+<%= form_for invite, :url => invites_path do |f| %>
+  <%= f.hidden_field :course_id, :value => course.id %>
+  <%= f.hidden_field :user_role, :value => role %>
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+  <%= f.submit 'Send' %>
+<% end %>

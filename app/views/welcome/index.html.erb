@@ -26,7 +26,7 @@
               <div class="row">
                 <div >
                   <div class="edumix-footer-panel">
-                    <%= link_to '/auth/github?role=instructor' do %>
+                    <%= link_to signin_link(role: "instructor") do %>
                     <span class="bg-blue"><i class="fa fa-github"></i>&nbsp;&nbsp;Sign in with Github as Instructor</span>
                     <% end %>
                   </div>
@@ -40,7 +40,7 @@
               <div class="row">
                 <div >
                   <div class="edumix-footer-panel">
-                    <%= link_to '/auth/github?role=student' do %>
+                    <%= link_to signin_link(role: "student") do %>
                     <span class="bg-blue"><i class="fa fa-github"></i>&nbsp;&nbsp;Sign in with Github as Student</span>
                     <% end %>
                   </div>

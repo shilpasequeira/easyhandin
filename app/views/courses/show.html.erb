@@ -20,5 +20,17 @@
   <%= @course.test_repository %>
 </p>
 
+<%= link_to "Add a student", "#", class: "radius button tiny", "data-reveal-id" => "addStudent" %> |
+<%= link_to "Add an instructor", "#", class: "radius button tiny", "data-reveal-id" => "addInstructor" %> |
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
+
+<div id="addStudent" class="reveal-modal" data-reveal>
+  <%= render partial: 'invites/form', locals: {invite: @course.invites.new, course: @course, role: :student} %>
+  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+</div>
+
+<div id="addInstructor" class="reveal-modal" data-reveal>
+  <%= render partial: 'invites/form', locals: {invite: @course.invites.new, course: @course, role: :instructor} %>
+  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+</div>

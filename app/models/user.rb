@@ -5,11 +5,15 @@ class User < ActiveRecord::Base
   has_many :course_students, dependent: :destroy
   has_many :enrolled_courses, through: :course_students, source: :course
 
+  has_many :invitations, :class_name => "Invite", :foreign_key => 'recipient_id'
+  has_many :sent_invites, :class_name => "Invite", :foreign_key => 'sender_id'
+
   has_and_belongs_to_many :teams
 
   has_many :submissions, as: :submitter
 
   enum role: [ :instructor, :student ]
+
   after_initialize :set_default_role, :if => :new_record?
 
   validates :email, :username, :provider, :uid, :role, presence: true
@@ -30,6 +34,14 @@ class User < ActiveRecord::Base
         user.username = auth["info"]["nickname"]
         user.role = role
       end
+    end
+  end
+
+  def add_to_course(course)
+    if self.instructor? && !self.teach_courses.include?(course)
+      self.teach_courses.push(course)
+    elsif !self.enrolled_courses.include?(course)
+      self.enrolled_courses.push(course)
     end
   end
 end
