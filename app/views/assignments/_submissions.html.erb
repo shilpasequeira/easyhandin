@@ -3,7 +3,7 @@
   <div class="large-12 columns">
     <div class="box bg-white">
       <div class="box-header bg-transparent">
-        <h3 class="box-title"><i class="fontello-note"></i>
+        <h3 class="box-title"><i class="fontello-paper-plane"></i>
           <span>SUBMISSIONS</span>
         </h3>
       </div>
@@ -50,11 +50,11 @@
           </tr>
           </thead>
           <tbody>
-          <% @submissions.each do |submission| %>
+          <% @assignment.submissions.each do |submission| %>
           <tr>
             <td >
               <%= link_to edit_submission_path(submission) do %>
-              <i class="fontello-pencil" title="edit"></i>
+                <i class="fontello-pencil" title="edit"></i>
               <% end %>
             </td>
             <td>
@@ -67,12 +67,12 @@
               <%= User.find_by(id: submission.submitter_id).username %>
             </td>
             <td>
-              <%= link_to 'Run Test', test_path(submission), class: "button tiny" %>
+              <%= link_to 'Run Test', test_path(submission), class: "button tiny", style: "margin-bottom: 0px" %>
               <% if submission.test_result? %>
-              <%= link_to submission.test_output, submission.test_result, class: "fontello-eye ellipsis",  "data-reveal-id" => "testResult" %>
+                <%= link_to submission.test_output, submission.test_result, class: "fontello-eye ellipsis",  "data-reveal-id" => "testResult" %>
               <% end %>
               <% if !submission.test_result? %>
-              <i class="fontello-eye">No result</i>
+                <i class="fontello-eye">No result</i>
               <% end %>
             </td>
             <td><%= submission.grade %></td>
@@ -111,11 +111,3 @@
   <!-- end of student div -->
 </div>
 <!-- End of Container Begin -->
-
-
-<!--%= submission.bk_test_build_id %-->
-<!--%= submission.bk_test_job_id %-->
-<!--%= link_to 'Show', submission %-->
-<!--%= link_to 'Edit', edit_submission_path(submission) %-->
-<!--%= link_to 'Destroy', submission, method: :delete, data: { confirm: 'Are you sure?' } %-->
-<!--%= link_to 'New Submission', new_submission_path %-->

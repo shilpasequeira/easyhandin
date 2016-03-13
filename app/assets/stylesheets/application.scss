@@ -21,3 +21,19 @@
 @import "style";
 @import "topbar";
 @import "theme";
+
+table {
+  width: 100%;
+  table-layout: fixed !important;
+}
+
+.ellipsis {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap;
+  display: block;
+}
+
+.reveal-modal > pre {
+  overflow-wrap: break-word !important;
+}
