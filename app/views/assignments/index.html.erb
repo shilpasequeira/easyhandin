@@ -22,9 +22,9 @@
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
         <span><%= notice %></span>
-        <% @assignments.each do |assignment| %>
         <div class="school-timetable">
           <hr>
+          <% @assignments.each do |assignment| %>
           <!-- tools box -->
           <div class="pull-right box-tools">
             <span class="box-btn" data-widget="show">
@@ -58,8 +58,8 @@
             <span class="bg-black"><%= assignment.deadline.strftime("%I:%M %p") %></span>
           </h6>
           <hr>
+          <% end %>
         </div>
-        <% end %>
         <br />
       </div>
       <!-- end .timeline -->
