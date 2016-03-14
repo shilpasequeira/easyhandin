@@ -9,7 +9,7 @@ class InvitesController < ApplicationController
 
       if @invite.save
         if @invite.recipient != nil   
-          @invite.recipient.add_to_course(@invite.course)
+          @invite.recipient.complete_invitation(@invite)
           InviteMailer.existing_user_invite(@invite).deliver_now
         else
           InviteMailer.new_user_invite(@invite, signin_link(role: @invite.user_role, invite_token: @invite.token)).deliver_now
@@ -26,8 +26,7 @@ class InvitesController < ApplicationController
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def invite_params
-    params.require(:invite).permit(:user_role, :email, :course_id, :sender_id, :recipient_id, :token)
+    params.require(:invite).permit(:user_role, :email, :university_id, :course_id, :sender_id, :recipient_id, :token)
   end
 end

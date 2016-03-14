@@ -65,12 +65,13 @@ ActiveRecord::Schema.define(version: 20160312231353) do
   create_table "invites", force: :cascade do |t|
     t.string   "user_role"
     t.string   "email"
+    t.string   "university_id"
     t.integer  "course_id"
     t.integer  "sender_id"
     t.integer  "recipient_id"
     t.string   "token"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "invites", ["course_id", "sender_id", "email"], name: "index_invites_on_course_id_and_sender_id_and_email", unique: true, using: :btree
@@ -119,11 +120,12 @@ ActiveRecord::Schema.define(version: 20160312231353) do
     t.string   "name"
     t.string   "email"
     t.string   "username"
+    t.string   "university_id"
     t.integer  "role"
     t.string   "provider"
     t.string   "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree

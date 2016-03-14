@@ -8,8 +8,7 @@ class SessionsController < ApplicationController
     session[:access_token] = auth["credentials"]["token"]
 
     if token = request.params[:invite_token]
-      course = Invite.find_by_token(token).course
-      user.add_to_course(course)
+      user.complete_invitation(Invite.find_by_token(token))
     end
 
     redirect_to dashboard_url

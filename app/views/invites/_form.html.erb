@@ -3,5 +3,8 @@
   <%= f.hidden_field :user_role, :value => role %>
   <%= f.label :email %>
   <%= f.email_field :email %>
+  <%= f.label :university_id do %>University ID
+    <%= f.text_field :university_id %>
+  <% end %>
   <%= f.submit 'Send' %>
 <% end %>

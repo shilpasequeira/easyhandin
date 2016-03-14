@@ -3,6 +3,7 @@ class CreateInvites < ActiveRecord::Migration
     create_table :invites do |t|
       t.string :user_role
       t.string :email
+      t.string :university_id
       t.references :course, index: true, foreign_key: true
       t.integer :sender_id, index: true, foreign_key: true
       t.integer :recipient_id, foreign_key: true

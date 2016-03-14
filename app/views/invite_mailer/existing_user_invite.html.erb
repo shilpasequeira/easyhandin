@@ -4,12 +4,9 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Welcome to Course <%= @invite.course.name %>!</h1>
+    <h1>Welcome to the course <%= @invite.course.name %>!</h1>
     <p>
-      <%= @invite.sender.name %> has added you as <%= indefinite_articlerize(@invite.user_role) %> for the course <%= @invite.course.name %>.
-    </p>
-    <p>
-      Please click the link below to accept the invitation:<br/><%= @invite_link %>
+      You have been added as <%= indefinite_articlerize(@invite.user_role) %> to the course <%= link_to @invite.course.name, course_url(@invite.course) %>.
     </p>
     <p>
       Thanks,<br/>Team Easy Hand-in

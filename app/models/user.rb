@@ -37,11 +37,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  def add_to_course(course)
-    if self.instructor? && !self.teach_courses.include?(course)
-      self.teach_courses.push(course)
-    elsif !self.enrolled_courses.include?(course)
-      self.enrolled_courses.push(course)
+  def complete_invitation(invite)
+    self.university_id = invite.university_id if invite.university_id.present?
+
+    if self.instructor? && !self.teach_courses.include?(invite.course)
+      self.teach_courses.push(invite.course)
+    elsif !self.enrolled_courses.include?(invite.course)
+      self.enrolled_courses.push(invite.course)
     end
   end
 end
