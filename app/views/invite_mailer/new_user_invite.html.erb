@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Welcome to Easy Hand-in!</h1>
+    <p>
+      You have been invited by <%= @invite.sender.name %> to join the course <%= @invite.course.name %> as <%= indefinite_articlerize(@invite.user_role) %>.
+    </p>
+    <p>
+      Please click the link below to accept the invitation:<br/><%= @invite_link %>
+    </p>
+    <p>
+      Thanks,<br/>Team Easy Hand-in
+    </p>
+  </body>
+</html>

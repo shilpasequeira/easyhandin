@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :assignments
   resources :courses
   resources :users
+  resources :invites
 
   get 'dashboard', to: 'dashboard#index'
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'

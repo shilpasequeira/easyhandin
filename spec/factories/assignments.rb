@@ -8,7 +8,7 @@ FactoryGirl.define do
     is_team_mode false
     bk_moss_build_id 1
     bk_moss_job_id "34efd"
-    moss_output "MyText"
+    moss_output Faker::Lorem.paragraphs
     course
 
     after(:build) do |assignment|
@@ -16,7 +16,7 @@ FactoryGirl.define do
     end
 
     after(:create) do |assignment|
-      assignment.submissions.each { |submissions| submissions.save! }
+      assignment.submissions.each { |submission| submission.save! }
     end
   end
 end

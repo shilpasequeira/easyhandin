@@ -6,6 +6,7 @@ FactoryGirl.define do
     role :student
     provider "github"
     sequence(:uid)
+    university_id Faker::Lorem.characters(10)
 
     factory :instructor do
       role :instructor

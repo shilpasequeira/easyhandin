@@ -6,6 +6,11 @@ class SessionsController < ApplicationController
     user = User.create_with_omniauth(auth, request.params[:role])
     session[:user_id] = user.id
     session[:access_token] = auth["credentials"]["token"]
+
+    if token = request.params[:invite_token]
+      user.complete_invitation(Invite.find_by_token(token))
+    end
+
     redirect_to dashboard_url
   end
 
