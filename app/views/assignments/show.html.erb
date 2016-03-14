@@ -61,7 +61,9 @@
             <h6>Deadline: </h6>
           </div>
           <div class="large-10 columns">
-            <h6><i class=" fontello-clock"></i>&nbsp;<%= @assignment.deadline.strftime("%a, %B %-d") %><span class="bg-black"><%= @assignment.deadline.strftime("%I:%M %p") %></span></h6>
+            <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.deadline.strftime("%a, %B %-d") %></a>
+              <span class="bg-black"><%= @assignment.deadline.strftime("%I:%M %p") %></span>
+            </h6>
           </div>
         </div>
         <div class="row">
@@ -69,7 +71,9 @@
             <h6>Grace period:</h6>
           </div>
           <div class="large-10 columns">
-            <h6><i class=" fontello-clock"></i>&nbsp;<%= @assignment.grace_period.strftime("%a, %B %-d") %><span class="bg-black"><%= @assignment.grace_period.strftime("%I:%M %p") %></span></h6>
+            <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.grace_period.strftime("%a, %B %-d") %></a>
+              <span class="bg-black"><%= @assignment.grace_period.strftime("%I:%M %p") %></span>
+            </h6>
           </div>
         </div>
         <div class="row">

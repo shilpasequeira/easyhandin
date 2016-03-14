@@ -22,7 +22,7 @@
 @import "topbar";
 @import "theme";
 
-table {
+table.fixed-ellipsis {
   width: 100%;
   table-layout: fixed !important;
 }
@@ -36,4 +36,10 @@ table {
 
 .reveal-modal > pre {
   overflow-wrap: break-word !important;
+}
+
+.top-right {
+  position: absolute;
+  top:20px;
+  right: 20px;
 }

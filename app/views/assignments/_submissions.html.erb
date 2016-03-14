@@ -9,23 +9,8 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body" style="display: block;">
-        <span style="position: absolute; top:20px; right: 20px;"><%= link_to 'Run Plagiarism Check', assignments_path, class: "button tiny" %></span>
-        <!-- search functions
-        <div class="row" style="margin-bottom:10px;">
-          <div class="large-4 columns">
-            <input class="form-control" id="filter" placeholder="Search..." type="text" />
-          </div>
-          <div class="large-2 columns">
-            <select class="filter-status form-control">
-              <option disabled selected>Filter by status</option>
-              <option value="passed">Passed</option>
-              <option value="failed">Failed</option>
-              <option value="not-submitted">Not submitted</option>
-            </select>
-          </div>
-        </div>
-        <!-- /search functions -->
-        <table id="footable-res2" class="demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
+        <span class="top-right"><%= link_to 'Run Plagiarism Check', assignments_path, class: "button tiny" %></span>
+        <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
           <thead>
           <tr>
             <th style="width: 40px !important;"></th>
