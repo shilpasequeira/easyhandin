@@ -19,19 +19,19 @@
       <form>
         <div class="row">
           <div class="large-6 columns">
-            <%= f.label :name do %>Title
+            <%= f.label :name do %>Title <small>required</small>
               <%= f.text_field :name, value: 'Assignment 1' %>
             <% end %>
           </div>
           <div class="large-6 columns">
-            <%= f.label :slug do %>Branch Name
+            <%= f.label :slug do %>Branch Name <small>required</small>
               <%= f.text_field :slug, value: 'assignment_1' %>
             <% end %>
           </div>
         </div>
         <div class="row">
           <div class="large-12 columns">
-            <%= f.label :course do %>Course
+            <%= f.label :course do %>Course <small>required</small>
               <%= f.collection_select(:course_id, Course.all, :id, :name) %>
             <% end %>
           </div>
@@ -59,8 +59,11 @@
           </div>
         </div>
         <div class="row">
-          <div class="large-12 columns" style="text-align: right;">
+          <div class="large-9 columns">
+          </div>
+          <div class="large-3 columns">
             <%= f.button 'Save', :class => 'tiny', :type => 'submit' %>
+            <%= link_to 'Cancel', assignments_path, class: "radius button tiny secondary" %>
           </div>
         </div>
       </form>
