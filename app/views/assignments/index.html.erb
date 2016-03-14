@@ -54,8 +54,8 @@
               <%= Course.find_by(id: assignment.course_id).name %>
             <% end %>
           </span></h6>
-          <h6><i class=" fontello-clock"></i>&nbsp;<%= @assignment.deadline.strftime("%a, %B %-d") %>
-            <span class="bg-black"><%= @assignment.deadline.strftime("%I:%M %p") %></span>
+          <h6><i class=" fontello-clock"></i>&nbsp;<%= assignment.deadline.strftime("%a, %B %-d") %>
+            <span class="bg-black"><%= assignment.deadline.strftime("%I:%M %p") %></span>
           </h6>
           <hr>
         </div>
