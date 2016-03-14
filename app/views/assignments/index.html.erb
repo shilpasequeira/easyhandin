@@ -8,7 +8,7 @@
     <div class="box">
       <div class="box-header bg-transparent">
         <h3 class="box-title"><i class="fontello-doc-1"></i>
-          <span>Assignment Overview</span>
+          <span>ASSIGNMENTS</span>
         </h3>
         <!-- tools box -->
         <div class="pull-right box-tools">
@@ -22,9 +22,9 @@
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
         <span><%= notice %></span>
-        <% @assignments.each do |assignment| %>
         <div class="school-timetable">
           <hr>
+          <% @assignments.each do |assignment| %>
           <!-- tools box -->
           <div class="pull-right box-tools">
             <span class="box-btn" data-widget="show">
@@ -54,10 +54,12 @@
               <%= Course.find_by(id: assignment.course_id).name %>
             <% end %>
           </span></h6>
-          <h6><i class=" fontello-clock"></i><span><%= assignment.deadline %><span></h6>
+          <h6><i class=" fontello-clock"></i>&nbsp;<%= assignment.deadline.strftime("%a, %B %-d") %>
+            <span class="bg-black"><%= assignment.deadline.strftime("%I:%M %p") %></span>
+          </h6>
           <hr>
+          <% end %>
         </div>
-        <% end %>
         <br />
       </div>
       <!-- end .timeline -->
@@ -66,43 +68,3 @@
   </div>
 </div>
 <!-- End of Container Begin -->
-
-<!--
-<table>
-  <thead>
-    <tr>
-      <th>Course</th>
-      <th>Assignment Title</th>
-      <th>Is team mode</th>
-      <th>Repository</th>
-      <th>Deadline</th>
-      <th>Grace period</th>
-      <th>Bk moss build</th>
-      <th>Bk moss job</th>
-      <th>Moss output</th>
-      <th>Is published</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @assignments.each do |assignment| %>
-      <tr>
-        <td><%= assignment.course_id %></td>
-        <td><%= assignment.name %></td>
-        <td><%= assignment.is_team_mode %></td>
-        <td><%= assignment.slug %></td>
-        <td><%= assignment.deadline %></td>
-        <td><%= assignment.grace_period %></td>
-        <td><%= assignment.bk_moss_build_id %></td>
-        <td><%= assignment.bk_moss_job_id %></td>
-        <td><%= assignment.moss_output %></td>
-        <td><%= assignment.is_published %></td>
-        <td><%= link_to 'Show', assignment %></td>
-        <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
-        <td><%= link_to 'Delete', assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
--->

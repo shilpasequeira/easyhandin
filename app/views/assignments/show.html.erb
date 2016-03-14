@@ -8,122 +8,108 @@
 <div class="row">
   <div class="large-12 columns">
     <div class="box">
-      <div class="box-header bg-transparent">
-        <h3 class="box-title"><i class="fontello-doc-1"></i>
-          <span><%= @assignment.name %></span>
-        </h3>
-      </div>
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
-        <span style="position: absolute; top:20px; right: 20px;"><%= link_to 'Back', assignments_path %></span>
+        <div class="school-timetable">
+          <!-- tools box -->
+          <div class="pull-right box-tools">
+            <span class="box-btn" data-widget="edit">
+              <%= link_to edit_assignment_path(@assignment) do %>
+                <i class="fontello-pencil" title="edit"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="delete">
+              <%= link_to @assignment, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fontello-trash-2" title="delete"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" >
+              <%= link_to assignments_path do %>
+                <i class="fontello-reply" title="back"></i>
+              <% end %>
+            </span>
+          </div>
+          <h5>
+            <%= link_to @assignment do %>
+            <i class="fontello-doc-1"></i> <strong><%= @assignment.name %></strong>
+            <% end %>
+          </h5>
+        <hr>
         <div class="row">
           <div class="large-12 columns">
             <span><%= notice %></span>
           </div>
         </div>
         <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag 'Course' %>
+          <div class="large-2 columns">
+            <h6>Course:</h6>
           </div>
-          <div class="large-8 columns">
-            <span><%= @assignment.course.name %></span> <!-- needs to be replaced with course name given the id -->
+          <div class="large-10 columns">
+            <h6><i class=" fontello-tag"></i><span class="bg-green"><%= @assignment.course.name %></span></h6>
           </div>
         </div>
-        <br />
         <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag "Assignment Title" %>
+          <div class="large-2 columns">
+            <h6> Is a team assignment?</h6>
           </div>
-          <div class="large-8 columns">
-            <span><%= @assignment.name %></span>
+          <div class="large-10 columns">
+            <h6><i class=" fontello-users"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.is_team_mode %></a></h6>
           </div>
         </div>
-        <br />
         <div class="row">
-          <div class="large-4 columns">
-            <label> Is a team assignment?
-            </label>
+          <div class="large-2 columns">
+            <h6>Deadline: </h6>
           </div>
-          <div class="large-8 columns">
-            <%= @assignment.is_team_mode %>
+          <div class="large-10 columns">
+            <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.deadline.strftime("%a, %B %-d") %></a>
+              <span class="bg-black"><%= @assignment.deadline.strftime("%I:%M %p") %></span>
+            </h6>
           </div>
         </div>
-        <br />
         <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag :deadline %>
+          <div class="large-2 columns">
+            <h6>Grace period:</h6>
           </div>
-          <div class="large-8 columns">
-            <span><%= @assignment.deadline %></span>
+          <div class="large-10 columns">
+            <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.grace_period.strftime("%a, %B %-d") %></a>
+              <span class="bg-black"><%= @assignment.grace_period.strftime("%I:%M %p") %></span>
+            </h6>
           </div>
         </div>
-        <br />
         <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag "Grace period" %>
+          <div class="large-2 columns">
+            <h6>Branch name</h6>
           </div>
-          <div class="large-8 columns">
-            <span><%= @assignment.grace_period %></span>
+          <div class="large-10 columns">
+            <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.slug %></a></h6>
           </div>
         </div>
-        <br />
         <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag "Student repository branch name" %>
+          <div class="large-2 columns">
+            <h6>Instructor skeleton repository</h6>
           </div>
-          <div class="large-8 columns">
-            <span><!--%= @assignment.branch_name % --></span>
+          <div class="large-10 columns">
+            <h6><i class=" fontello-box"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.course.skeleton_repository %></a></h6>
           </div>
         </div>
-        <br />
         <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag "Instructor skeleton repository" %>
+          <div class="large-2 columns">
+            <h6>Instructor test repository</h6>
           </div>
-          <div class="large-8 columns">
-            <span><%= @assignment.slug %></span>
+          <div class="large-10 columns">
+            <h6><i class=" fontello-check"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.course.test_repository %></a></h6>
           </div>
         </div>
-        <br />
         <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag "Instructor test branch name" %>
+          <div class="large-2 columns">
+            <h6>Is published?</h6>
           </div>
-          <div class="large-8 columns">
-            <span><!--%= @assignment.test_branch % --></span>
-          </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="large-4 columns">
-            <%= label_tag "Is published? " %>
-          </div>
-          <div class="large-8 columns">
-            <span><%= @assignment.is_published %></span>
+          <div class="large-10 columns">
+            <h6><i class=" fontello-lock-open"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.is_published %></a></h6>
           </div>
         </div>
-        <br />
-        <div class="row">
-          <div class="large-12 columns">
-            <%= link_to edit_assignment_path(@assignment) do %>
-            <%= button_tag 'Edit',  :class => 'tiny' %>
-            <% end %>
-          </div>
-        </div>
-
-        <span style="visibility:hidden">
-          <strong>Bk moss build:</strong>
-          <%= @assignment.bk_moss_build_id %>
-        </span>
-        <span style="visibility:hidden">
-          <strong>Bk moss job:</strong>
-          <%= @assignment.bk_moss_job_id %>
-        </span>
-        <span style="visibility:hidden">
-          <strong>Moss output:</strong>
-          <%= @assignment.moss_output %>
-        </span>
-
+      </div>
+        <hr />
       </div>
       <!-- end .timeline -->
     </div>
@@ -132,4 +118,4 @@
 </div>
 <!-- End of Container Begin -->
 
-
+<%= render 'submissions' %>
