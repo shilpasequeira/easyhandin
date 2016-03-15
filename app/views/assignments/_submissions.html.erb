@@ -9,11 +9,13 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body" style="display: block;">
-        <span class="top-right"><%= link_to 'Run Plagiarism Check', assignments_path, class: "button tiny" %></span>
+        <span class="top-right">
+          <%= link_to 'Run Test', assignments_path, class: "button tiny", style: "margin-bottom: 0px" %>&nbsp; <!--test_path(submission)-->
+          <%= link_to 'Run Plagiarism Check', assignments_path, class: "button tiny" %>
+        </span>
         <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
           <thead>
           <tr>
-            <th style="width: 40px !important;"></th>
             <th>
               Student Name
             </th>
@@ -32,16 +34,12 @@
             <th>
               Feedback
             </th>
+            <th class="menu_items"></th>
           </tr>
           </thead>
           <tbody>
           <% @assignment.submissions.each do |submission| %>
           <tr>
-            <td >
-              <%= link_to edit_submission_path(submission) do %>
-                <i class="fontello-pencil" title="edit"></i>
-              <% end %>
-            </td>
             <td>
               <%= User.find_by(id: submission.submitter_id).name %>
             </td>
@@ -52,7 +50,6 @@
               <%= User.find_by(id: submission.submitter_id).username %>
             </td>
             <td>
-              <%= link_to 'Run Test', test_path(submission), class: "button tiny", style: "margin-bottom: 0px" %>
               <% if submission.test_result? %>
                 <%= link_to submission.test_output, submission.test_result, class: "fontello-eye ellipsis",  "data-reveal-id" => "testResult" %>
               <% end %>
@@ -63,6 +60,14 @@
             <td><%= submission.grade %></td>
             <td>
               <%= link_to submission.feedback, "", class: "fontello-eye ellipsis",  "data-reveal-id" => "feedback" %>
+            </td>
+            <td >
+              <%= link_to submission do %>
+              <i class="fontello-eye" title="view"></i>
+              <% end %>
+              <%= link_to edit_submission_path(submission) do %>
+              <i class="fontello-pencil" title="edit"></i>
+              <% end %>
             </td>
           </tr>
 

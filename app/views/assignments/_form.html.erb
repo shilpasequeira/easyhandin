@@ -10,11 +10,6 @@
     </div>
   <% end %>
 
-  <div class="row">
-    <div class="large-3 columns">
-      <p><strong>Add an Assignment</strong>
-      </p>
-    </div>
     <div class="large-9 columns">
       <form>
         <div class="row">
@@ -59,14 +54,12 @@
           </div>
         </div>
         <div class="row">
-          <div class="large-9 columns">
-          </div>
-          <div class="large-3 columns">
-            <%= f.button 'Save', :class => 'tiny', :type => 'submit' %>
-            <%= link_to 'Cancel', assignments_path, class: "radius button tiny secondary" %>
+          <div class="large-12 columns">
+            <%= link_to 'Cancel', assignments_path, class: "right radius button tiny secondary" %>
+            <span class="right">&nbsp;&nbsp;</span>
+            <%= f.button 'Save', :class => 'right tiny', :type => 'submit' %>
           </div>
         </div>
       </form>
     </div>
-  </div>
 <% end %>

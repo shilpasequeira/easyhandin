@@ -9,20 +9,17 @@
 <div class="row">
   <div class="large-12 columns">
     <div class="box">
-      <div class="box-header bg-transparent">
-        <h2 class="box-title"><i class="fontello-doc-1"></i>
-          <span>Edit Assignment</span>
-        </h2>
-      </div>
       <!-- /.box-header -->
-      <div class="box-body " style="display: block;">
-        <span style="position: absolute; top:20px; right: 20px;">
-          <%= link_to 'Show', @assignment %> |
-          <%= link_to 'Back', assignments_path %>
-        </span>
+      <div class="box-body pad-forty" style="display: block;">
+        <div class="row">
+          <div class="large-3 columns">
+            <p><strong>Edit Assignment</strong>
+            </p>
+          </div>
 
-        <%= render 'form' %>
+          <%= render 'form' %>
 
+        </div>
       </div>
       <!-- end .timeline -->
     </div>
@@ -30,29 +27,24 @@
   </div>
 </div>
 <!-- End of Container Begin -->
-
 <%= javascript_include_tag 'jquery.date-dropdowns.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'jquery.datetimepicker.js', 'data-turbolinks-track' => true %>
 <script type="text/javascript">
-    (function($) {
-        "use strict";
-        //default date & time picker
-        $('#datetimepicker').datetimepicker({
-            dayOfWeekStart: 1,
-            lang: 'en',
-            format:'d/M/Y H:m',
-            defaultDate: new Date()
-        });
-        $('#datetimepicker2').datetimepicker({
-            dayOfWeekStart: 1,
-            lang: 'en',
-            format:'d/M/Y H:m',
-            defaultDate: new Date()
-        });
-    })(jQuery);
-    </script>
-<script type="text/javascript">
-    (function($) {
-        "use strict";
-    })(jQuery);
+  (function($) {
+    "use strict";
+
+    $('#deadlineDateTimePicker').datetimepicker({
+      dayOfWeekStart: 1,
+      lang: 'en',
+      format:'d/M/Y H:m',
+      defaultDate: new Date()
+    });
+    $('#gracePeriodDateTimePicker').datetimepicker({
+      dayOfWeekStart: 1,
+      lang: 'en',
+      format:'d/M/Y H:m',
+      defaultDate: new Date()
+    });
+  })(jQuery);
 </script>
+
