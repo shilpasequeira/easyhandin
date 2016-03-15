@@ -3,32 +3,19 @@
   <div class="large-12 columns">
     <div class="box bg-white">
       <div class="box-header bg-transparent">
-        <h3 class="box-title"><i class="fontello-note"></i>
+        <h3 class="box-title"><i class="fontello-paper-plane"></i>
           <span>SUBMISSIONS</span>
         </h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body" style="display: block;">
-        <span class="top-right"><%= link_to 'Run Plagiarism Check', assignments_path, class: "button tiny" %></span>
-        <!-- search functions
-        <div class="row" style="margin-bottom:10px;">
-          <div class="large-4 columns">
-            <input class="form-control" id="filter" placeholder="Search..." type="text" />
-          </div>
-          <div class="large-2 columns">
-            <select class="filter-status form-control">
-              <option disabled selected>Filter by status</option>
-              <option value="passed">Passed</option>
-              <option value="failed">Failed</option>
-              <option value="not-submitted">Not submitted</option>
-            </select>
-          </div>
-        </div>
-        <!-- /search functions -->
+        <span class="top-right">
+          <%= link_to 'Run Test', assignments_path, class: "button tiny", style: "margin-bottom: 0px" %>&nbsp; <!--test_path(submission)-->
+          <%= link_to 'Run Plagiarism Check', assignments_path, class: "button tiny" %>
+        </span>
         <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
           <thead>
           <tr>
-            <th style="width: 40px !important;"></th>
             <th>
               Student Name
             </th>
@@ -47,16 +34,12 @@
             <th>
               Feedback
             </th>
+            <th class="menu_items"></th>
           </tr>
           </thead>
           <tbody>
           <% @submissions.each do |submission| %>
           <tr>
-            <td >
-              <%= link_to edit_submission_path(submission) do %>
-              <i class="fontello-pencil" title="edit"></i>
-              <% end %>
-            </td>
             <td>
               <%= User.find_by(id: submission.submitter_id).name %>
             </td>
@@ -67,7 +50,6 @@
               <%= User.find_by(id: submission.submitter_id).username %>
             </td>
             <td>
-              <%= link_to 'Run Test', test_path(submission), class: "button tiny" %>
               <% if submission.test_result? %>
               <%= link_to submission.test_output, submission.test_result, class: "fontello-eye ellipsis",  "data-reveal-id" => "testResult" %>
               <% end %>
@@ -78,6 +60,14 @@
             <td><%= submission.grade %></td>
             <td>
               <%= link_to submission.feedback, "", class: "fontello-eye ellipsis",  "data-reveal-id" => "feedback" %>
+            </td>
+            <td >
+              <%= link_to submission do %>
+              <i class="fontello-eye" title="view"></i>
+              <% end %>
+              <%= link_to edit_submission_path(submission) do %>
+              <i class="fontello-pencil" title="edit"></i>
+              <% end %>
             </td>
           </tr>
 
@@ -93,12 +83,10 @@
             <h4>Feedback</h4>
             <p><pre><%= submission.feedback %></pre></p>
             <%= link_to edit_submission_path(submission) do %>
-              <i class="fontello-pencil" title="edit"></i>
+            <i class="fontello-pencil" title="edit"></i>
             <% end %>
             <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
           </div>
-
-
           <% end %>
           </tbody>
         </table>
@@ -111,11 +99,3 @@
   <!-- end of student div -->
 </div>
 <!-- End of Container Begin -->
-
-
-<!--%= submission.bk_test_build_id %-->
-<!--%= submission.bk_test_job_id %-->
-<!--%= link_to 'Show', submission %-->
-<!--%= link_to 'Edit', edit_submission_path(submission) %-->
-<!--%= link_to 'Destroy', submission, method: :delete, data: { confirm: 'Are you sure?' } %-->
-<!--%= link_to 'New Submission', new_submission_path %-->

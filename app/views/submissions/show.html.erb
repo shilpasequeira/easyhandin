@@ -1,38 +1,96 @@
-<p id="notice"><%= notice %></p>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box">
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <div class="school-timetable">
+          <!-- tools box -->
+          <div class="pull-right box-tools">
+            <span class="box-btn" data-widget="edit">
+              <%= link_to edit_submission_path(@submission) do %>
+                <i class="fontello-pencil" title="edit"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" >
+              <%= link_to assignments_path do %>
+                <i class="fontello-reply" title="back"></i>
+              <% end %>
+            </span>
+          </div>
+          <h5>
+            <%= link_to @submission do %>
+            <i class="fontello-paper-plane"></i>
+              <strong>
+                Submission for <%= @submission.assignment.course.name %> <%= @submission.assignment.name %> by <%= User.find_by(id: @submission.submitter_id).name %>
+              </strong>
+            <% end %>
+          </h5>
+          <hr>
+          <div class="row">
+            <div class="large-12 columns">
+              <span><%= notice %></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Grade:</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><a class="text-gray" href="#"><%= @submission.grade %></a></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Feedback:</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><a class="text-gray" href="#"><%= @submission.feedback %></a></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Test result:</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><a class="text-gray" href="#"><%= @submission.test_result %></a></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Test output:</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><a class="text-gray" href="#"><%= @submission.test_output %></a></h6>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="large-12 columns">
+              <%= link_to 'Run Test', test_path(@submission), class: "button tiny", style: "margin-bottom: 0px" %>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+</div>
+<!-- End of Container Begin -->
 
-<p>
-  <strong>Grade:</strong>
-  <%= @submission.grade %>
-</p>
-
-<p>
-  <strong>Feedback:</strong>
-  <%= @submission.feedback %>
-</p>
-
+<!--
 <p>
   <strong>Grading test output:</strong>
   <%= link_to @submission.test_result, "#", class: "radius button tiny", "data-reveal-id" => "testResult" %>
 </p>
 
 <!-- Reveal Modals begin -->
+<!--
 <div id="testResult" class="reveal-modal" data-reveal>
-    <h3>Test Results</h3>
-    <p><pre><%= @submission.test_output %></pre></p>
-    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  <h3>Test Results</h3>
+  <p><pre><%= @submission.test_output %></pre></p>
+  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
 </div>
-
-<p>
-  <strong>Bk test build:</strong>
-  <%= @submission.bk_test_build_id %>
-</p>
-
-<p>
-  <strong>Bk test job:</strong>
-  <%= @submission.bk_test_job_id %>
-</p>
-
-
-<%= link_to 'Run Test', test_path(@submission) %> |
-<%= link_to 'Edit', edit_submission_path(@submission) %> |
-<%= link_to 'Back', submissions_path %>
+-->

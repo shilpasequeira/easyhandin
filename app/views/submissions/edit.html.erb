@@ -1,6 +1,21 @@
-<h1>Editing Submission</h1>
+<%= stylesheet_link_tag    'validate', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'jquery.idealforms', media: 'all', 'data-turbolinks-track' => true %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box">
+      <!-- /.box-header -->
+      <div class="box-body pad-forty" style="display: block;">
+        <div class="row">
 
-<%= render 'form' %>
+          <%= render 'form' %>
 
-<%= link_to 'Show', @submission %> |
-<%= link_to 'Back', submissions_path %>
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+</div>
+<!-- End of Container Begin -->
+
+
