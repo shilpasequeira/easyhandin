@@ -49,17 +49,17 @@
             <td>
               <%= User.find_by(id: submission.submitter_id).username %>
             </td>
-            <td>
+            <td class="ellipsis">
               <% if submission.test_result? %>
-                <%= link_to submission.test_output, submission.test_result, class: "fontello-eye ellipsis",  "data-reveal-id" => "testResult" %>
+                <%= link_to submission.test_output, submission.test_result, class: "fontello-eye",  "data-reveal-id" => "testResult" %>
               <% end %>
               <% if !submission.test_result? %>
                 <i class="fontello-eye">No result</i>
               <% end %>
             </td>
             <td><%= submission.grade %></td>
-            <td>
-              <%= link_to submission.feedback, "", class: "fontello-eye ellipsis",  "data-reveal-id" => "feedback" %>
+            <td class="ellipsis">
+              <%= link_to submission.feedback, "", class: "fontello-eye",  "data-reveal-id" => "feedback" %>
             </td>
             <td >
               <%= link_to submission do %>
