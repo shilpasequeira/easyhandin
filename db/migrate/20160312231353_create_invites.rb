@@ -4,9 +4,9 @@ class CreateInvites < ActiveRecord::Migration
       t.string :user_role
       t.string :email
       t.string :university_id
-      t.references :course, index: true, foreign_key: true
-      t.integer :sender_id, index: true, foreign_key: true
-      t.integer :recipient_id, foreign_key: true
+      t.belongs_to :course, index: true
+      t.belongs_to :sender, index: true
+      t.belongs_to :recipient, index: true
       t.string :token
 
       t.timestamps null: false

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :teach_courses, through: :course_instructors, source: :course
 
   has_many :course_students, dependent: :destroy
-  has_many :enrolled_courses, through: :course_students, source: :course
+  has_many :enrolled_courses, through: :course_students, source: :course, after_add: :create_student_submissions
 
   has_many :invitations, :class_name => "Invite", :foreign_key => 'recipient_id'
   has_many :sent_invites, :class_name => "Invite", :foreign_key => 'sender_id'
@@ -44,6 +44,14 @@ class User < ActiveRecord::Base
       self.teach_courses.push(invite.course)
     elsif !self.enrolled_courses.include?(invite.course)
       self.enrolled_courses.push(invite.course)
+    end
+  end
+
+  def create_student_submissions(course)
+    course.assignments.each do |assignment|
+      if !assignment.is_team_mode
+        assignment.submissions.create!(submitter: self)
+      end
     end
   end
 end
