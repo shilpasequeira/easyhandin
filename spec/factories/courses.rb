@@ -8,10 +8,12 @@ FactoryGirl.define do
 
     after(:build) do |course|
       course.assignments << build(:assignment, :course => course)
+      course.invites << build(:invite, :course => course)
     end
 
     after(:create) do |course|
-      course.assignments.each { |assignments| assignments.save! }
+      course.assignments.each { |assignment| assignment.save! }
+      course.invites.each { |invites| invites.save! }
     end
   end
 end
