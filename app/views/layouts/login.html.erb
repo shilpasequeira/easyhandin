@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Easyhandin</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <%= javascript_include_tag 'pace', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'pace-theme-flash', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'slicknav', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'login', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'vendor/modernizr', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<!-- preloader -->
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
+<!-- End of preloader -->
+
+<%= yield %>
+
+
+<%= javascript_include_tag 'waypoints.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'preloader-script.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'foundation.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.slimscroll.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.slicknav.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'sliding-menu.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'scriptbreaker-multiple-accordion-1.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.counterup.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.circliful.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'app', 'data-turbolinks-track.js' => true %>
+
+<script>
+    $(document).foundation();
+</script>
+</body>
+</html>
