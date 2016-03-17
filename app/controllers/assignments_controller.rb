@@ -4,7 +4,8 @@ class AssignmentsController < ApplicationController
   # GET /assignments
   # GET /assignments.json
   def index
-    @assignments = Assignment.all
+    @course = Course.find(params[:course_id])
+    @assignments = @course.assignments
   end
 
   # GET /assignments/1
@@ -14,6 +15,7 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/new
   def new
+    @course = Course.find(params[:course_id])
     @assignment = Assignment.new
   end
 
@@ -24,7 +26,8 @@ class AssignmentsController < ApplicationController
   # POST /assignments
   # POST /assignments.json
   def create
-    @assignment = Assignment.new(assignment_params)
+    @course = Course.find(params[:course_id])
+    @assignment = @course.assignments.new(assignment_params)
 
     respond_to do |format|
       if @assignment.save

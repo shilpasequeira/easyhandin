@@ -4,7 +4,8 @@ class TeamsController < ApplicationController
   # GET /teams
   # GET /teams.json
   def index
-    @teams = Team.all
+    @course = Course.find(params[:course_id])
+    @teams = @course.teams
   end
 
   # GET /teams/1
@@ -14,6 +15,7 @@ class TeamsController < ApplicationController
 
   # GET /teams/new
   def new
+    @course = Course.find(params[:course_id])
     @team = Team.new
   end
 
@@ -24,7 +26,8 @@ class TeamsController < ApplicationController
   # POST /teams
   # POST /teams.json
   def create
-    @team = Team.new(team_params)
+    @course = Course.find(params[:course_id])
+    @team = @course.teams.new(team_params)
 
     respond_to do |format|
       if @team.save
