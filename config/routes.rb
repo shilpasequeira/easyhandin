@@ -2,11 +2,13 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :submissions
-  resources :teams
-  resources :assignments
-  resources :courses
   resources :users
   resources :invites
+
+  resources :courses do
+    resources :teams, shallow: true
+    resources :assignments, shallow: true
+  end
 
   get 'dashboard', to: 'dashboard#index'
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'

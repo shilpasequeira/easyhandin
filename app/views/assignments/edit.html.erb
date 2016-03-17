@@ -10,19 +10,13 @@
   <div class="large-12 columns">
     <div class="box">
       <div class="box-header bg-transparent">
-        <h2 class="box-title"><i class="fontello-doc-1"></i>
+        <h3 class="box-title"><i class="fontello-doc-1"></i>
           <span>Edit Assignment</span>
-        </h2>
+        </h3>
       </div>
       <!-- /.box-header -->
-      <div class="box-body " style="display: block;">
-        <span style="position: absolute; top:20px; right: 20px;">
-          <%= link_to 'Show', @assignment %> |
-          <%= link_to 'Back', assignments_path %>
-        </span>
-
+      <div class="box-body pad-forty" style="display: block;">
         <%= render 'form' %>
-
       </div>
       <!-- end .timeline -->
     </div>

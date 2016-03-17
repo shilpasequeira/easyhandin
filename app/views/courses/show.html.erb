@@ -22,6 +22,12 @@
 
 <%= link_to "Add a student", "#", class: "radius button tiny", "data-reveal-id" => "addStudent" %> |
 <%= link_to "Add an instructor", "#", class: "radius button tiny", "data-reveal-id" => "addInstructor" %> |
+<%= link_to new_course_assignment_path(@course), title: "Add an assignment" do %>
+  <span class='fontello-plus'></span>
+<% end %>|
+<%= link_to new_course_team_path(@course), title: "Add a team" do %>
+  <span class='fontello-users'></span>
+<% end %>|
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
 
