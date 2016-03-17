@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20160312231353) do
 
   add_index "assignments", ["course_id"], name: "index_assignments_on_course_id", using: :btree
 
-  create_table "course_instructors", id: false, force: :cascade do |t|
+  create_table "course_instructors", force: :cascade do |t|
     t.integer "course_id"
     t.integer "user_id"
   end
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20160312231353) do
   add_index "course_instructors", ["course_id"], name: "index_course_instructors_on_course_id", using: :btree
   add_index "course_instructors", ["user_id"], name: "index_course_instructors_on_user_id", using: :btree
 
-  create_table "course_students", id: false, force: :cascade do |t|
+  create_table "course_students", force: :cascade do |t|
     t.integer "course_id"
     t.integer "user_id"
     t.string  "student_repository"
@@ -76,16 +76,8 @@ ActiveRecord::Schema.define(version: 20160312231353) do
 
   add_index "invites", ["course_id", "sender_id", "email"], name: "index_invites_on_course_id_and_sender_id_and_email", unique: true, using: :btree
   add_index "invites", ["course_id"], name: "index_invites_on_course_id", using: :btree
+  add_index "invites", ["recipient_id"], name: "index_invites_on_recipient_id", using: :btree
   add_index "invites", ["sender_id"], name: "index_invites_on_sender_id", using: :btree
-
-  create_table "student_teams", id: false, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "team_id"
-  end
-
-  add_index "student_teams", ["team_id"], name: "index_student_teams_on_team_id", using: :btree
-  add_index "student_teams", ["user_id", "team_id"], name: "index_student_teams_on_user_id_and_team_id", unique: true, using: :btree
-  add_index "student_teams", ["user_id"], name: "index_student_teams_on_user_id", using: :btree
 
   create_table "submissions", force: :cascade do |t|
     t.integer  "submitter_id"
@@ -116,6 +108,15 @@ ActiveRecord::Schema.define(version: 20160312231353) do
 
   add_index "teams", ["course_id"], name: "index_teams_on_course_id", using: :btree
 
+  create_table "teams_users", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "team_id"
+  end
+
+  add_index "teams_users", ["team_id"], name: "index_teams_users_on_team_id", using: :btree
+  add_index "teams_users", ["user_id", "team_id"], name: "index_teams_users_on_user_id_and_team_id", unique: true, using: :btree
+  add_index "teams_users", ["user_id"], name: "index_teams_users_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -130,14 +131,4 @@ ActiveRecord::Schema.define(version: 20160312231353) do
 
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
-  add_foreign_key "assignments", "courses"
-  add_foreign_key "course_instructors", "courses"
-  add_foreign_key "course_instructors", "users"
-  add_foreign_key "course_students", "courses"
-  add_foreign_key "course_students", "users"
-  add_foreign_key "invites", "courses"
-  add_foreign_key "student_teams", "teams"
-  add_foreign_key "student_teams", "users"
-  add_foreign_key "submissions", "assignments"
-  add_foreign_key "teams", "courses"
 end

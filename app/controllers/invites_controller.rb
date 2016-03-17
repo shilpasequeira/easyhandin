@@ -1,6 +1,6 @@
 class InvitesController < ApplicationController
   def create
-    if !current_user.teach_courses.include?(invite_params[:course_id])
+    if !current_user.teach_courses.include?(Course.find(invite_params[:course_id]))
       notice = "You don't have permissions to do that!!"
     else
       if @invite = Invite.find_by(course_id: invite_params[:course_id], sender_id: current_user.id, email: invite_params[:email])
