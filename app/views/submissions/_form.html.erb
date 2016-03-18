@@ -1,41 +1,27 @@
-<%= form_for(@submission) do |f| %>
-  <% if @submission.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+<%= stylesheet_link_tag    'validate', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'jquery.idealforms', media: 'all', 'data-turbolinks-track' => true %>
 
-      <ul>
-      <% @submission.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+<%= form_for submission do |f| %>
+
+<strong>Grading for <%= submission.assignment.name %> by <%= User.find_by(id: submission.submitter_id).name %></strong>
+
+  <% if submission.errors.any? %>
+  <div id="error_explanation">
+    <p><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</p>
+    <ul>
+      <% submission.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
       <% end %>
-      </ul>
-    </div>
+    </ul>
+  </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :grade %><br>
-    <%= f.number_field :grade %>
-  </div>
-  <div class="field">
-    <%= f.label :feedback %><br>
-    <%= f.text_area :feedback %>
-  </div>
-  <div class="field">
-    <%= f.label :test_result %><br>
-    <%= f.text_area :test_result %>
-  </div>
-  <div class="field">
-    <%= f.label :test_output %><br>
-    <%= f.text_area :test_output %>
-  </div>
-  <div class="field">
-    <%= f.label :bk_test_build_id %><br>
-    <%= f.number_field :bk_test_build_id %>
-  </div>
-  <div class="field">
-    <%= f.label :bk_test_job_id %><br>
-    <%= f.number_field :bk_test_job_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
+  <%= f.label :name do %>Grade <small>required</small>
+  <%= f.number_field :grade, value: submission.grade %>
+  <% end %>
+  <%= f.label :slug do %>Feedback
+  <%= f.text_area :feedback, value: submission.feedback %>
+  <% end %>
+  <%= f.button 'Save', :class => 'tiny right', :type => 'submit' %>
 <% end %>
