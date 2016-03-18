@@ -3,7 +3,7 @@
 
 <%= form_for submission do |f| %>
 
-<strong>Grading for <%= submission.assignment.name %> by <%= User.find_by(id: submission.submitter_id).name %></strong>
+<p><strong>Grading for <%= submission.assignment.name %> by <%= User.find_by(id: submission.submitter_id).name %></strong></p>
 
   <% if submission.errors.any? %>
   <div id="error_explanation">
