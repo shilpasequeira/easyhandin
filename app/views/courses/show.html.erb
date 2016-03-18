@@ -72,7 +72,7 @@
                 <h6>Test respository:</h6>
               </div>
               <div class="large-10 columns">
-                <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @course.test_repository %></a></h6>
+                <h6><i class=" fontello-check"></i>&nbsp;<a class="text-gray" href="#"><%= @course.test_repository %></a></h6>
               </div>
             </div>
             <div class="row">
@@ -85,6 +85,11 @@
             </div>
           </div>
           <hr />
+          <div class="row">
+            <div class="large-12 columns">
+              <%= link_to "View students in this course", "#", class: "button tiny right" %>
+            </div>
+          </div>
         </div>
         <!-- end .timeline -->
       </div>
