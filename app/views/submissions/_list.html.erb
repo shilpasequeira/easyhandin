@@ -10,8 +10,9 @@
       <!-- /.box-header -->
       <div class="box-body" style="display: block;">
         <span class="top-right">
-          <%= link_to 'Run Test', "#", class: "button tiny", style: "margin-bottom: 0px" %>&nbsp; <!--test_path(submission)-->
-          <%= link_to 'Run MOSS', "#", class: "button tiny" %>
+          <%= link_to 'Run Test', "#", class: "button tiny" %><span class="spacer"></span>
+          <%= link_to 'Run MOSS', "#", class: "button tiny" %><span class="spacer"></span>
+          <%= link_to 'Show MOSS Output', "#", class: "button tiny" %>
         </span>
         <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
           <thead>
@@ -38,7 +39,7 @@
           </tr>
           </thead>
           <tbody>
-          <% @submissions.each do |submission| %>
+          <% @assignment.submissions.each do |submission| %>
           <tr>
             <td>
               <%= User.find_by(id: submission.submitter_id).name %>
@@ -49,36 +50,40 @@
             <td>
               <%= User.find_by(id: submission.submitter_id).username %>
             </td>
-            <td>
+            <td class="ellipsis">
               <% if submission.test_result? %>
-              <%= link_to submission.test_output, submission.test_result, class: "fontello-eye ellipsis",  "data-reveal-id" => "testResult" %>
+              <%= link_to submission.test_result, "data-reveal-id" => "testResult" do %>
+              <i class="fontello-eye" title="view"></i>
+              <% end %>
               <% end %>
               <% if !submission.test_result? %>
               <i class="fontello-eye">No result</i>
               <% end %>
             </td>
             <td><%= submission.grade %></td>
-            <td>
-              <%= link_to submission.feedback, "", class: "fontello-eye ellipsis",  "data-reveal-id" => "feedback" %>
+            <td class="ellipsis">
+              <%= link_to submission.feedback, "data-reveal-id" => "feedback" do %>
+              <i class="fontello-eye" title="view"></i>
+              <% end %>
             </td>
             <td >
               <%= link_to submission do %>
               <i class="fontello-eye" title="view"></i>
               <% end %>
-              <%= link_to edit_submission_path(submission) do %>
+              <%= link_to edit_submission_path(submission), "data-reveal-id" => "editSubmission", method: :get, :remote => true do %>
               <i class="fontello-pencil" title="edit"></i>
               <% end %>
             </td>
           </tr>
 
-          <!-- Reveal Modals begin -->
+          <!-- Reveal Modals testResult -->
           <div id="testResult" class="reveal-modal" data-reveal>
             <h4>Test Results</h4>
             <p><pre><%= submission.test_output %></pre></p>
             <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
           </div>
 
-          <!-- Reveal Modals begin -->
+          <!-- Reveal Modals feedback -->
           <div id="feedback" class="reveal-modal" data-reveal>
             <h4>Feedback</h4>
             <p><pre><%= submission.feedback %></pre></p>
@@ -87,6 +92,13 @@
             <% end %>
             <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
           </div>
+
+          <!-- Reveal Modals editSubmission -->
+          <div id="editSubmission" class="reveal-modal" data-reveal>
+            <%= render '/submissions/form', submission: submission %>
+            <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+          </div>
+
           <% end %>
           </tbody>
         </table>
