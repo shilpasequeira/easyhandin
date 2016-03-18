@@ -1,15 +1,10 @@
 class AddCollaborator < ComposableOperations::Operation
-
-  processes :course_name,
-            :repo_name,
-            :collaborator_github_username,
-            :process_access_token
+  processes :repo_name,
+            :collaborator_username,
+            :access_token
 
   def execute
-
-    client = Octokit::Client.new(:access_token => process_access_token)
-    client.add_collaborator(course_name + "/" + repo_name, collaborator_github_username)
-
-   end
- end
- 
+    client = Octokit::Client.new(:access_token => access_token)
+    client.add_collaborator(repo_name, collaborator_username)
+  end
+end

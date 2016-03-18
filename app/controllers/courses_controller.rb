@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :create_student_repos]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :create_student_repos]
 
   # GET /courses
   # GET /courses.json
@@ -61,6 +61,16 @@ class CoursesController < ApplicationController
       format.html { redirect_to courses_url, notice: 'Course was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def create_student_repos
+    @course.students.each do |student|
+      response = CreateRepo.perform("#{@course.slug}_#{student.name}", @course.slug, session[:access_token])
+      @course.course_students.find_by(user: student).update(student_repository: response["git_url"])
+      response = AddCollaborator.perform(response["full_name"], student.username, session[:access_token])
+    end
+
+    render :show
   end
 
   private
