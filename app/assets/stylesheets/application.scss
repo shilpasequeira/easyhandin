@@ -34,7 +34,7 @@ table.fixed-ellipsis {
   display: block;
 }
 
-.reveal-modal > pre {
+.reveal-modal pre {
   overflow-wrap: break-word !important;
 }
 
@@ -42,4 +42,12 @@ table.fixed-ellipsis {
   position: absolute;
   top:20px;
   right: 20px;
+}
+
+.menu_items{
+  width: 70px !important;
+}
+
+.spacer{
+  margin-right: 10px;
 }
