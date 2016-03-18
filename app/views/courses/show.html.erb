@@ -1,35 +1,112 @@
-<p id="notice"><%= notice %></p>
+<%= stylesheet_link_tag    'jquery.dataTables.min', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.core', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.standalone', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'validate', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'jquery.idealforms', media: 'all', 'data-turbolinks-track' => true %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="large-12 columns">
+      <div class="box">
+        <!-- /.box-header -->
+        <div class="box-body " style="display: block;">
+          <div class="school-timetable">
+            <!-- tools box -->
+            <div class="pull-right box-tools">
+              <span class="box-btn" data-widget="edit">
+                <%= link_to "#", "data-reveal-id" => "addStudent" do %>
+                  <i class="fontello-user-add-outline" title="add a student"></i>
+                <% end %>
+              </span>
+              <span class="box-btn" data-widget="edit">
+                <%= link_to "#", "data-reveal-id" => "addInstructor" do %>
+                  <i class="fontello-contacts" title="add an instructor"></i>
+                <% end %>
+              </span>
+              <span class="box-btn" data-widget="edit">
+                <%= link_to edit_course_path(@course) do %>
+                  <i class="fontello-pencil" title="edit"></i>
+                <% end %>
+              </span>
+              <span class="box-btn" data-widget="delete">
+                <%= link_to @course, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class="fontello-trash-2" title="delete"></i>
+                <% end %>
+              </span>
+              <span class="box-btn" >
+                <%= link_to :back do %>
+                  <i class="fontello-reply" title="back"></i>
+                <% end %>
+              </span>
+            </div>
+            <h5>
+              <%= link_to "#" do %>
+              <i class="fontello-tag"></i> <strong><%= @course.name %></strong>
+              <% end %>
+            </h5>
+            <hr>
+            <div class="row">
+              <div class="large-12 columns">
+                <span><%= notice %></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-2 columns">
+                <h6> Created at:</h6>
+              </div>
+              <div class="large-10 columns">
+                <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @course.created_at.strftime("%B %-d, %Y") %></a></h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-2 columns">
+                <h6>Slug: </h6>
+              </div>
+              <div class="large-10 columns">
+                <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @course.slug %></a></h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-2 columns">
+                <h6>Test respository:</h6>
+              </div>
+              <div class="large-10 columns">
+                <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @course.test_repository %></a></h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-2 columns">
+                <h6>Is published?</h6>
+              </div>
+              <div class="large-10 columns">
+                <h6><i class=" fontello-lock-open"></i>&nbsp;<a class="text-gray" href="#"><%= @course.is_published %></a></h6>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <!-- end .timeline -->
+      </div>
+      <!-- box -->
+    </div>
+  </div>
+</div>
+<!-- End of Container Begin -->
 
-<p>
-  <strong>Name:</strong>
-  <%= @course.name %>
-</p>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="large-6 columns">
+      <%= render '/assignments/assignment' %> <!-- tried to render @course.assignments, but this results in a multiplied rendering of the assignments-->
+    </div>
+    <div class="large-6 columns">
+      <%= render '/teams/team' %>
+    </div>
+  </div>
+</div>
+<!-- End of Container Begin -->
 
-<p>
-  <strong>Slug:</strong>
-  <%= @course.slug %>
-</p>
-
-<p>
-  <strong>Is published:</strong>
-  <%= @course.is_published %>
-</p>
-
-<p>
-  <strong>Test repository:</strong>
-  <%= @course.test_repository %>
-</p>
-
-<%= link_to "Add a student", "#", class: "radius button tiny", "data-reveal-id" => "addStudent" %> |
-<%= link_to "Add an instructor", "#", class: "radius button tiny", "data-reveal-id" => "addInstructor" %> |
-<%= link_to new_course_assignment_path(@course), title: "Add an assignment" do %>
-  <span class='fontello-plus'></span>
-<% end %>|
-<%= link_to new_course_team_path(@course), title: "Add a team" do %>
-  <span class='fontello-users'></span>
-<% end %>|
-<%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Back', courses_path %>
 
 <div id="addStudent" class="reveal-modal" data-reveal>
   <%= render partial: 'invites/form', locals: {invite: @course.invites.new, course: @course, role: :student} %>

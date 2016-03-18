@@ -1,31 +1,62 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Teams</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Slug</th>
-      <th>Repository</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @teams.each do |team| %>
-      <tr>
-        <td><%= team.name %></td>
-        <td><%= team.slug %></td>
-        <td><%= team.repository %></td>
-        <td><%= link_to 'Show', team %></td>
-        <td><%= link_to 'Edit', edit_team_path(team) %></td>
-        <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Team', new_team_path %>
+<%= stylesheet_link_tag    'jquery.dataTables.min', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.core', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.standalone', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box">
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><i class="fontello-users-outline"></i>
+          <span>TEAMS</span>
+        </h3>
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn" data-widget="new">
+            <%= link_to new_course_team_path(@course), class: "text-dark-blue" do %>
+              <i class="fontello-plus" title="new"></i>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <div class="school-timetable">
+          <hr>
+          <% @course.teams.each do |team| %>
+          <!-- tools box -->
+          <div class="pull-right box-tools">
+            <span class="box-btn" data-widget="show">
+              <%= link_to team do %>
+                <i class="fontello-eye" title="show"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="edit">
+              <%= link_to edit_team_path(team) do %>
+                <i class="fontello-pencil" title="edit"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="delete">
+              <%= link_to team, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fontello-trash-2" title="delete"></i>
+              <% end %>
+            </span>
+          </div>
+          <h5>
+            <%= link_to team do %>
+            <strong><%= team.name %></strong>
+            <% end %>
+          </h5>
+          <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= team.slug %></a></h6>
+          <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= team.repository %></a></h6>
+          <hr>
+          <% end %>
+        </div>
+        <br />
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+</div>
+<!-- End of Container Begin -->
