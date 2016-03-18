@@ -53,30 +53,31 @@
                 </td>
               </tr>
 
-              <!-- Reveal Modals testResult -->
-              <div id="test_result_<%= submission.id %>" class="reveal-modal" data-reveal>
-                <h4>Test Results</h4>
-                <p><pre><%= submission.test_output %></pre></p>
-                <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-              </div>
-
-              <!-- Reveal Modals editSubmission -->
-              <div id="edit_submission_<%= submission.id %>" class="reveal-modal" data-reveal>
-                <%= render '/submissions/form', submission: submission %>
-                <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-              </div>
-
-              <!-- Reveal Modals team members -->
-              <div id="team_members_<%= submission.id %>" class="reveal-modal" data-reveal>
-                <%= render '/teams/team_members', team: submission.submitter %>
-                <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-              </div>
-
             <% end %>
             <!-- end of submissions loop -->
           </tbody>
         </table>
         <!-- end of submissions table -->
+        <% @assignment.submissions.each do |submission| %>
+        <!-- Reveal Modals testResult -->
+        <div id="test_result_<%= submission.id %>" class="reveal-modal" data-reveal>
+          <h4>Test Results</h4>
+          <p><pre><%= submission.test_output %></pre></p>
+          <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+        </div>
+
+        <!-- Reveal Modals editSubmission -->
+        <div id="edit_submission_<%= submission.id %>" class="reveal-modal" data-reveal>
+          <%= render '/submissions/form', submission: submission %>
+          <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+        </div>
+
+        <!-- Reveal Modals team members -->
+        <div id="team_members_<%= submission.id %>" class="reveal-modal" data-reveal>
+          <%= render '/teams/team_members', team: submission.submitter %>
+          <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+        </div>
+        <% end %>
       </div>
       <!-- end of student box body -->
     </div>
