@@ -11,8 +11,8 @@
       <div class="box-body" style="display: block;">
         <span class="top-right">
           <%= link_to 'Run Test', test_all_path(@assignment), class: "button tiny" %><span class="spacer"></span>
-          <%= link_to 'Run MOSS', "#", class: "button tiny" %><span class="spacer"></span>
-          <%= link_to 'Show MOSS Output', "#", class: "button tiny" %>
+          <%= link_to 'Run MOSS', moss_path, class: "button tiny" %><span class="spacer"></span>
+          <%= link_to 'Show MOSS Output', @assignment.moss_output, class: "button tiny" %>
         </span>
         <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
           <thead>
