@@ -8,7 +8,7 @@ class Team < ActiveRecord::Base
   protected
 
   def create_team_submissions
-    course.assignments.each do |assignment|
+    self.course.assignments.each do |assignment|
       if assignment.is_team_mode
         assignment.submissions.create(submitter: self)
       end
