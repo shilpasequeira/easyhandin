@@ -1,0 +1,7 @@
+<ul>
+  <% team.users.each do |member| %>
+    <li>
+      <%= member.name %> - <%= member.university_id %> - <%= member.username %>
+    </li>
+  <% end %>
+</ul>
