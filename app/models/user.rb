@@ -45,6 +45,8 @@ class User < ActiveRecord::Base
     elsif !self.enrolled_courses.include?(invite.course)
       self.enrolled_courses.push(invite.course)
     end
+
+    self.save!
   end
 
   def create_student_submissions(course)
