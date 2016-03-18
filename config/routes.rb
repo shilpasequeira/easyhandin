@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  resources :submissions, except: [:index, :new]
+  resources :submissions, except: [:index, :new, :show, :edit]
   resources :users
   resources :invites
 

@@ -118,4 +118,8 @@
 </div>
 <!-- End of Container Begin -->
 
-<%= render 'submissions/list' %>
+<% if @assignment.is_team_mode %>
+  <%= render 'submissions/team_list' %>
+<% else %>
+  <%= render 'submissions/student_list' %>
+<% end %>

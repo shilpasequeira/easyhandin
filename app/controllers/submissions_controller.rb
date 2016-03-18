@@ -1,21 +1,5 @@
 class SubmissionsController < ApplicationController
-  before_action :set_submission, only: [:show, :edit, :update, :destroy]
-
-  # GET /submissions/1
-  # GET /submissions/1.json
-  def show
-    response = TestBuildJobParser.perform(@submission.bk_test_build_id, @submission.bk_test_job_id)
-
-    if Submission.test_results.keys.to_a.include?(response["status"])
-      @submission.test_result = response["status"]
-    else
-      @submission.test_result = "error"
-    end
-
-    @submission.test_output = response["content"]
-
-    @submission.save!
-  end
+  before_action :set_submission, only: [:update, :destroy]
 
   # POST /submissions
   # POST /submissions.json
