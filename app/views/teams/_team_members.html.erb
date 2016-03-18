@@ -1,7 +1,22 @@
-<ul>
-  <% team.users.each do |member| %>
-    <li>
-      <%= member.name %> - <%= member.university_id %> - <%= member.username %>
-    </li>
-  <% end %>
-</ul>
+  <div class="modal-dialog">
+    <p><strong>Members of <%= team.name %></strong></p>
+    <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Student ID</th>
+        <th>Username</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% team.users.each do |member| %>
+      <tr>
+        <td><%= member.name %></td>
+        <td><%= member.university_id %></td>
+        <td><%= member.username %></td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
