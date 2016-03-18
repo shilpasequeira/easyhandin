@@ -1,12 +1,6 @@
 class SubmissionsController < ApplicationController
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
 
-  # GET /submissions
-  # GET /submissions.json
-  def index
-    @submissions = Submission.all
-  end
-
   # GET /submissions/1
   # GET /submissions/1.json
   def show
@@ -18,16 +12,9 @@ class SubmissionsController < ApplicationController
       @submission.test_result = "error"
     end
 
-    @submission.test_output = response["output"]
-  end
+    @submission.test_output = response["content"]
 
-  # GET /submissions/new
-  def new
-    @submission = Submission.new
-  end
-
-  # GET /submissions/1/edit
-  def edit
+    @submission.save!
   end
 
   # POST /submissions
@@ -51,7 +38,7 @@ class SubmissionsController < ApplicationController
   def update
     respond_to do |format|
       if @submission.update(submission_params)
-        format.html { redirect_to @submission, notice: 'Submission was successfully updated.' }
+        format.html { redirect_to assignment_path(@submission.assignment), notice: 'Submission was successfully updated.' }
         format.json { render :show, status: :ok, location: @submission }
       else
         format.html { render :edit }

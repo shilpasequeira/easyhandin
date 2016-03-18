@@ -1,10 +1,10 @@
 class AssignmentsController < ApplicationController
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: [:new, :index, :create]
+  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :test]
 
   # GET /assignments
   # GET /assignments.json
   def index
-    @course = Course.find(params[:course_id])
     @assignments = @course.assignments
   end
 
@@ -15,7 +15,6 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/new
   def new
-    @course = Course.find(params[:course_id])
     @assignment = Assignment.new
   end
 
@@ -26,7 +25,6 @@ class AssignmentsController < ApplicationController
   # POST /assignments
   # POST /assignments.json
   def create
-    @course = Course.find(params[:course_id])
     @assignment = @course.assignments.new(assignment_params)
 
     respond_to do |format|
@@ -64,11 +62,34 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  def test
+    @assignment.submissions.each do |submission|
+        response = CreateTestBuild.perform(
+          submission.repository,
+          @assignment.slug,
+          @assignment.course.test_repository,
+          message: "Creating build for assignment #{@assignment.course.name} - #{@assignment.name} by #{submission.submitter.name}"
+        )
+
+        submission.bk_test_build_id = response["number"]
+        submission.bk_test_job_id = response["jobs"][0]["id"]
+
+        submission.save!
+    end
+
+    flash[:notice] = "Started test build"
+    render :show
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment
-      @assignment = Assignment.find(params[:id])
+      @assignment = Assignment.includes(:submissions).find(params[:id])
+    end
+
+    def set_course
+      @course = Course.find(params[:course_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

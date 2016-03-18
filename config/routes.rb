@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  resources :submissions
+  resources :submissions, except: [:index, :new]
   resources :users
   resources :invites
 
@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get 'dashboard', to: 'dashboard#index'
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'
+  get '/assignments/:id/test', to: 'assignments#test', as: 'test_all'
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]

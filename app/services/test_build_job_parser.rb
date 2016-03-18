@@ -11,10 +11,10 @@ class TestBuildJobParser < ComposableOperations::Operation
         response["content"] = response["content"][test_index, response["size"]]
 
         if response["content"].index("BUILD SUCCESS").present?
-          response["status"] = "Passed"
+          response["status"] = "passed"
         else
           response["content"] = content
-          response["status"] = "Failed"
+          response["status"] = "failed"
         end
       end
     end
