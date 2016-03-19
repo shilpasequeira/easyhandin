@@ -12,19 +12,21 @@ class AssignmentsController < ApplicationController
   # GET /assignments/1.json
   def show
     @assignment.submissions.each do |submission|
-        response = TestBuildJobParser.perform(
-          submission.bk_test_build_id,
-          submission.bk_test_job_id
-        )
+        if submission.bk_test_build_id && submission.bk_test_job_id
+          response = TestBuildJobParser.perform(
+            submission.bk_test_build_id,
+            submission.bk_test_job_id
+          )
 
-        if Submission.test_results.keys.to_a.include?(response["status"])
-          submission.test_result = response["status"]
-        else
-          submission.test_result = "error"
+          if Submission.test_results.keys.to_a.include?(response["status"])
+            submission.test_result = response["status"]
+          else
+            submission.test_result = "error"
+          end
+
+          submission.test_output = response["content"]
+          submission.save!
         end
-
-        submission.test_output = response["content"]
-        submission.save!
     end
   end
 

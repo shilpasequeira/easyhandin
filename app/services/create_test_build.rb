@@ -3,17 +3,24 @@ class CreateTestBuild < ComposableOperations::Operation
   property :message
 
   def execute
-    client = Buildkit.new(token: ENV['BUILDKITE_ACCESS_TOKEN'])
-    response = client.create_build('easy-handin', 'test-maven-project', '{
-      "commit": "HEAD",
-      "branch": "master",
-      "message": "' + message + '",
-      "env": {
-        "COURSE_REPO": "' + course_repo + '",
-        "BRANCH_NAME": "' + branch_name + '",
-        "GRADING_TESTS_REPO": "' + grading_tests_repo + '"
+    begin
+      client = Buildkit.new(token: ENV['BUILDKITE_ACCESS_TOKEN'])
+      response = client.create_build('easy-handin', 'test-maven-project', '{
+        "commit": "HEAD",
+        "branch": "master",
+        "message": "' + message + '",
+        "env": {
+          "COURSE_REPO": "' + course_repo + '",
+          "BRANCH_NAME": "' + branch_name + '",
+          "GRADING_TESTS_REPO": "' + grading_tests_repo + '"
+        }
+      }')
+      response
+    rescue => e
+      Rails.logger.error {
+        "Error when trying to create a test build for repository : #{course_repo}, branch #{branch_name}, #{e.message} #{e.backtrace.join("\n")}"
       }
-    }')
-    response
+      nil
+    end
   end
 end

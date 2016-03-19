@@ -8,16 +8,23 @@ class CreateRepo < ComposableOperations::Operation
   property :auto_init_repo, default: true, accepts: [true, false]
 
   def execute
-    client = Octokit::Client.new(:access_token => access_token)
-    response = client.create_repository(
-      repo_name,
-      {
-        :organization => org_name,
-        :private => private_repo,
-        :description => description,
-        :auto_init => auto_init_repo
+    begin
+      client = Octokit::Client.new(:access_token => access_token)
+      response = client.create_repository(
+        repo_name,
+        {
+          :organization => org_name,
+          :private => private_repo,
+          :description => description,
+          :auto_init => auto_init_repo
+        }
+      )
+      response
+    rescue => e
+      Rails.logger.error {
+        "Error when trying to create a repository for: #{repo_name}, #{e.message} #{e.backtrace.join("\n")}"
       }
-    )
-    response
+      nil
+    end
   end
 end

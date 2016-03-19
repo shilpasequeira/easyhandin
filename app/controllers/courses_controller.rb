@@ -65,9 +65,12 @@ class CoursesController < ApplicationController
 
   def create_student_repos
     @course.students.each do |student|
-      response = CreateRepo.perform("#{@course.slug}_#{student.name}", @course.slug, session[:access_token])
-      @course.course_students.find_by(user: student).update(student_repository: response["git_url"])
-      response = AddCollaborator.perform(response["full_name"], student.username, session[:access_token])
+      if response = CreateRepo.perform("#{@course.slug}_#{student.name}", @course.slug, session[:access_token])
+        @course.course_students.find_by(user: student).update(student_repository: response["git_url"])
+        response = AddCollaborator.perform(response["full_name"], student.username, session[:access_token])
+      else
+        flash[:error] = "Could not create repository for #{student.name}."
+      end
     end
 
     render :show
