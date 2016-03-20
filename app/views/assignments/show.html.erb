@@ -4,6 +4,11 @@
 <%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag    'validate', media: 'all', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag    'jquery.idealforms', media: 'all', 'data-turbolinks-track' => true %>
+
+<div id="response_data">
+  <p></p>
+</div>
+
 <!-- Container Begin -->
 <div class="row">
   <div class="large-12 columns">
@@ -118,4 +123,33 @@
 </div>
 <!-- End of Container Begin -->
 
-<%= render 'submissions/list' %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box bg-white">
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><i class="fontello-paper-plane"></i>
+          <span>SUBMISSIONS</span>
+        </h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body" style="display: block;">
+        <span class="top-right">
+          <%= link_to 'Run Test', run_tests_path(@assignment), class: "button tiny", remote: true, id: "run_tests" %><span class="spacer"></span>
+          <%= link_to 'Run MOSS', moss_path, class: "button tiny", remote: true %><span class="spacer"></span>
+          <%= link_to 'Show MOSS Output', @assignment.moss_output, class: "button tiny", remote: true %>
+        </span>
+
+        <% if @assignment.is_team_mode %>
+          <%= render 'submissions/team_list' %>
+        <% else %>
+          <%= render 'submissions/student_list' %>
+        <% end %>
+      </div>
+      <!-- end of submissions box body -->
+    </div>
+    <!-- end of submissions box -->
+  </div>
+  <!-- end of submissions div -->
+</div>
+<!-- End of Container Begin -->

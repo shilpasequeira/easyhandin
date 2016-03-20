@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :create_student_repos]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :create_student_repos]
 
   # GET /courses
   # GET /courses.json
@@ -63,6 +63,19 @@ class CoursesController < ApplicationController
     end
   end
 
+  def create_student_repos
+    @course.students.each do |student|
+      if response = CreateRepo.perform("#{@course.slug}_#{student.name}", @course.slug, session[:access_token])
+        @course.course_students.find_by(user: student).update(student_repository: response["git_url"])
+        response = AddCollaborator.perform(response["full_name"], student.username, session[:access_token])
+      else
+        flash[:error] = "Could not create repository for #{student.name}."
+      end
+    end
+
+    redirect_to action: :show
+  end
+
   private
     def check_user_is_instructor
       unless current_user.instructor?
@@ -73,7 +86,7 @@ class CoursesController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_course
-      @course = Course.find(params[:id])
+      @course = Course.includes(:students, :assignments).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

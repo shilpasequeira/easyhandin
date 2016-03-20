@@ -1,21 +1,42 @@
 class AssignmentsController < ApplicationController
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: [:new, :index, :create]
+  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :run_tests, :moss]
 
   # GET /assignments
   # GET /assignments.json
   def index
-    @course = Course.find(params[:course_id])
     @assignments = @course.assignments
   end
 
   # GET /assignments/1
   # GET /assignments/1.json
   def show
+    @assignment.submissions.each do |submission|
+      if submission.bk_test_build_id.present? && submission.bk_test_job_id.present?
+        response = TestBuildJobParser.perform(
+          submission.bk_test_build_id,
+          submission.bk_test_job_id
+        )
+
+        if Submission.test_results.keys.to_a.include?(response["status"])
+          submission.test_result = response["status"]
+        else
+          submission.test_result = "error"
+        end
+
+        submission.test_output = response["content"]
+        submission.save!
+      end
+    end
+
+    if @assignment.bk_moss_build_id.present? && @assignment.bk_moss_job_id.present?
+      @assignment.moss_output = MossBuildJobParser.perform(@assignment.bk_moss_build_id, @assignment.bk_moss_job_id)
+      @assignment.save!
+    end
   end
 
   # GET /assignments/new
   def new
-    @course = Course.find(params[:course_id])
     @assignment = Assignment.new
   end
 
@@ -26,7 +47,6 @@ class AssignmentsController < ApplicationController
   # POST /assignments
   # POST /assignments.json
   def create
-    @course = Course.find(params[:course_id])
     @assignment = @course.assignments.new(assignment_params)
 
     respond_to do |format|
@@ -64,11 +84,44 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  def run_tests
+    @assignment.submissions.each do |submission|
+        response = CreateTestBuild.perform(
+          submission.repository,
+          @assignment.slug,
+          @assignment.course.test_repository,
+          message: "Creating build for assignment #{@assignment.course.name} - #{@assignment.name} by #{submission.submitter.name}"
+        )
+
+        submission.test_result = nil
+        submission.test_output = nil
+        submission.bk_test_build_id = response["number"]
+        submission.bk_test_job_id = response["jobs"][0]["id"]
+
+        submission.save!
+    end
+
+    render plain: "Started build to test all submissions"
+  end
+
+  def moss
+    response = CreateMossBuild.perform
+    @assignment.bk_moss_build_id =  response["number"]
+    @assignment.bk_moss_job_id = response["jobs"][0]["id"]
+    @assignment.save!
+
+    render plain: "Started build to run MOSS on all submissions"
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment
-      @assignment = Assignment.find(params[:id])
+      @assignment = Assignment.includes(:submissions).find(params[:id])
+    end
+
+    def set_course
+      @course = Course.find(params[:course_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,0 +1,64 @@
+<table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
+  <thead>
+    <tr>
+      <th>
+        Team Name
+      </th>
+      <th>
+        Test status
+      </th>
+      <th>
+        Grade
+      </th>
+      <th class="menu_items"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assignment.submissions.each do |submission| %>
+      <tr>
+        <td>
+          <%= submission.submitter.name %>
+        </td>
+        <td class="ellipsis">
+          <% if submission.test_result.present? %>
+            <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_result_#{submission.id}" %>
+          <% else %>
+            No result
+          <% end %>
+        </td>
+        <td><%= submission.grade %></td>
+        <td>
+          <%= link_to "#", "data-reveal-id" => "edit_submission_#{submission.id}" do %>
+            <i class="fontello-pencil" title="Edit"></i>
+          <% end %>
+          <%= link_to "#", "data-reveal-id" => "team_members_#{submission.id}" do %>
+            <i class="fontello-users" title="View team members"></i>
+          <% end %>
+        </td>
+      </tr>
+
+    <% end %>
+    <!-- end of submissions loop -->
+  </tbody>
+</table>
+<!-- end of submissions table -->
+<% @assignment.submissions.each do |submission| %>
+  <!-- Reveal Modals testResult -->
+  <div id="test_result_<%= submission.id %>" class="reveal-modal" data-reveal>
+    <h4>Test Results</h4>
+    <p><pre><%= submission.test_output %></pre></p>
+    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  </div>
+
+  <!-- Reveal Modals editSubmission -->
+  <div id="edit_submission_<%= submission.id %>" class="reveal-modal" data-reveal>
+    <%= render '/submissions/form', submission: submission %>
+    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  </div>
+
+  <!-- Reveal Modals team members -->
+  <div id="team_members_<%= submission.id %>" class="reveal-modal" data-reveal>
+    <%= render '/teams/team_members', team: submission.submitter %>
+    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  </div>
+<% end %>

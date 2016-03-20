@@ -14,12 +14,12 @@
           <div class="school-timetable">
             <!-- tools box -->
             <div class="pull-right box-tools">
-              <span class="box-btn" data-widget="edit">
+              <span class="box-btn">
                 <%= link_to "#", "data-reveal-id" => "addStudent" do %>
                   <i class="fontello-user-add-outline" title="add a student"></i>
                 <% end %>
               </span>
-              <span class="box-btn" data-widget="edit">
+              <span class="box-btn">
                 <%= link_to "#", "data-reveal-id" => "addInstructor" do %>
                   <i class="fontello-contacts" title="add an instructor"></i>
                 <% end %>
@@ -87,7 +87,7 @@
           <hr />
           <div class="row">
             <div class="large-12 columns">
-              <%= link_to "View students in this course", "#", class: "button tiny right" %>
+              <%= link_to "Create student repositories", create_student_repos_path(@course), class: "button tiny right", remote: true %>
             </div>
           </div>
         </div>

@@ -1,10 +1,10 @@
 class TeamsController < ApplicationController
+  before_action :set_course, only: [:new, :index, :create]
   before_action :set_team, only: [:show, :edit, :update, :destroy]
 
   # GET /teams
   # GET /teams.json
   def index
-    @course = Course.find(params[:course_id])
     @teams = @course.teams
   end
 
@@ -15,7 +15,6 @@ class TeamsController < ApplicationController
 
   # GET /teams/new
   def new
-    @course = Course.find(params[:course_id])
     @team = Team.new
   end
 
@@ -26,7 +25,6 @@ class TeamsController < ApplicationController
   # POST /teams
   # POST /teams.json
   def create
-    @course = Course.find(params[:course_id])
     @team = @course.teams.new(team_params)
 
     respond_to do |format|
@@ -68,6 +66,10 @@ class TeamsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_team
       @team = Team.find(params[:id])
+    end
+
+    def set_course
+      @course = Course.find(params[:course_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
