@@ -73,7 +73,7 @@ class CoursesController < ApplicationController
       end
     end
 
-    render :show
+    redirect_to action: :show
   end
 
   private

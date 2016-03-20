@@ -1,6 +1,6 @@
 class AssignmentsController < ApplicationController
   before_action :set_course, only: [:new, :index, :create]
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :test]
+  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :run_tests, :moss]
 
   # GET /assignments
   # GET /assignments.json
@@ -12,21 +12,26 @@ class AssignmentsController < ApplicationController
   # GET /assignments/1.json
   def show
     @assignment.submissions.each do |submission|
-        if submission.bk_test_build_id && submission.bk_test_job_id
-          response = TestBuildJobParser.perform(
-            submission.bk_test_build_id,
-            submission.bk_test_job_id
-          )
+      if submission.bk_test_build_id.present? && submission.bk_test_job_id.present?
+        response = TestBuildJobParser.perform(
+          submission.bk_test_build_id,
+          submission.bk_test_job_id
+        )
 
-          if Submission.test_results.keys.to_a.include?(response["status"])
-            submission.test_result = response["status"]
-          else
-            submission.test_result = "error"
-          end
-
-          submission.test_output = response["content"]
-          submission.save!
+        if Submission.test_results.keys.to_a.include?(response["status"])
+          submission.test_result = response["status"]
+        else
+          submission.test_result = "error"
         end
+
+        submission.test_output = response["content"]
+        submission.save!
+      end
+    end
+
+    if @assignment.bk_moss_build_id.present? && @assignment.bk_moss_job_id.present?
+      @assignment.moss_output = MossBuildJobParser.perform(@assignment.bk_moss_build_id, @assignment.bk_moss_job_id)
+      @assignment.save!
     end
   end
 
@@ -79,7 +84,7 @@ class AssignmentsController < ApplicationController
     end
   end
 
-  def test
+  def run_tests
     @assignment.submissions.each do |submission|
         response = CreateTestBuild.perform(
           submission.repository,
@@ -88,14 +93,24 @@ class AssignmentsController < ApplicationController
           message: "Creating build for assignment #{@assignment.course.name} - #{@assignment.name} by #{submission.submitter.name}"
         )
 
+        submission.test_result = nil
+        submission.test_output = nil
         submission.bk_test_build_id = response["number"]
         submission.bk_test_job_id = response["jobs"][0]["id"]
 
         submission.save!
     end
 
-    flash[:notice] = "Started test build"
-    render :show
+    render plain: "Started build to test all submissions"
+  end
+
+  def moss
+    response = CreateMossBuild.perform
+    @assignment.bk_moss_build_id =  response["number"]
+    @assignment.bk_moss_job_id = response["jobs"][0]["id"]
+    @assignment.save!
+
+    render plain: "Started build to run MOSS on all submissions"
   end
 
   private
