@@ -1,0 +1,100 @@
+<%= stylesheet_link_tag    'jquery.dataTables.min', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.core', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable.standalone', media: 'all', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
+<!-- Container Begin -->
+<div class="row">
+  <div class="large-6 columns">
+    <div class="box">
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><i class="fontello-contacts"></i>
+          <span>Instructors for <%= @course.name %></span>
+        </h3>
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn">
+            <%= link_to "#", "data-reveal-id" => "addInstructor", class: "text-dark-blue" do %>
+              <i class="fontello-plus" title="add an instructor"></i>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <span><%= notice %></span>
+        <div class="school-timetable">
+          <hr>
+          <% @course.instructors.each do |user| %>
+          <!-- tools box -->
+          <div class="pull-right box-tools">
+            <span class="box-btn" data-widget="show">
+              <%= link_to user do %>
+                <i class="fontello-eye" title="show"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="edit">
+              <%= link_to edit_user_path(user) do %>
+                <i class="fontello-pencil" title="edit"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="delete">
+              <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fontello-trash-2" title="delete"></i>
+              <% end %>
+            </span>
+          </div>
+          <h5>
+            <strong><%= user.name %></strong>
+          </h5>
+          <h6><i class=" fontello-mail"></i> <a class="text-gray" href="#"><%= user.email %></a></h6>
+          <h6><i class=" fontello-github"></i> <a class="text-gray" href="#"><%= user.username %></a></h6>
+          <hr>
+          <% end %>
+        </div>
+        <br />
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+  <div class="large-6 columns">
+    <div class="box">
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><i class="fontello-contacts"></i>
+          <span>Pending Instructor Invitations</span>
+        </h3>
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn">
+            <%= link_to "#", "data-reveal-id" => "addInstructor", class: "text-dark-blue" do %>
+              <i class="fontello-plus" title="add an instructor"></i>
+            <% end %>
+          </span>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <div class="school-timetable">
+          <hr>
+          <% (@course.invites.select{ |invite| invite.user_role == 'instructor' }).each do |user| %>
+          <!--h5>
+            <strong>< % = user.name % ></strong>
+          </h5-->
+          <h6><i class=" fontello-mail"></i> <a class="text-gray" href="#"><%= user.email %></a></h6>
+          <hr>
+          <% end %>
+        </div>
+        <br />
+      </div>
+      <!-- end .timeline -->
+    </div>
+    <!-- box -->
+  </div>
+</div>
+<!-- End of Container Begin -->
+<br>
+
+<div id="addInstructor" class="reveal-modal" data-reveal>
+  <%= render partial: 'invites/form', locals: {invite: @course.invites.new, course: @course, role: :instructor} %>
+  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+</div>

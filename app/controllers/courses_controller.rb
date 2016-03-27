@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :create_student_repos]
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :create_student_repos]
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :create_student_repos, :students, :instructors]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :create_student_repos, :students, :instructors]
 
   # GET /courses
   # GET /courses.json
@@ -11,6 +11,14 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
+  end
+
+  def students
+    @course = @course
+  end
+
+  def instructors
+    @course = @course
   end
 
   # GET /courses/new

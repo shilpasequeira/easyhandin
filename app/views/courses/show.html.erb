@@ -87,6 +87,9 @@
           <hr />
           <div class="row">
             <div class="large-12 columns">
+              <%= link_to "View students", students_path(@course), class: "button tiny" %>
+              <span class="spacer"></span>
+              <%= link_to "View instructors", instructors_path(@course), class: "button tiny" %>
               <%= link_to "Create student repositories", create_student_repos_path(@course), class: "button tiny right", remote: true %>
             </div>
           </div>
