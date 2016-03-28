@@ -10,8 +10,8 @@
     <!-- tools box -->
     <div class="pull-right box-tools">
       <span class="box-btn" data-widget="new">
-        <%= link_to new_course_team_path(@course), class: "text-dark-blue" do %>
-          <i class="fontello-plus" title="new"></i>
+        <%= link_to "#", "data-reveal-id" => "add_team", class: "text-dark-blue", remote: true do %>
+          <i class="fontello-plus" title="add a team"></i>
         <% end %>
       </span>
     </div>
@@ -24,12 +24,12 @@
       <!-- tools box -->
       <div class="pull-right box-tools">
         <span class="box-btn" data-widget="show">
-          <%= link_to team do %>
-            <i class="fontello-eye" title="show"></i>
+          <%= link_to "#", "data-reveal-id" => "team_members_#{team.id}" do %>
+            <i class="fontello-users" title="View team members"></i>
           <% end %>
         </span>
         <span class="box-btn" data-widget="edit">
-          <%= link_to edit_team_path(team) do %>
+          <%= link_to "#", "data-reveal-id" => "edit_team_#{team.id}" do %>
             <i class="fontello-pencil" title="edit"></i>
           <% end %>
         </span>
@@ -40,7 +40,7 @@
         </span>
       </div>
       <h5>
-        <%= link_to team do %>
+        <%= link_to '#' do %>
         <strong><%= team.name %></strong>
         <% end %>
       </h5>
@@ -54,3 +54,22 @@
   <!-- end .timeline -->
 </div>
 <!-- box -->
+
+<div id="add_team" class="reveal-modal" data-reveal>
+  <%= render partial: 'teams/form', locals: {team: @course.teams.new, course: @course, role: :instructor, url: course_teams_path(@course)} %>
+  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+</div>
+
+
+<% @course.teams.each do |team| %>
+  <div id="edit_team_<%= team.id %>" class="reveal-modal" data-reveal>
+    <%= render partial: 'teams/form', locals: {team: team, role: :instructor, url: team_path}  %>
+    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  </div>
+
+  <!-- Reveal Modals team members -->
+  <div id="team_members_<%= team.id %>" class="reveal-modal" data-reveal>
+    <%= render '/teams/team_members', team: team %>
+    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  </div>
+<% end %>
