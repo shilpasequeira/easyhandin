@@ -11,6 +11,7 @@
         Grade
       </th>
       <th class="menu_items"></th>
+      <th class="menu_items">MOSS</th>
     </tr>
   </thead>
   <tbody>
@@ -35,12 +36,21 @@
             <i class="fontello-users" title="View team members"></i>
           <% end %>
         </td>
+        <td class="text-center">
+          <%= check_box_tag(:compare_moss, submission.id) %>
+        </td>
       </tr>
 
     <% end %>
     <!-- end of submissions loop -->
   </tbody>
 </table>
+<br />
+<div class="row">
+  <div class="large-12 columns">
+  <%= link_to 'Compare MOSS', moss_path, class: "button tiny right", remote: true, id: "run_tests" %>
+  </div>
+</div>
 <!-- end of submissions table -->
 <% @assignment.submissions.each do |submission| %>
   <!-- Reveal Modals testResult -->
