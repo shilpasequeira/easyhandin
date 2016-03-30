@@ -1,0 +1,17 @@
+<% if params[:run_tests] %>
+  var submissions = <%= raw processed_submission_test_results(@submissions) %>;
+
+  $.each(submissions, function(i, submission) {
+    $("#test_result_" + submission.id)[0].innerHTML = submission.test_result;
+  });
+<% elsif params[:run_moss] %>
+  $("#show-moss-output").text("MOSS Build in Progress");
+<% elsif params[:moss_output] %>
+  <% if @assignment.moss_result == "finished" %>
+    window.open("<%= @assignment.moss_output %>");
+  <% else %>
+    alert("Moss build <%= @assignment.moss_result.titleize %>");
+  <% end %>
+<% end %>
+
+$("div#response_data p").text('<%= j @response %>');

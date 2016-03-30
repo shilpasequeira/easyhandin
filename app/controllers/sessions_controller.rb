@@ -2,7 +2,6 @@ class SessionsController < ApplicationController
   skip_before_action :require_login, only: :create
 
   def create
-    raise "oops"
     auth = request.env["omniauth.auth"]
     user = User.create_with_omniauth(auth, request.params[:role])
     session[:user_id] = user.id

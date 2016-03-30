@@ -134,16 +134,18 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body" style="display: block;">
-        <span class="top-right">
-          <%= link_to 'Run Test', run_tests_path(@assignment), class: "button tiny", remote: true, id: "run_tests" %><span class="spacer"></span>
-          <%= link_to 'Run MOSS', moss_path, class: "button tiny", remote: true %><span class="spacer"></span>
-          <%= link_to 'Show MOSS Output', @assignment.moss_output, class: "button tiny", remote: true %>
-        </span>
+        <%= form_tag url_for(:action => :process_submissions, :id => @assignment.id), remote: true, id: "submissions_form" do %>
+          <span class="top-right">
+            <%= submit_tag 'Run Tests', name: 'run_tests', class: "button tiny" %><span class="spacer"></span>
+            <%= submit_tag 'Run MOSS', name: 'run_moss', class: "button tiny" %><span class="spacer"></span>
+            <%= submit_tag 'MOSS Output', name: 'moss_output', class: "button tiny" %>
+          </span>
 
-        <% if @assignment.is_team_mode %>
-          <%= render 'submissions/team_list' %>
-        <% else %>
-          <%= render 'submissions/student_list' %>
+          <% if @assignment.is_team_mode %>
+            <%= render 'submissions/team_list' %>
+          <% else %>
+            <%= render 'submissions/student_list' %>
+          <% end %>
         <% end %>
       </div>
       <!-- end of submissions box body -->

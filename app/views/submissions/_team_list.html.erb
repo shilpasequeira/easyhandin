@@ -1,6 +1,10 @@
 <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
   <thead>
     <tr>
+      <th class="menu_items text-center">
+        <%= label_tag 'selectAll', 'Select All' %>
+        <%= check_box_tag "selectAll", "selectAll", false %>
+      </th>
       <th>
         Team Name
       </th>
@@ -16,14 +20,17 @@
   <tbody>
     <% @assignment.submissions.each do |submission| %>
       <tr>
+        <td class="text-center">
+          <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}" %>
+        </td>
         <td>
           <%= submission.submitter.name %>
         </td>
-        <td class="ellipsis">
-          <% if submission.test_result.present? %>
-            <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_result_#{submission.id}" %>
+        <td id="test_result_<%= submission.id %>">
+          <% if submission.test_output.present? %>
+            <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
           <% else %>
-            No result
+            <%= submission.test_result.titleize %>
           <% end %>
         </td>
         <td><%= submission.grade %></td>
@@ -43,12 +50,16 @@
 </table>
 <!-- end of submissions table -->
 <% @assignment.submissions.each do |submission| %>
+
   <!-- Reveal Modals testResult -->
-  <div id="test_result_<%= submission.id %>" class="reveal-modal" data-reveal>
-    <h4>Test Results</h4>
-    <p><pre><%= submission.test_output %></pre></p>
-    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-  </div>
+  <% if submission.test_output.present? %>
+    <!-- Reveal Modals test output -->
+    <div id="test_output_<%= submission.id %>" class="reveal-modal" data-reveal>
+      <h4>Test Results</h4>
+      <p><pre><%= submission.test_output %></pre></p>
+      <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+    </div>
+  <% end %>
 
   <!-- Reveal Modals editSubmission -->
   <div id="edit_submission_<%= submission.id %>" class="reveal-modal" data-reveal>

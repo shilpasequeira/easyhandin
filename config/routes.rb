@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   get 'dashboard', to: 'dashboard#index'
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'
-  get '/assignments/:id/run_tests', to: 'assignments#run_tests', as: 'run_tests'
-  get '/assignments/:id/moss', to: 'assignments#moss', as: 'moss'
+  patch '/assignments/:id/process_submissions', to: 'assignments#process_submissions', as: 'process_submissions'
+  get '/assignments/:id/submission_repo_sha', to: 'assignments#submission_repo_sha', as: 'submission_repo_sha'
   get '/courses/:id/create_student_repos', to: 'courses#create_student_repos', as: 'create_student_repos'
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
