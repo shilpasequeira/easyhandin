@@ -13,35 +13,32 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
-        <span><%= notice %></span>
         <div class="school-timetable">
           <hr>
           <% @course.students.each do |user| %>
-          <!-- tools box -->
-          <div class="pull-right box-tools">
-            <span class="box-btn" data-widget="show">
-              <%= link_to user do %>
-                <i class="fontello-eye" title="show"></i>
-              <% end %>
-            </span>
-            <span class="box-btn" data-widget="edit">
-              <%= link_to edit_user_path(user) do %>
-                <i class="fontello-pencil" title="edit"></i>
-              <% end %>
-            </span>
-            <span class="box-btn" data-widget="delete">
-              <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <i class="fontello-trash-2" title="delete"></i>
-              <% end %>
-            </span>
-          </div>
-          <h5>
-            <strong><%= user.name %></strong>
-          </h5>
-          <h6><i class=" fontello-mail"></i> <a class="text-gray" href="#"><%= user.email %></a></h6>
-          <h6><i class=" fontello-github"></i> <a class="text-gray" href="#"><%= user.username %></a></h6>
-          <h6><i class=" fontello-vcard"></i> <a class="text-gray" href="#"><%= user.university_id %></a></h6>
-          <hr>
+            <!-- tools box -->
+            <div class="pull-right box-tools">
+              <span class="box-btn">
+                <%= link_to user do %>
+                  <i class="fontello-eye" title="show"></i>
+                <% end %>
+              </span>
+              <span class="box-btn">
+                <%= link_to edit_user_path(user) do %>
+                  <i class="fontello-pencil" title="edit"></i>
+                <% end %>
+              </span>
+              <span class="box-btn">
+                <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class="fontello-trash-2" title="delete"></i>
+                <% end %>
+              </span>
+            </div>
+            <h5><%= user.name %></h5>
+            <h6><i class=" fontello-mail"></i> <%= user.email %></h6>
+            <h6><i class=" fontello-github"></i> <%= user.username %></h6>
+            <h6><i class=" fontello-vcard"></i> <%= user.university_id %></h6>
+            <hr>
           <% end %>
         </div>
         <br />
@@ -53,7 +50,7 @@
   <div class="large-6 columns">
     <div class="box">
       <div class="box-header bg-transparent">
-        <h3 class="box-title"><i class="fontello-user-outline"></i>
+        <h3 class="box-title"><i class="fontello-paper-plane"></i>
           <span>Pending Student Invitations</span>
         </h3>
         <!-- tools box -->
@@ -69,16 +66,13 @@
       <div class="box-body " style="display: block;">
         <div class="school-timetable">
           <hr>
-          <% (@course.invites.select{ |invite| invite.user_role == 'student' }).each do |user| %>
-          <!--h5>
-            <strong>< % = user.name % ></strong>
-          </h5-->
-          <h6><i class=" fontello-mail"></i> <a class="text-gray" href="#"><%= user.email %></a></h6>
-          <h6><i class=" fontello-vcard"></i> <a class="text-gray" href="#"><%= user.university_id %></a></h6>
-          <hr>
+          <% @course.invites.where(user_role: "student", is_accepted: false).each do |invite| %>
+            <h5><%= invite.name %></h5>
+            <h6><i class=" fontello-mail"></i> <%= invite.email %></h6>
+            <h6><i class=" fontello-vcard"></i> <%= invite.university_id %></h6>
+            <hr>
           <% end %>
         </div>
-        <br />
       </div>
       <!-- end .timeline -->
     </div>
@@ -86,9 +80,9 @@
   </div>
 </div>
 <!-- End of Container Begin -->
-<br>
 
 <div id="addStudent" class="reveal-modal" data-reveal>
+  <h2>Invite a student</h2>
   <%= render partial: 'invites/form', locals: {invite: @course.invites.new, course: @course, role: :student} %>
   <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
 </div>

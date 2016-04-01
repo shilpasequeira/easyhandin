@@ -5,6 +5,7 @@
   </head>
   <body>
     <h1>Welcome to the course <%= @invite.course.name %>!</h1>
+    <p>Hi <%= @invite.name %>,</p>
     <p>
       You have been added as <%= indefinite_articlerize(@invite.user_role) %> to the course <%= link_to @invite.course.name, course_url(@invite.course) %>.
     </p>

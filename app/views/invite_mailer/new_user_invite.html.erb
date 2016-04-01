@@ -5,6 +5,7 @@
   </head>
   <body>
     <h1>Welcome to Easy Hand-in!</h1>
+    <p>Hi <%= @invite.name %>,</p>
     <p>
       You have been invited by <%= @invite.sender.name %> to join the course <%= @invite.course.name %> as <%= indefinite_articlerize(@invite.user_role) %>.
     </p>

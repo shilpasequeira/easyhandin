@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330205511) do
+ActiveRecord::Schema.define(version: 20160331192054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,8 +72,10 @@ ActiveRecord::Schema.define(version: 20160330205511) do
     t.integer  "sender_id"
     t.integer  "recipient_id"
     t.string   "token"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "name"
+    t.boolean  "is_accepted",   default: false
   end
 
   add_index "invites", ["course_id", "sender_id", "email"], name: "index_invites_on_course_id_and_sender_id_and_email", unique: true, using: :btree

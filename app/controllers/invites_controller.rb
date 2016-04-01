@@ -1,4 +1,6 @@
 class InvitesController < ApplicationController
+  before_action :check_user_is_instructor
+
   def create
     if !current_user.teach_courses.include?(Course.find(invite_params[:course_id]))
       notice = "You don't have permissions to do that!!"
@@ -25,12 +27,16 @@ class InvitesController < ApplicationController
       end
     end
 
-    redirect_to(course_path(invite_params[:course_id]), :notice => notice)
+    if invite_params[:user_role] == "student"
+      redirect_to(students_path(invite_params[:course_id]), :notice => notice)
+    elsif invite_params[:user_role] == "instructor"
+      redirect_to(instructors_path(invite_params[:course_id]), :notice => notice)
+    end
   end
 
   private
 
   def invite_params
-    params.require(:invite).permit(:user_role, :email, :university_id, :course_id, :sender_id, :recipient_id, :token)
+    params.require(:invite).permit(:user_role, :name, :email, :university_id, :course_id, :sender_id, :recipient_id, :token)
   end
 end

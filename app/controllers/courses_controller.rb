@@ -13,14 +13,6 @@ class CoursesController < ApplicationController
   def show
   end
 
-  def students
-    @course = @course
-  end
-
-  def instructors
-    @course = @course
-  end
-
   # GET /courses/new
   def new
     @course = Course.new
@@ -71,7 +63,7 @@ class CoursesController < ApplicationController
     end
   end
 
-  def create_student_repos
+  def publish
     @course.students.each do |student|
       if response = CreateRepo.perform("#{@course.slug}_#{student.name}", @course.slug, session[:access_token])
         @course.course_students.find_by(user: student).update(student_repository: response["git_url"])
@@ -84,21 +76,21 @@ class CoursesController < ApplicationController
     redirect_to action: :show
   end
 
+  def students
+  end
+
+  def instructors
+  end
+
   private
-    def check_user_is_instructor
-      unless current_user.instructor?
-        flash[:danger] = "You do not have permissions to access this page."
-        redirect_to root_url
-      end
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course
-      @course = Course.includes(:students, :assignments).find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_course
+    @course = Course.includes(:students, :assignments).find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def course_params
-      params.require(:course).permit(:name, :slug, :is_published, :test_repository, :skeleton_repository)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def course_params
+    params.require(:course).permit(:name, :slug, :is_published, :test_repository, :skeleton_repository)
+  end
 end

@@ -1,4 +1,5 @@
 class SubmissionsController < ApplicationController
+  before_action :check_user_is_instructor
   before_action :set_submission, only: [:update, :destroy]
 
   # POST /submissions

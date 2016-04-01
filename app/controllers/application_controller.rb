@@ -8,8 +8,6 @@ class ApplicationController < ActionController::Base
   def index
   end
 
-  private
-
   def require_login
     unless current_user
       flash[:danger] = "Please log in."
@@ -40,5 +38,12 @@ class ApplicationController < ActionController::Base
 
   def signin_link(options = {})
     "#{request.base_url}/auth/github?#{options.to_query}"
+  end
+
+  def check_user_is_instructor
+    unless current_user.instructor?
+      flash[:danger] = "You do not have permissions to access this page."
+      redirect_to root_url
+    end
   end
 end
