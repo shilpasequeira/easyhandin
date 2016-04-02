@@ -1,48 +1,43 @@
 class PublishCourse < ComposableOperations::Operation
-  processes :access_token 
+  processes :access_token,
+            :org_name,
+            :username_repos
+            # username_repos should look like this:
+                # hash1 = { :username => "lexman34", :repo => "EA_Repo1" }
+                # hash2 = { :username => "shilpasequeira", :repo => "EA_Repo2"}
+                
+                # username_repos = []
+                # username_repos.push(hash1)
+                # username_repos.push(hash2)
 
+  property :skeleton_repo, default: "EA_Skeleton"
+  property :tests_repo, default: "EA_Tests"
+  property :team_name, default: "EA_Team"
 
   def execute
-
 
     # Setup
     client = Octokit::Client.new(:access_token => access_token)
 
-    orgName = "CPEN-221"
-    collaborator = "Lexman34"
-    skeletonRepo = "0EA_Skeleton"
-    testRepo = "0EA_Tests"
-    teamName = "0EATEAM"
-
-    hash1 = { :username => "lexman34", :repo => "EA_Repo1" }
-    hash2 = { :username => "shilpasequeira", :repo => "EA_Repo2"}
-    
-    username_repos = []
-    username_repos.push(hash1)
-    username_repos.push(hash2)
-    
-
     # Create secret team
-    team = CreateTeam.perform(client, teamName, orgName)
+    team = CreateTeam.perform(client, team_name, org_name)
     # Add easyhandin to this team
     AddTeamMember.perform(client, team[:id], "easyhandin")
 
     # Create skeleton repo
-    CreateRepo.perform(client, skeletonRepo, orgName)
-    AddTeamRepo.perform(client, team[:id], orgName + "/" + skeletonRepo)
+    CreateRepo.perform(client, skeleton_repo, org_name)
+    AddTeamRepo.perform(client, team[:id], org_name + "/" + skeleton_repo)
 
     # Create tests repo
-    CreateRepo.perform(client, testRepo, orgName)
-    AddTeamRepo.perform(client, team[:id], orgName + "/" + testRepo)
-
+    CreateRepo.perform(client, tests_repo, org_name)
+    AddTeamRepo.perform(client, team[:id], org_name + "/" + tests_repo)
 
     #Add Student Repos
-    # binding.pry
     username_repos.each do |username_repo|
-      CreateRepo.perform(client, username_repo[:repo], orgName)
-      AddCollaborator.perform(client, orgName, username_repo[:repo], username_repo[:username])     
+      CreateRepo.perform(client, username_repo[:repo], org_name)
+      AddCollaborator.perform(client, org_name, username_repo[:repo], username_repo[:username])
+      AddTeamRepo.perform(client, team[:id], org_name + "/" + username_repo[:repo])
     end
-
 
   end
 end

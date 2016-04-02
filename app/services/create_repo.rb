@@ -11,8 +11,6 @@ class CreateRepo < ComposableOperations::Operation
   def execute
 
     # Does the repo already exist?
-
-
     repos = Array.new
     repos += client.organization_repositories(org_name)
     last_response = client.last_response
@@ -21,16 +19,14 @@ class CreateRepo < ComposableOperations::Operation
       repos += last_response.data
     end
 
-
-
-
     targetRepo = repos.select {|repo| repo["name"] == repo_name }
 
-    binding.pry
+    # Return existing repo
     if (targetRepo.count > 0)
       return targetRepo.pop
     end
-    
+
+    # Create new repo
     client.create_repository( repo_name,  { :organization => org_name,
                                            :private => private_repo,
                                            :description => description,

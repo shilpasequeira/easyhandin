@@ -11,20 +11,14 @@ class SessionsController < ApplicationController
       user.complete_invitation(Invite.find_by_token(token))
     end
 
-    PublishCourse.perform(session[:access_token])
+    hash1 = { :username => "lexman34", :repo => "EA_Repo1" }
+    hash2 = { :username => "shilpasequeira", :repo => "EA_Repo2"}
+    
+    username_repos = []
+    username_repos.push(hash1)
+    username_repos.push(hash2)
 
-    # Simulate publishing a course:
-    # repoName = "EATest"
-    # orgName = "CPEN-221"
-    # accessToken = session[:access_token]
-    # collaborator = "Lexman34"
-
-    # Setup
-    # CreateTeam.perform("EATest", orgName, accessToken)
-
-    # Create a repo
-    # CreateRepo.perform(repoName,orgName,accessToken)
-    # addCollaborator.perform(repoName,collaborator,accessToken)
+    PublishCourse.perform(session[:access_token], "CPEN-221", username_repos)
 
     redirect_to dashboard_url
   end
