@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
     username_repos.push(hash1)
     username_repos.push(hash2)
 
-    PublishCourse.perform(session[:access_token], "CPEN-221", username_repos)
+    PublishCourse.perform(session[:access_token], "CPEN-221", username_repos, "EA_Skeleton", "EA_Tests", "EA_Team")
 
     redirect_to dashboard_url
   end

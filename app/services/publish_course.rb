@@ -1,7 +1,11 @@
 class PublishCourse < ComposableOperations::Operation
   processes :access_token,
             :org_name,
-            :username_repos
+            :username_repos,
+            :skeleton_repo,
+            :tests_repo,
+            :team_name
+
             # username_repos should look like this:
                 # hash1 = { :username => "lexman34", :repo => "EA_Repo1" }
                 # hash2 = { :username => "shilpasequeira", :repo => "EA_Repo2"}
@@ -9,10 +13,6 @@ class PublishCourse < ComposableOperations::Operation
                 # username_repos = []
                 # username_repos.push(hash1)
                 # username_repos.push(hash2)
-
-  property :skeleton_repo, default: "EA_Skeleton"
-  property :tests_repo, default: "EA_Tests"
-  property :team_name, default: "EA_Team"
 
   def execute
 
