@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :invites
 
   resources :courses do
-    resources :teams, shallow: true
+    resources :teams
     resources :assignments, shallow: true
   end
 
