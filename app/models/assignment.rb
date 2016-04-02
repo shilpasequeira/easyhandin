@@ -7,6 +7,41 @@ class Assignment < ActiveRecord::Base
 
   after_create :create_submissions
 
+  enum moss_result: [ :finished, :error, :in_progress ]
+
+  def run_tests(submissions)
+    submissions.each do |submission|
+      submission.test
+    end
+  end
+
+  def run_moss(submissions)
+    submission_repo_sha = []
+
+    submissions.each do |submission|
+      submission_repo_sha.push({repo: submission.repository, sha: submission.commit_sha})
+    end
+
+    self.submission_repo_sha = submission_repo_sha.to_json
+    self.save!
+
+    response = CreateMossBuild.perform(Rails.application.routes.url_helpers.submission_repo_sha_url(self))
+    self.bk_moss_build_id =  response["number"]
+    self.bk_moss_job_id = response["jobs"][0]["id"]
+    self.moss_output = nil
+    self.moss_result = "in_progress"
+    self.save!
+  end
+
+  def update_moss_output
+    if self.bk_moss_build_id.present? && self.bk_moss_job_id.present? && self.moss_output.nil?
+      response = MossBuildJobParser.perform(self.bk_moss_build_id, self.bk_moss_job_id)
+      self.moss_result = response["status"]
+      self.moss_output = response["content"]
+      self.save!
+    end
+  end
+
   protected
 
   def create_submissions

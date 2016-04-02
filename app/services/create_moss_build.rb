@@ -1,4 +1,5 @@
 class CreateMossBuild < ComposableOperations::Operation
+  processes :submission_url
   property :message
 
   def execute
@@ -7,7 +8,10 @@ class CreateMossBuild < ComposableOperations::Operation
       response = client.create_build('easy-handin', 'moss-plagiarism-check', '{
         "commit": "HEAD",
         "branch": "master",
-        "message": "Running moss build"
+        "message": "Running moss build",
+        "env": {
+          "SUBMISSION_URL": "' + submission_url + '"
+        }
       }')
       response
     rescue => e

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160312231353) do
+ActiveRecord::Schema.define(version: 20160330205511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(version: 20160312231353) do
     t.string   "bk_moss_job_id"
     t.text     "moss_output"
     t.integer  "course_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.jsonb    "submission_repo_sha"
+    t.integer  "moss_result"
   end
 
   add_index "assignments", ["course_id"], name: "index_assignments_on_course_id", using: :btree
