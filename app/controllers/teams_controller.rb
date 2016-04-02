@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_course, only: [:new, :index, :create]
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_is_instructor, only: [:new, :create, :update, :destroy]
+  before_action :set_course
+  before_action :set_team
 
   # GET /teams
   # GET /teams.json
@@ -29,16 +29,18 @@ class TeamsController < ApplicationController
     else
       notice = 'Team @team.name could not be updated.'
     end
-    redirect_to(course_path(team_params[:course_id]), :notice => notice)
+    redirect_to(course_path(@course), :notice => notice)
   end
 
   # DELETE /teams/1
   # DELETE /teams/1.json
   def destroy
-    course_id = @team.course_id
     @team.destroy
-    notice = 'Team was successfully destroyed.'
-    redirect_to(course_path(course_id), :notice => notice)
+    respond_to do |format|
+      notice = 'Team was successfully destroyed.'
+      format.html { redirect_to course_path(@course), notice: 'Team was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private

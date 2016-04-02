@@ -34,7 +34,7 @@
           <% end %>
         </span>
         <span class="box-btn" data-widget="delete">
-          <%= link_to team, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <%= link_to course_team_path(@course, team), method: :delete, data: { confirm: 'Are you sure?' } do %>
             <i class="fontello-trash-2" title="delete"></i>
           <% end %>
         </span>
@@ -56,14 +56,14 @@
 <!-- box -->
 
 <div id="add_team" class="reveal-modal" data-reveal>
-  <%= render partial: 'teams/form', locals: {team: @course.teams.new, course: @course, role: :instructor, url: course_teams_path(@course)} %>
+  <%= render partial: 'teams/form', locals: {team: @course.teams.new} %>
   <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
 </div>
 
 
 <% @course.teams.each do |team| %>
   <div id="edit_team_<%= team.id %>" class="reveal-modal" data-reveal>
-    <%= render partial: 'teams/form', locals: {team: team, role: :instructor, url: team_path}  %>
+    <%= render partial: 'teams/form', locals: {team: team}  %>
     <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
   </div>
 
