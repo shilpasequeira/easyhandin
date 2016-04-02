@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'
   patch '/assignments/:id/process_submissions', to: 'assignments#process_submissions', as: 'process_submissions'
   get '/assignments/:id/submission_repo_sha', to: 'assignments#submission_repo_sha', as: 'submission_repo_sha'
-  get '/courses/:id/create_student_repos', to: 'courses#create_student_repos', as: 'create_student_repos'
+  get '/courses/:id/publish', to: 'courses#publish', as: 'publish'
+  get '/courses/:id/students', to: 'courses#students', as: 'students'
+  get '/courses/:id/instructors', to: 'courses#instructors', as: 'instructors'
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]

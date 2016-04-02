@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
   end
 
   def complete_invitation(invite)
+    invite.is_accepted = true
+    invite.save!
+
+    self.name = invite.name if invite.name.present?
     self.university_id = invite.university_id if invite.university_id.present?
 
     if self.instructor? && !self.teach_courses.include?(invite.course)

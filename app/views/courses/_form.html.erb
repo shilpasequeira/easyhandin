@@ -11,27 +11,10 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :slug %><br>
-    <%= f.text_field :slug %>
-  </div>
-  <div class="field">
-    <%= f.label :is_published %><br>
-    <%= f.check_box :is_published %>
-  </div>
-  <div class="field">
-    <%= f.label :test_repository %><br>
-    <%= f.text_field :test_repository %>
-  </div>
-  <div class="field">
-    <%= f.label :skeleton_repository %><br>
-    <%= f.text_field :skeleton_repository %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.label :slug do %>Organisation
+    <%= f.select(:slug, ['org_1', 'org_2'], {disabled: @course.is_published?}) %>
+  <% end %>
+  <%= f.submit "Save", class: "button tiny" %>
 <% end %>

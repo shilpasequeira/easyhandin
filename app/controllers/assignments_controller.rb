@@ -1,4 +1,5 @@
 class AssignmentsController < ApplicationController
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_course, only: [:new, :index, :create]
   before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions, :submission_repo_sha]
   before_action :set_submissions, only: [:process_submissions]

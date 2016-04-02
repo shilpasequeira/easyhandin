@@ -1,4 +1,6 @@
 Welcome to Course <%= @invite.course.name %>!
+
+Hi <%= @invite.name %>,
 <%= @invite.sender.name %> has added you as <%= indefinite_articlerize(@invite.user_role) %> for the course <%= @invite.course.name %>.
 
 Please click the link below to accept the invitation:

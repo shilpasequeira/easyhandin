@@ -1,4 +1,5 @@
 class TeamsController < ApplicationController
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_course, only: [:new, :index, :create]
   before_action :set_team, only: [:show, :edit, :update, :destroy]
 
@@ -63,17 +64,18 @@ class TeamsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_team
-      @team = Team.find(params[:id])
-    end
 
-    def set_course
-      @course = Course.find(params[:course_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_team
+    @team = Team.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def team_params
-      params.require(:team).permit(:name, :slug, :repository, :course_id)
-    end
+  def set_course
+    @course = Course.find(params[:course_id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def team_params
+    params.require(:team).permit(:name, :slug, :repository, :course_id)
+  end
 end
