@@ -27,29 +27,22 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(course_params)
     @course.instructors.push(current_user)
-
-    respond_to do |format|
-      if @course.save
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
-        format.json { render :show, status: :created, location: @course }
-      else
-        format.html { render :new }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
+    if @course.save
+      flash[:notice] = 'Course was successfully created.'
+      redirect_to @course
+    else
+      render 'new'
     end
   end
 
   # PATCH/PUT /courses/1
   # PATCH/PUT /courses/1.json
   def update
-    respond_to do |format|
-      if @course.update(course_params)
-        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
-        format.json { render :show, status: :ok, location: @course }
-      else
-        format.html { render :edit }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
+    if @course.update(course_params)
+      flash[:notice] = 'Course was successfully updated.'
+      redirect_to @course
+    else
+      render 'edit'
     end
   end
 
@@ -57,10 +50,8 @@ class CoursesController < ApplicationController
   # DELETE /courses/1.json
   def destroy
     @course.destroy
-    respond_to do |format|
-      format.html { redirect_to courses_url, notice: 'Course was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:notice] = 'Course was successfully destroyed.'
+    redirect_to courses_url
   end
 
   def publish

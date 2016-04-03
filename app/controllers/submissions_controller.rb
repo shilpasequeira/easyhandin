@@ -6,29 +6,22 @@ class SubmissionsController < ApplicationController
   # POST /submissions.json
   def create
     @submission = Submission.new(submission_params)
-
-    respond_to do |format|
-      if @submission.save
-        format.html { redirect_to @submission, notice: 'Submission was successfully created.' }
-        format.json { render :show, status: :created, location: @submission }
-      else
-        format.html { render :new }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
-      end
+    if @submission.save
+      flash[:notice] = "Submission was successfully created."
+      redirect_to @submission
+    else
+      render 'new'
     end
   end
 
   # PATCH/PUT /submissions/1
   # PATCH/PUT /submissions/1.json
   def update
-    respond_to do |format|
-      if @submission.update(submission_params)
-        format.html { redirect_to assignment_path(@submission.assignment), notice: 'Submission was successfully updated.' }
-        format.json { render :show, status: :ok, location: @submission }
-      else
-        format.html { render :edit }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
-      end
+    if @submission.update(submission_params)
+      flash[:notice] = "Submission was successfully updated."
+      redirect_to assignment_path(@submission.assignment)
+    else
+      render 'edit'
     end
   end
 
@@ -36,10 +29,8 @@ class SubmissionsController < ApplicationController
   # DELETE /submissions/1.json
   def destroy
     @submission.destroy
-    respond_to do |format|
-      format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:notice] = "Submission was successfully destroyed."
+    redirect_to submissions_url
   end
 
   def test
