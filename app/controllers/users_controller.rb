@@ -29,6 +29,7 @@ class UsersController < ApplicationController
       flash[:notice] = "User was successfully created."
       redirect_to @user
     else
+      flash[:error] = "User could not be created."
       render 'new'
     end
   end
@@ -40,6 +41,7 @@ class UsersController < ApplicationController
       flash[:notice] = "User was successfully updated."
       redirect_to @user
     else
+      flash[:error] = "User could not be updated."
       render 'edit'
     end
   end

@@ -7,7 +7,7 @@ class InvitesController < ApplicationController
     else
       if @invite = Invite.find_by(course_id: invite_params[:course_id], sender_id: current_user.id, email: invite_params[:email])
         InviteMailer.existing_user_invite(@invite).deliver_now
-        flash.notice = "Invitation to join as #{@invite.user_role} was resent to #{@invite.email}."
+        flash[:notice] = "Invitation to join as #{@invite.user_role} was resent to #{@invite.email}."
       else
         @invite = Invite.new(invite_params)
         @invite.sender_id = current_user.id

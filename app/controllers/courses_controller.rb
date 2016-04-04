@@ -28,9 +28,10 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.instructors.push(current_user)
     if @course.save
-      flash[:notice] = 'Course was successfully created.'
+      flash[:notice] = "Course was successfully created."
       redirect_to @course
     else
+      flash[:error] = "Course could not be created."
       render 'new'
     end
   end
@@ -39,9 +40,10 @@ class CoursesController < ApplicationController
   # PATCH/PUT /courses/1.json
   def update
     if @course.update(course_params)
-      flash[:notice] = 'Course was successfully updated.'
+      flash[:notice] = "Course was successfully updated."
       redirect_to @course
     else
+      flash[:error] = "Course could not be updated."
       render 'edit'
     end
   end
@@ -50,7 +52,7 @@ class CoursesController < ApplicationController
   # DELETE /courses/1.json
   def destroy
     @course.destroy
-    flash[:notice] = 'Course was successfully destroyed.'
+    flash[:notice] = "Course was successfully destroyed."
     redirect_to courses_url
   end
 

@@ -10,6 +10,7 @@ class SubmissionsController < ApplicationController
       flash[:notice] = "Submission was successfully created."
       redirect_to @submission
     else
+      flash[:error] = "Submission could not be created."
       render 'new'
     end
   end
@@ -21,6 +22,7 @@ class SubmissionsController < ApplicationController
       flash[:notice] = "Submission was successfully updated."
       redirect_to assignment_path(@submission.assignment)
     else
+      flash[:error] = "Submission could not be updated."
       render 'edit'
     end
   end

@@ -18,7 +18,7 @@ class TeamsController < ApplicationController
     else
       flash[:error] = "Team @team.name could not be saved."
     end
-    redirect_to(course_path(@course.id), :flash => flash)
+    redirect_to course_path(@course)
   end
 
   # PATCH/PUT /teams/1
@@ -29,14 +29,14 @@ class TeamsController < ApplicationController
     else
       flash[:error] = "Team @team.name could not be updated."
     end
-    redirect_to(course_path(@course), :flash => flash)
+    redirect_to course_path(@course)
   end
 
   # DELETE /teams/1
   # DELETE /teams/1.json
   def destroy
     @team.destroy
-    flash[:notice]: "Team was successfully destroyed."
+    flash[:notice] = "Team was successfully destroyed."
     redirect_to course_path(@course)
   end
 
