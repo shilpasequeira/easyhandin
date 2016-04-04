@@ -43,9 +43,9 @@
             <strong><%= course.name %></strong>
             <% end %>
           </h5>
-          <h6><i class="fontello-github"></i><%= course.slug %></h6>
-          <h6><i class="fontello-doc-1"></i><%= course.assignments.count %> Assignments</h6>
-          <h6><i class="fontello-user"></i><%= course.students.count %> Students</h6>
+          <h6><i class="fontello-github"></i> <%= course.slug %></h6>
+          <h6><i class="fontello-doc-1"></i> <%= pluralize(course.assignments.count, "Assignment") %></h6>
+          <h6><i class="fontello-user"></i> <%= pluralize(course.students.count, "Student") %></h6>
           <hr>
           <% end %>
         </div>
