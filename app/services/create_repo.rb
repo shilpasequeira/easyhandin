@@ -11,15 +11,15 @@ class CreateRepo < ComposableOperations::Operation
   def execute
 
     # Does the repo already exist?
-    repos = Array.new
-    repos += client.organization_repositories(org_name)
-    last_response = client.last_response
-    until last_response.rels[:next].nil?
-      last_response = last_response.rels[:next].get
-      repos += last_response.data
-    end
-
+    repos = client.organization_repositories(org_name)
     targetRepo = repos.select {|repo| repo["name"] == repo_name }
+    last_response = client.last_response
+
+    until (last_response.rels[:next].nil? or targetRepo.count>0)
+      last_response = last_response.rels[:next].get
+      repos = last_response.data
+      targetRepo = repos.select {|repo| repo["name"] == repo_name }
+    end
 
     # Return existing repo
     if (targetRepo.count > 0)
