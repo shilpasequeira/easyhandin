@@ -1,0 +1,136 @@
+<% if flash[:info] %>
+<!-- alert info -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box bg-aqua">
+      <div class="box-header bg-aqua ">
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn" data-widget="remove">
+            <i class="icon-cross"></i>
+          </span>
+        </div>
+        <h3 class="box-title "><i class="text-white fontello-attention-filled"></i>
+          <span class="text-white">INFO</span>
+        </h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <p class="bg-aqua"><%= flash[:notice] %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of alert info -->
+<% end %>
+<% if flash[:notice] %>
+<!-- alert success -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box bg-light-green">
+      <div class="box-header bg-light-green ">
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn" data-widget="remove">
+            <i class="icon-cross"></i>
+          </span>
+        </div>
+        <h3 class="box-title "><i class="text-white  icon-thumbs-up"></i>
+          <span class="text-white">SUCCESS</span>
+        </h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <p class="text-white"><%= notice %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of success info -->
+<% end %>
+<% if flash[:warning] %>
+<!-- alert warning -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box bg-yellow">
+      <div class="box-header bg-yellow">
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn" data-widget="remove">
+            <i class="icon-cross"></i>
+          </span>
+        </div>
+        <h3 class="box-title "><i class="text-white fontello-warning"></i>
+          <span class="text-white">WARNING</span>
+        </h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <p class="text-white"><%= notice %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of alert warning -->
+<% end %>
+<% if flash[:error] %>
+<!-- alert error -->
+<div class="row">
+  <div class="large-12 columns">
+    <div class="box bg-red">
+      <div class="box-header bg-red">
+        <!-- tools box -->
+        <div class="pull-right box-tools">
+          <span class="box-btn" data-widget="remove">
+            <i class="icon-cross"></i>
+          </span>
+        </div>
+        <h3 class="box-title "><i class="text-white fontello-cancel-circled"></i>
+          <span class="text-white">ERROR</span>
+        </h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body " style="display: block;">
+        <p class="text-white"><%= notice %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of alert error -->
+<% end %>
+
+<script type="text/javascript">
+    (function() {
+        (function($) {
+            "use strict";
+            $('.default').click(function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                return $.growl({
+                    message: ""
+                });
+            });
+            $('.error').click(function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                return $.growl.error({
+                    message: ""
+                });
+            });
+            $('.notice').click(function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                return $.growl.notice({
+                    message: ""
+                });
+            });
+            return $('.warning').click(function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                return $.growl.warning({
+                    message: ""
+                });
+            });
+        });
+    })(jQuery);
+</script>

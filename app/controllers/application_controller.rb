@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless current_user
-      flash[:danger] = "Please log in."
+      flash[:warning] = "Please log in."
       redirect_to root_url
     end
   end
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   def check_user_is_instructor
     unless current_user.instructor?
-      flash[:danger] = "You do not have permissions to access this page."
+      flash[:warning] = "You do not have permissions to access this page."
       redirect_to root_url
     end
   end

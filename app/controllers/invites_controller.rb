@@ -3,11 +3,11 @@ class InvitesController < ApplicationController
 
   def create
     if !current_user.teach_courses.include?(Course.find(invite_params[:course_id]))
-      notice = "You don't have permissions to do that!!"
+      flash[:warning] = "You don't have permissions to do that!!"
     else
       if @invite = Invite.find_by(course_id: invite_params[:course_id], sender_id: current_user.id, email: invite_params[:email])
         InviteMailer.existing_user_invite(@invite).deliver_now
-        notice = "Invitation to join as #{@invite.user_role} was resent to #{@invite.email}."
+        flash[:notice] = "Invitation to join as #{@invite.user_role} was resent to #{@invite.email}."
       else
         @invite = Invite.new(invite_params)
         @invite.sender_id = current_user.id
@@ -20,17 +20,17 @@ class InvitesController < ApplicationController
             InviteMailer.new_user_invite(@invite, signin_link(role: @invite.user_role, invite_token: @invite.token)).deliver_now
           end
 
-          notice = "#{@invite.email} was successfully invited as a #{@invite.user_role}."
+          flash[:notice] = "#{@invite.email} was successfully invited as a #{@invite.user_role}."
         else
-          notice = "Could not send an invite to #{@invite.email}"
+          flash[:error] = "Could not send an invite to #{@invite.email}"
         end
       end
     end
 
     if invite_params[:user_role] == "student"
-      redirect_to(students_path(invite_params[:course_id]), :notice => notice)
+      redirect_to students_path(invite_params[:course_id])
     elsif invite_params[:user_role] == "instructor"
-      redirect_to(instructors_path(invite_params[:course_id]), :notice => notice)
+      redirect_to instructors_path(invite_params[:course_id])
     end
   end
 

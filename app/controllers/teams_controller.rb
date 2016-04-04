@@ -14,33 +14,30 @@ class TeamsController < ApplicationController
   def create
     @team = @course.teams.new(team_params)
     if @team.save
-      notice = 'Team was successfully created.'
+      flash[:notice] = "Team was successfully created."
     else
-      notice = 'Team @team.name could not be saved.'
+      flash[:error] = "Team @team.name could not be saved."
     end
-    redirect_to(course_path(@course.id), :notice => notice)
+    redirect_to course_path(@course)
   end
 
   # PATCH/PUT /teams/1
   # PATCH/PUT /teams/1.json
   def update
     if @team.update(team_params)
-      notice = 'Team was successfully updated.'
+      flash[:notice] = "Team was successfully updated."
     else
-      notice = 'Team @team.name could not be updated.'
+      flash[:error] = "Team @team.name could not be updated."
     end
-    redirect_to(course_path(@course), :notice => notice)
+    redirect_to course_path(@course)
   end
 
   # DELETE /teams/1
   # DELETE /teams/1.json
   def destroy
     @team.destroy
-    respond_to do |format|
-      notice = 'Team was successfully destroyed.'
-      format.html { redirect_to course_path(@course), notice: 'Team was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:notice] = "Team was successfully destroyed."
+    redirect_to course_path(@course)
   end
 
   private
