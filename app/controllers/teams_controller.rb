@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :update, :destroy]
+  before_action :check_user_is_instructor, only: [:create, :update, :destroy]
   before_action :set_course
-  before_action :set_team
+  before_action :set_team, only: [:update, :destroy]
 
   # GET /teams
   # GET /teams.json

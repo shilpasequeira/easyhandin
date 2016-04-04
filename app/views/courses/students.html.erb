@@ -37,6 +37,7 @@
             <h5><%= user.name %></h5>
             <h6><i class=" fontello-mail"></i> <%= user.email %></h6>
             <h6><i class=" fontello-github"></i> <%= user.username %></h6>
+            <h6><i class=" fontello-flow-split"></i> <%= @course.course_students.find_by(user: user).student_repository %></h6>
             <h6><i class=" fontello-vcard"></i> <%= user.university_id %></h6>
             <hr>
           <% end %>

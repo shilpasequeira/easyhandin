@@ -49,7 +49,7 @@
           <% if @course.test_repository.present? %>
             <div class="row">
               <div class="large-2 columns">
-                <h6>Test respository name:</h6>
+                <h6>Tests respository:</h6>
               </div>
               <div class="large-10 columns">
                 <h6><i class=" fontello-cog-1"></i> <%= @course.test_repository %></h6>
@@ -59,7 +59,7 @@
           <% if @course.skeleton_repository.present? %>
             <div class="row">
               <div class="large-2 columns">
-                <h6>Skeleton respository name:</h6>
+                <h6>Skeleton respository:</h6>
               </div>
               <div class="large-10 columns">
                 <h6><i class=" fontello-cog-1"></i> <%= @course.skeleton_repository %></h6>
@@ -73,7 +73,9 @@
             <%= link_to "View students", students_path(@course), class: "button tiny" %>
             <span class="spacer"></span>
             <%= link_to "View instructors", instructors_path(@course), class: "button tiny" %>
-            <%= link_to "Publish", publish_path(@course), class: "button tiny right", remote: true, data: { confirm: 'Are you sure?' } %>
+            <% if !@course.is_published %>
+              <%= link_to "Publish", publish_path(@course), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
+            <% end %>
           </div>
         </div>
       </div>
