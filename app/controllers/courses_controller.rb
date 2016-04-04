@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :create_student_repos, :students, :instructors]
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :create_student_repos, :students, :instructors]
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :publish, :students, :instructors]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :publish, :students, :instructors]
 
   # GET /courses
   # GET /courses.json
@@ -57,13 +57,11 @@ class CoursesController < ApplicationController
   end
 
   def publish
-    @course.students.each do |student|
-      if response = CreateRepo.perform("#{@course.slug}_#{student.name}", @course.slug, session[:access_token])
-        @course.course_students.find_by(user: student).update(student_repository: response["git_url"])
-        response = AddCollaborator.perform(response["full_name"], student.username, session[:access_token])
-      else
-        flash[:error] = "Could not create repository for #{student.name}."
-      end
+    begin
+      @course.publish(session[:access_token])
+      flash[:notice] = "Course was published successfully!"
+    rescue => e
+      flash[:error] = "Could not publish course. #{e.message}"
     end
 
     redirect_to action: :show
