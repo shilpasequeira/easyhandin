@@ -19,7 +19,7 @@
       <div class="box-body " style="display: block;">
         <div class="school-timetable">
           <hr>
-          <% @courses.each do |course| %>
+          <% current_user.courses.each do |course| %>
           <!-- tools box -->
           <div class="pull-right box-tools">
             <span class="box-btn" data-widget="show">

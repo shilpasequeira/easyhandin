@@ -60,4 +60,12 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def courses
+    if self.role == "instructor"
+      self.teach_courses
+    else
+      self.enrolled_courses
+    end
+  end
 end
