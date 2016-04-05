@@ -76,3 +76,6 @@ gem 'foundation-rails',  '=5.4.3.1'
 
 # Use Octokit for github integration
 gem "octokit", "~> 4.0"
+
+# Use Faraday middleware http cache for Ocktokit
+gem 'faraday-http-cache'

@@ -31,38 +31,85 @@
         <div class="school-timetable">
           <hr>
           <div class="row">
-            <div class="large-2 columns">
-              <h6>Created on:</h6>
-            </div>
-            <div class="large-10 columns">
-              <h6><i class=" fontello-clock"></i> <%= @course.created_at.strftime("%B %-d, %Y") %></h6>
-            </div>
+            <% if @course.new_record? %>
+              <div class="large-2 columns">
+                <h6>Created on:</h6>
+              </div>
+              <div class="large-10 columns">
+                <h6><i class=" fontello-clock"></i> <%= @course.created_at.strftime("%B %-d, %Y") %></h6>
+              </div>
+            <% else %>
+              <div class="large-2 columns">
+                <h6>Updated on:</h6>
+              </div>
+              <div class="large-10 columns">
+                <h6><i class=" fontello-clock"></i> <%= @course.updated_at.strftime("%B %-d, %Y") %></h6>
+              </div>
+            <% end %>
           </div>
           <div class="row">
             <div class="large-2 columns">
               <h6>Organisation: </h6>
             </div>
             <div class="large-10 columns">
-              <h6><i class=" fontello-github"></i> <%= @course.slug %></a></h6>
+              <h6><i class=" fontello-github"></i> <%= @course.org_name %></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Assignments: </h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><%= @course.assignments.count %></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Students: </h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><%= @course.students.count %></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Teams: </h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><%= @course.teams.count %></h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Instructors: </h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><%= @course.instructors.count %></h6>
             </div>
           </div>
           <% if @course.test_repository.present? %>
             <div class="row">
               <div class="large-2 columns">
-                <h6>Tests respository:</h6>
+                <h6>Tests Repository: </h6>
               </div>
               <div class="large-10 columns">
-                <h6><i class=" fontello-cog-1"></i> <%= @course.test_repository %></h6>
+                <h6>
+                  <i class=" fontello-flow-split"></i>
+                  <%= link_to html_url(@course.test_repository), html_url(@course.test_repository), target: "_blank" %>
+                </h6>
               </div>
             </div>
           <% end %>
           <% if @course.skeleton_repository.present? %>
             <div class="row">
               <div class="large-2 columns">
-                <h6>Skeleton respository:</h6>
+                <h6>Skeleton Repository: </h6>
               </div>
               <div class="large-10 columns">
-                <h6><i class=" fontello-cog-1"></i> <%= @course.skeleton_repository %></h6>
+                <h6>
+                  <i class=" fontello-flow-split"></i>
+                  <%= link_to html_url(@course.skeleton_repository), html_url(@course.skeleton_repository), target: "_blank" %>
+                </h6>
               </div>
             </div>
           <% end %>

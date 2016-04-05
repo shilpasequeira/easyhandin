@@ -35,5 +35,7 @@ module Easyhandin
         :request_specs => true
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
+
+    config.cache_store = :memory_store, { size: 64.megabytes }
   end
 end

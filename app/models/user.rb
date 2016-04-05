@@ -68,4 +68,10 @@ class User < ActiveRecord::Base
       self.enrolled_courses
     end
   end
+
+  def repository(course)
+    if self.student?
+      self.course_students.find_by(course: course).repository
+    end
+  end
 end

@@ -5,18 +5,14 @@ class Submission < ActiveRecord::Base
   enum test_result: [ :passed, :failed, :error, :in_progress ]
 
   def repository
-    if self.submitter_type == "Team"
-      self.submitter.repository
-    else
-      self.submitter.course_students.find_by(course: self.assignment.course).student_repository
-    end
+    self.submitter.repository["ssh_url"]
   end
 
   def test
     response = CreateTestBuild.perform(
       self.repository,
-      self.assignment.slug,
-      self.assignment.course.test_repository,
+      self.assignment.branch_name,
+      self.assignment.course.test_repository["ssh_url"],
       message: "Creating build for assignment #{self.assignment.course.name} - #{self.assignment.name} by #{self.submitter.name}"
     )
 

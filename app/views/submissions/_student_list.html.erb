@@ -1,75 +1,87 @@
-<table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
-  <thead>
-    <tr>
-      <th class="menu_items text-center">
-        <%= label_tag 'selectAll', 'Select All' %>
-        <%= check_box_tag "selectAll", "selectAll", false %>
-      </th>
-      <th>
-        Student Name
-      </th>
-      <th>
-        Student Number
-      </th>
-      <th>
-        Github Username
-      </th>
-      <th>
-        Test status
-      </th>
-      <th>
-        Grade
-      </th>
-      <th class="menu_items"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @assignment.submissions.each do |submission| %>
-      <tr>
-        <td class="text-center">
-          <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}" %>
-        </td>
-        <td>
-          <%= submission.submitter.name %>
-        </td>
-        <td>
-          <%= submission.submitter.university_id %>
-        </td>
-        <td>
-          <%= submission.submitter.username %>
-        </td>
-        <td id="test_result_<%= submission.id %>">
+<%= form_tag url_for(:action => :process_submissions, :id => @assignment.id), remote: true, id: "submissions_form" do %>
+  <span class="top-right">
+    <%= submit_tag 'Run Tests', name: 'run_tests', class: "button tiny" %><span class="spacer"></span>
+    <%= submit_tag 'Run MOSS', name: 'run_moss', class: "button tiny" %><span class="spacer"></span>
+    <%= submit_tag 'MOSS Output', name: 'moss_output', class: "button tiny" %>
+  </span>
+
+  <div class="box-body" style="display: block;">
+    <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
+      <thead>
+        <tr>
+          <th class="menu_items text-center">
+            <%= label_tag 'selectAll', 'Select All' %>
+            <%= check_box_tag "selectAll", "selectAll", false %>
+          </th>
+          <th>
+            Student Name
+          </th>
+          <th>
+            Student Number
+          </th>
+          <th>
+            Github Username
+          </th>
+          <th>
+            Test status
+          </th>
+          <th>
+            Grade
+          </th>
+          <th class="menu_items"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @assignment.submissions.each do |submission| %>
+          <tr>
+            <td class="text-center">
+              <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}" %>
+            </td>
+            <td>
+              <%= submission.submitter.name %>
+            </td>
+            <td>
+              <%= submission.submitter.university_id %>
+            </td>
+            <td>
+              <%= submission.submitter.username %>
+            </td>
+            <td id="test_result_<%= submission.id %>">
+              <% if submission.test_output.present? %>
+                <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
+              <% else %>
+                <%= submission.test_result.titleize %>
+              <% end %>
+            </td>
+            <td><%= submission.grade %></td>
+            <td>
+              <%= link_to "#", "data-reveal-id" => "edit_submission_#{submission.id}" do %>
+                <i class="fontello-pencil" title="Edit"></i>
+              <% end %>
+            </td>
+          </tr>
+
           <% if submission.test_output.present? %>
-            <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
-          <% else %>
-            <%= submission.test_result.titleize %>
+            <!-- Reveal Modals test output -->
+            <div id="test_output_<%= submission.id %>" class="reveal-modal" data-reveal>
+              <h4>Test Results</h4>
+              <p><pre><%= submission.test_output %></pre></p>
+              <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+            </div>
           <% end %>
-        </td>
-        <td><%= submission.grade %></td>
-        <td>
-          <%= link_to "#", "data-reveal-id" => "edit_submission_#{submission.id}" do %>
-            <i class="fontello-pencil" title="Edit"></i>
-          <% end %>
-        </td>
-      </tr>
 
-      <% if submission.test_output.present? %>
-        <!-- Reveal Modals test output -->
-        <div id="test_output_<%= submission.id %>" class="reveal-modal" data-reveal>
-          <h4>Test Results</h4>
-          <p><pre><%= submission.test_output %></pre></p>
-          <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-        </div>
-      <% end %>
+        <% end %>
+        <!-- end of submissions loop -->
+      </tbody>
+    </table>
+    <!-- end of submissions table -->
+  </div>
+<% end %>
 
-      <!-- Reveal Modals editSubmission -->
-      <div id="edit_submission_<%= submission.id %>" class="reveal-modal" data-reveal>
-        <%= render '/submissions/form', submission: submission %>
-        <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-      </div>
-
-    <% end %>
-    <!-- end of submissions loop -->
-  </tbody>
-</table>
-<!-- end of submissions table -->
+<% @assignment.submissions.each do |submission| %>
+  <!-- Reveal Modals editSubmission -->
+  <div id="edit_submission_<%= submission.id %>" class="reveal-modal" data-reveal>
+    <%= render '/submissions/form', submission: submission %>
+    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  </div>
+<% end %>

@@ -85,7 +85,7 @@
             <h6>Branch name</h6>
           </div>
           <div class="large-10 columns">
-            <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.slug %></a></h6>
+            <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.branch_name %></a></h6>
           </div>
         </div>
         <div class="row">
@@ -132,21 +132,11 @@
         </h3>
       </div>
       <!-- /.box-header -->
-      <div class="box-body" style="display: block;">
-        <%= form_tag url_for(:action => :process_submissions, :id => @assignment.id), remote: true, id: "submissions_form" do %>
-          <span class="top-right">
-            <%= submit_tag 'Run Tests', name: 'run_tests', class: "button tiny" %><span class="spacer"></span>
-            <%= submit_tag 'Run MOSS', name: 'run_moss', class: "button tiny" %><span class="spacer"></span>
-            <%= submit_tag 'MOSS Output', name: 'moss_output', class: "button tiny" %>
-          </span>
-
-          <% if @assignment.is_team_mode %>
-            <%= render 'submissions/team_list' %>
-          <% else %>
-            <%= render 'submissions/student_list' %>
-          <% end %>
-        <% end %>
-      </div>
+      <% if @assignment.is_team_mode %>
+        <%= render 'submissions/team_list' %>
+      <% else %>
+        <%= render 'submissions/student_list' %>
+      <% end %>
       <!-- end of submissions box body -->
     </div>
     <!-- end of submissions box -->

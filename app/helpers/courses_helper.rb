@@ -1,9 +1,13 @@
 module CoursesHelper
   def user_organizations
-    begin
-      GetOrganizations.perform(session[:access_token])
-    rescue => e
-      nil
-    end
+    GetOrganizations.perform
+  end
+
+  def html_url(repository)
+    repository["html_url"]
+  end
+
+  def ssh_url(repository)
+    repository["ssh_url"]
   end
 end

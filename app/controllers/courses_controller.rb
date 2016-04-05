@@ -57,12 +57,10 @@ class CoursesController < ApplicationController
   end
 
   def publish
-    begin
-      @course.publish(session[:access_token])
-      flash[:notice] = "Course was published successfully!"
-    rescue => e
-      flash[:error] = "Could not publish course. #{e.message}"
-    end
+    @course.create_test_skeleton_repos
+    @course.create_student_repos
+    @course.create_team_repos
+    flash[:notice] = "Course was published successfully!"
 
     redirect_to action: :show
   end
@@ -82,6 +80,6 @@ class CoursesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
-    params.require(:course).permit(:name, :slug, :is_published, :test_repository, :skeleton_repository)
+    params.require(:course).permit(:name, :org_name)
   end
 end

@@ -3,7 +3,7 @@
   <div class="large-12 columns">
     <div class="box">
       <div class="box-header bg-transparent">
-        <h3 class="box-title"><i class="fontello-wallet"></i>
+        <h3 class="box-title"><i class="entypo-folder"></i>
           <span>COURSES</span>
         </h3>
         <!-- tools box -->
@@ -43,7 +43,7 @@
             <strong><%= course.name %></strong>
             <% end %>
           </h5>
-          <h6><i class="fontello-github"></i> <%= course.slug %></h6>
+          <h6><i class="fontello-github"></i> <%= course.org_name %></h6>
           <h6><i class="fontello-doc-1"></i> <%= pluralize(course.assignments.count, "Assignment") %></h6>
           <h6><i class="fontello-user"></i> <%= pluralize(course.students.count, "Student") %></h6>
           <hr>

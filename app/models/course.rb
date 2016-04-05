@@ -11,7 +11,7 @@ class Course < ActiveRecord::Base
 
   has_many :teams, dependent: :destroy
 
-  validates :name, :slug, presence: true
+  validates :name, :org_name, presence: true
 
   validate :test_repository_cannot_be_nil_when_published
 
@@ -20,44 +20,65 @@ class Course < ActiveRecord::Base
   EASYHANDIN_TEAM_NAME = "easyhandin"
   EASYHANDIN_USERNAME = "easyhandin"
 
-  def publish(access_token)
-    return unless !self.is_published
+  def create_test_skeleton_repos
+    create_easyhandin_secret_team
 
-    client = Octokit::Client.new(:access_token => access_token)
+    skeleton_repo_info = CreateRepository.perform(self.org_name, SKELETON_REPO_NAME, self.easyhandin_team_id)
+    self.skeleton_repository = {ssh_url: skeleton_repo_info[:ssh_url], html_url: skeleton_repo_info[:html_url]}
 
-    self.easyhandin_team_id = CreateGithubTeam.perform(client, org_name, EASYHANDIN_TEAM_NAME, [EASYHANDIN_USERNAME])
-
-    skeleton_repo_info = CreateRepo.perform(client, org_name, SKELETON_REPO_NAME, self.easyhandin_team_id)
-    self.skeleton_repository = skeleton_repo_info[:ssh_url]
-
-    test_repo_info = CreateRepo.perform(client, org_name, TEST_REPO_NAME, self.easyhandin_team_id)
-    self.test_repository = test_repo_info[:ssh_url]
+    test_repo_info = CreateRepository.perform(self.org_name, TEST_REPO_NAME, self.easyhandin_team_id)
+    self.test_repository = {ssh_url: test_repo_info[:ssh_url], html_url: test_repo_info[:html_url]}
 
     self.instructors.each do |instructor|
-      AddCollaborator.perform(client, org_name, SKELETON_REPO_NAME, instructor.username)
-      AddCollaborator.perform(client, org_name, TEST_REPO_NAME, instructor.username)
+      AddCollaborator.perform(self.org_name, SKELETON_REPO_NAME, instructor.username)
+      AddCollaborator.perform(self.org_name, TEST_REPO_NAME, instructor.username)
     end
 
-    self.students.each do |student|
-      student_repo_info = CreateRepo.perform(client, org_name, student_repo_name(student), self.easyhandin_team_id)
-      self.course_students.find_by(user: student).update!(student_repository: student_repo_info[:ssh_url])
-      AddCollaborator.perform(client, org_name, student_repo_name(student), student.username)
-    end
-
-    self.teams.each do |team|
-      team_repo_info = CreateRepo.perform(client, org_name, team_repo_name(team), self.easyhandin_team_id)
-      team.update!(repository: team_repo_info[:ssh_url])
-      team.users.each do |student|
-        AddCollaborator.perform(client, org_name, team_repo_name(team), student.username)
-      end
-    end
-
-    self.is_published = true
     self.save!
   end
 
-  def org_name
-    self.slug
+  def create_student_repos
+    create_easyhandin_secret_team
+
+    self.course_students.where(repository: nil).each do |course_student|
+      student = course_student.user
+      student_repo_info = CreateRepository.perform(self.org_name, student_repo_name(student), self.easyhandin_team_id)
+
+      self.course_students.find_by(user: student).update!(
+        repository: {
+          ssh_url: student_repo_info[:ssh_url],
+          html_url: student_repo_info[:html_url]
+        }
+      )
+
+      AddCollaborator.perform(self.org_name, student_repo_name(student), student.username)
+    end
+  end
+
+  def create_team_repos
+    create_easyhandin_secret_team
+
+    self.teams.where(repository: nil).each do |team|
+      team_repo_info = CreateRepository.perform(self.org_name, team_repo_name(team), self.easyhandin_team_id)
+
+      team.update!(
+        repository: {
+          ssh_url: team_repo_info[:ssh_url],
+          html_url: team_repo_info[:html_url]
+        }
+      )
+
+      team.users.each do |student|
+        AddCollaborator.perform(self.org_name, team_repo_name(team), student.username)
+      end
+    end
+  end
+
+  def create_easyhandin_secret_team
+    if self.easyhandin_team_id.nil?
+      self.easyhandin_team_id = CreateOrgTeam.perform(self.org_name, EASYHANDIN_TEAM_NAME, [EASYHANDIN_USERNAME])
+      self.save!
+    end
   end
 
   def student_repo_name(student)
@@ -65,7 +86,7 @@ class Course < ActiveRecord::Base
   end
 
   def team_repo_name(team)
-    "#{Date.today.year}-#{team.slug}"
+    "#{Date.today.year}-#{team.name.parameterize}"
   end
 
   protected

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   helper_method :current_user, :current_uri, :path, :current_controller, :current_action, :indefinite_articlerize, :signin_link
-  before_action :require_login
+  before_action :require_login, :configure_octokit
 
   def index
   end
@@ -12,6 +12,12 @@ class ApplicationController < ActionController::Base
     unless current_user
       flash[:warning] = "Please log in."
       redirect_to root_url
+    end
+  end
+
+  def configure_octokit
+    Octokit.configure do |c|
+      c.access_token = session[:access_token]
     end
   end
 

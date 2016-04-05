@@ -13,8 +13,8 @@
 
   <%= f.label :name %>
   <%= f.text_field :name %>
-  <%= f.label :slug do %>Organization
-    <%= f.select(:slug, user_organizations, {disabled: @course.is_published?}) %>
+  <%= f.label :org_name do %>Organization
+    <%= f.select(:org_name, user_organizations, {disabled: @course.is_published?}) %>
   <% end %>
   <%= f.submit "Save", class: "button tiny" %>
 <% end %>
