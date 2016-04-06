@@ -47,10 +47,12 @@
               <%= submission.submitter.username %>
             </td>
             <td id="test_result_<%= submission.id %>">
-              <% if submission.test_output.present? %>
-                <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
-              <% else %>
-                <%= submission.test_result.titleize %>
+              <% if submission.test_result.present? %>
+                <% if submission.test_output.present? %>
+                  <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
+                <% else %>
+                  <%= submission.test_result.titleize %>
+                <% end %>
               <% end %>
             </td>
             <td><%= submission.grade %></td>

@@ -42,6 +42,18 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def skeleton_branch_url
+    if self.course.skeleton_repository.present?
+      self.course.skeleton_repository["html_url"] + "/tree/" + self.branch_name
+    end
+  end
+
+  def test_branch_url
+    if self.course.test_repository.present?
+      self.course.test_repository["html_url"] + "/tree/" + self.branch_name
+    end
+  end
+
   protected
 
   def create_submissions

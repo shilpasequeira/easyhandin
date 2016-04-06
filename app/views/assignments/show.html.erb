@@ -88,22 +88,32 @@
             <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.branch_name %></a></h6>
           </div>
         </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Instructor skeleton repository</h6>
+        <% if @assignment.skeleton_branch_url.present? %>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Skeleton code</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6>
+                <i class=" fontello-flow-split"></i>
+                <%= link_to @assignment.skeleton_branch_url, @assignment.skeleton_branch_url, target: "_blank" %>
+              </h6>
+            </div>
           </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-box"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.course.skeleton_repository %></a></h6>
+        <% end %>
+        <% if @assignment.skeleton_branch_url.present? %>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Tests</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6>
+                <i class=" fontello-flow-split"></i>
+                <%= link_to @assignment.test_branch_url, @assignment.test_branch_url, target: "_blank" %>
+              </h6>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Instructor test repository</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-check"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.course.test_repository %></a></h6>
-          </div>
-        </div>
+        <% end %>
         <div class="row">
           <div class="large-2 columns">
             <h6>Is published?</h6>

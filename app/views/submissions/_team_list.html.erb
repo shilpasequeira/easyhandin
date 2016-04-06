@@ -1,54 +1,67 @@
-<table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
-  <thead>
-    <tr>
-      <th class="menu_items text-center">
-        <%= label_tag 'selectAll', 'Select All' %>
-        <%= check_box_tag "selectAll", "selectAll", false %>
-      </th>
-      <th>
-        Team Name
-      </th>
-      <th>
-        Test status
-      </th>
-      <th>
-        Grade
-      </th>
-      <th class="menu_items"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @assignment.submissions.each do |submission| %>
-      <tr>
-        <td class="text-center">
-          <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}" %>
-        </td>
-        <td>
-          <%= submission.submitter.name %>
-        </td>
-        <td id="test_result_<%= submission.id %>">
-          <% if submission.test_output.present? %>
-            <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
-          <% else %>
-            <%= submission.test_result.titleize %>
-          <% end %>
-        </td>
-        <td><%= submission.grade %></td>
-        <td>
-          <%= link_to "#", "data-reveal-id" => "edit_submission_#{submission.id}" do %>
-            <i class="fontello-pencil" title="Edit"></i>
-          <% end %>
-          <%= link_to "#", "data-reveal-id" => "team_members_#{submission.id}" do %>
-            <i class="fontello-users" title="View team members"></i>
-          <% end %>
-        </td>
-      </tr>
+<%= form_tag url_for(:action => :process_submissions, :id => @assignment.id), remote: true, id: "submissions_form" do %>
+  <span class="top-right">
+    <%= submit_tag 'Run Tests', name: 'run_tests', class: "button tiny" %><span class="spacer"></span>
+    <%= submit_tag 'Run MOSS', name: 'run_moss', class: "button tiny" %><span class="spacer"></span>
+    <%= submit_tag 'MOSS Output', name: 'moss_output', class: "button tiny" %>
+  </span>
 
-    <% end %>
-    <!-- end of submissions loop -->
-  </tbody>
-</table>
-<!-- end of submissions table -->
+  <div class="box-body" style="display: block;">
+    <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
+      <thead>
+        <tr>
+          <th class="menu_items text-center">
+            <%= label_tag 'selectAll', 'Select All' %>
+            <%= check_box_tag "selectAll", "selectAll", false %>
+          </th>
+          <th>
+            Team Name
+          </th>
+          <th>
+            Test status
+          </th>
+          <th>
+            Grade
+          </th>
+          <th class="menu_items"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @assignment.submissions.each do |submission| %>
+          <tr>
+            <td class="text-center">
+              <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}" %>
+            </td>
+            <td>
+              <%= submission.submitter.name %>
+            </td>
+            <td id="test_result_<%= submission.id %>">
+              <% if submission.test_result.present? %>
+                <% if submission.test_output.present? %>
+                  <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
+                <% else %>
+                  <%= submission.test_result.titleize %>
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= submission.grade %></td>
+            <td>
+              <%= link_to "#", "data-reveal-id" => "edit_submission_#{submission.id}" do %>
+                <i class="fontello-pencil" title="Edit"></i>
+              <% end %>
+              <%= link_to "#", "data-reveal-id" => "team_members_#{submission.id}" do %>
+                <i class="fontello-users" title="View team members"></i>
+              <% end %>
+            </td>
+          </tr>
+
+        <% end %>
+        <!-- end of submissions loop -->
+      </tbody>
+    </table>
+    <!-- end of submissions table -->
+  </div>
+<% end %>
+
 <% @assignment.submissions.each do |submission| %>
 
   <!-- Reveal Modals testResult -->
