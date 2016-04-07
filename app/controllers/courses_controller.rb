@@ -57,10 +57,17 @@ class CoursesController < ApplicationController
   end
 
   def publish
-    @course.create_test_skeleton_repos
-    @course.create_student_repos
-    @course.create_team_repos
-    flash[:notice] = "Course was published successfully!"
+    begin
+      @course.create_test_skeleton_repos
+      @course.create_student_repos
+      @course.create_team_repos
+      flash[:notice] = "Course was published successfully!"
+    rescue => e
+      Rails.logger.error {
+        "Error when trying to create a publish course #{e.message} #{e.backtrace.join("\n")}"
+      }
+      flash[:error] = e.message
+    end
 
     redirect_to action: :show
   end

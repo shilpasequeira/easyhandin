@@ -14,7 +14,7 @@ class Submission < ActiveRecord::Base
 
   def test
     response = CreateTestBuild.perform(
-      self.repository,
+      self.repository["ssh_url"],
       self.assignment.branch_name,
       self.assignment.course.test_repository["ssh_url"],
       message: "Creating build for assignment #{self.assignment.course.name} - #{self.assignment.name} by #{self.submitter.name}"
