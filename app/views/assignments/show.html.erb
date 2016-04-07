@@ -85,25 +85,35 @@
             <h6>Branch name</h6>
           </div>
           <div class="large-10 columns">
-            <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.slug %></a></h6>
+            <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.branch_name %></a></h6>
           </div>
         </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Instructor skeleton repository</h6>
+        <% if @assignment.course.skeleton_repository.present? %>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Skeleton code</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6>
+                <i class=" fontello-flow-split"></i>
+                <%= link_to @assignment.branch_url(@assignment.course.skeleton_repository), @assignment.branch_url(@assignment.course.skeleton_repository), target: "_blank" %>
+              </h6>
+            </div>
           </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-box"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.course.skeleton_repository %></a></h6>
+        <% end %>
+        <% if @assignment.course.test_repository.present? %>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Tests</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6>
+                <i class=" fontello-flow-split"></i>
+                <%= link_to @assignment.branch_url(@assignment.course.test_repository), @assignment.branch_url(@assignment.course.test_repository), target: "_blank" %>
+              </h6>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Instructor test repository</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-check"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.course.test_repository %></a></h6>
-          </div>
-        </div>
+        <% end %>
         <div class="row">
           <div class="large-2 columns">
             <h6>Is published?</h6>
@@ -132,21 +142,11 @@
         </h3>
       </div>
       <!-- /.box-header -->
-      <div class="box-body" style="display: block;">
-        <%= form_tag url_for(:action => :process_submissions, :id => @assignment.id), remote: true, id: "submissions_form" do %>
-          <span class="top-right">
-            <%= submit_tag 'Run Tests', name: 'run_tests', class: "button tiny" %><span class="spacer"></span>
-            <%= submit_tag 'Run MOSS', name: 'run_moss', class: "button tiny" %><span class="spacer"></span>
-            <%= submit_tag 'MOSS Output', name: 'moss_output', class: "button tiny" %>
-          </span>
-
-          <% if @assignment.is_team_mode %>
-            <%= render 'submissions/team_list' %>
-          <% else %>
-            <%= render 'submissions/student_list' %>
-          <% end %>
-        <% end %>
-      </div>
+      <% if @assignment.is_team_mode %>
+        <%= render 'submissions/team_list' %>
+      <% else %>
+        <%= render 'submissions/student_list' %>
+      <% end %>
       <!-- end of submissions box body -->
     </div>
     <!-- end of submissions box -->

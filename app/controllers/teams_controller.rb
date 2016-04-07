@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :update, :destroy]
+  before_action :check_user_is_instructor, only: [:create, :update, :destroy]
   before_action :set_course
-  before_action :set_team
+  before_action :set_team, only: [:update, :destroy]
 
   # GET /teams
   # GET /teams.json
@@ -53,6 +53,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def team_params
-    params.require(:team).permit(:name, :slug, :repository, :course_id)
+    params.require(:team).permit(:name, :course_id)
   end
 end

@@ -36,15 +36,7 @@ class SubmissionsController < ApplicationController
   end
 
   def test
-    @submission = Submission.find(params[:id])
-    response = CreateTestBuild.perform(@submission.submitter.course_students.first.student_repository, 
-      @submission.assignment.slug, @submission.assignment.course.test_repository, 
-      message: "Creating build for assignment #{@submission.assignment.course.name} #{@submission.assignment.name}")
-
-    @submission.bk_test_build_id = response["number"]
-    @submission.bk_test_job_id = response["jobs"][0]["id"]
-
-    @submission.save!
+    @submission.test
 
     flash[:notice] = "Started test build"
     redirect_to "submissions/show"

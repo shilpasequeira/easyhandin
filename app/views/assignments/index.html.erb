@@ -39,7 +39,7 @@
               <strong><%= assignment.name %></strong>
             <% end %>
           </h5>
-          <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= assignment.slug %></a></h6>
+          <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= assignment.branch_name %></a></h6>
           <h6><i class=" fontello-tag"></i><span class="bg-green">
             <% if assignment.course_id? %>
               <%= Course.find_by(id: assignment.course_id).name %>

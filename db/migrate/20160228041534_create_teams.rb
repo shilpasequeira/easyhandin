@@ -2,8 +2,7 @@ class CreateTeams < ActiveRecord::Migration
   def change
     create_table :teams do |t|
       t.string :name
-      t.string :slug
-      t.string :repository
+      t.jsonb :repository
       t.belongs_to :course, index: true
 
       t.timestamps null: false

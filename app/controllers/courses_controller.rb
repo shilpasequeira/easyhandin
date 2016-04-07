@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :create_student_repos, :students, :instructors]
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :create_student_repos, :students, :instructors]
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :publish, :students, :instructors]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :publish, :students, :instructors]
 
   # GET /courses
   # GET /courses.json
@@ -57,13 +57,16 @@ class CoursesController < ApplicationController
   end
 
   def publish
-    @course.students.each do |student|
-      if response = CreateRepo.perform("#{@course.slug}_#{student.name}", @course.slug, session[:access_token])
-        @course.course_students.find_by(user: student).update(student_repository: response["git_url"])
-        response = AddCollaborator.perform(response["full_name"], student.username, session[:access_token])
-      else
-        flash[:error] = "Could not create repository for #{student.name}."
-      end
+    begin
+      @course.create_test_skeleton_repos
+      @course.create_student_repos
+      @course.create_team_repos
+      flash[:notice] = "Course was published successfully!"
+    rescue => e
+      Rails.logger.error {
+        "Error when trying to create a publish course #{e.message} #{e.backtrace.join("\n")}"
+      }
+      flash[:error] = e.message
     end
 
     redirect_to action: :show
@@ -84,6 +87,6 @@ class CoursesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
-    params.require(:course).permit(:name, :slug, :is_published, :test_repository, :skeleton_repository)
+    params.require(:course).permit(:name, :org_name)
   end
 end

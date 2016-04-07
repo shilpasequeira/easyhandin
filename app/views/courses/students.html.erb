@@ -19,11 +19,6 @@
             <!-- tools box -->
             <div class="pull-right box-tools">
               <span class="box-btn">
-                <%= link_to user do %>
-                  <i class="fontello-eye" title="show"></i>
-                <% end %>
-              </span>
-              <span class="box-btn">
                 <%= link_to edit_user_path(user) do %>
                   <i class="fontello-pencil" title="edit"></i>
                 <% end %>
@@ -38,6 +33,12 @@
             <h6><i class=" fontello-mail"></i> <%= user.email %></h6>
             <h6><i class=" fontello-github"></i> <%= user.username %></h6>
             <h6><i class=" fontello-vcard"></i> <%= user.university_id %></h6>
+            <% if user.repository(@course).present? %>
+              <h6>
+                <i class=" fontello-flow-split"></i>
+                <%= link_to html_url(user.repository(@course)), html_url(user.repository(@course)), target: "_blank" %>
+              </h6>
+            <% end %>
             <hr>
           <% end %>
         </div>

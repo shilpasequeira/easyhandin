@@ -17,6 +17,8 @@ class AssignmentsController < ApplicationController
     @assignment.submissions.each do |submission|
       submission.update_test_output
     end
+
+    @assignment.update_moss_output
   end
 
   # GET /assignments/new
@@ -62,14 +64,19 @@ class AssignmentsController < ApplicationController
   end
 
   def process_submissions
-    if params[:run_tests]
-      @assignment.run_tests(@submissions)
-      @response = "Started build to run tests."
-    elsif params[:run_moss]
-      @assignment.run_moss(@submissions)
-      @response = "Started build to run MOSS."
-    elsif params[:moss_output]
-      @assignment.update_moss_output
+    begin
+      if params[:run_tests]
+        @assignment.run_tests(@submissions)
+        flash[:notice] = "Started build to run tests."
+      elsif params[:run_moss]
+        @assignment.run_moss(@submissions)
+        flash[:notice] = "Started build to run MOSS."
+      end
+    rescue => e
+      Rails.logger.error {
+        "Error when trying to create a process submissions #{e.message} #{e.backtrace.join("\n")}"
+      }
+      flash[:error] = e.message
     end
 
     respond_to do |format|
@@ -100,6 +107,6 @@ class AssignmentsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def assignment_params
-    params.require(:assignment).permit(:name, :slug, :is_published, :deadline, :grace_period, :is_team_mode, :bk_moss_build_id, :bk_moss_job_id, :moss_output, :course_id)
+    params.require(:assignment).permit(:name, :branch_name, :is_published, :deadline, :grace_period, :is_team_mode, :bk_moss_build_id, :bk_moss_job_id, :moss_output, :course_id)
   end
 end

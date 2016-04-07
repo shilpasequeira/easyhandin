@@ -2,7 +2,7 @@ class Assignment < ActiveRecord::Base
   belongs_to :course
   has_many :submissions, dependent: :destroy
 
-  validates :name, :slug, :course_id, presence: true
+  validates :name, :branch_name, :course_id, presence: true
   validate :test_deadline_cannot_be_nil_when_published, :test_grace_period_cannot_be_before_deadline
 
   after_create :create_submissions
@@ -19,7 +19,7 @@ class Assignment < ActiveRecord::Base
     submission_repo_sha = []
 
     submissions.each do |submission|
-      submission_repo_sha.push({repo: submission.repository, sha: submission.commit_sha})
+      submission_repo_sha.push({repo: submission.repository["ssh_url"], sha: submission.commit_sha})
     end
 
     self.submission_repo_sha = submission_repo_sha.to_json
@@ -39,6 +39,12 @@ class Assignment < ActiveRecord::Base
       self.moss_result = response["status"]
       self.moss_output = response["content"]
       self.save!
+    end
+  end
+
+  def branch_url(repository)
+    if repository.present?
+      "#{repository["html_url"]}/tree/#{self.branch_name}"
     end
   end
 
