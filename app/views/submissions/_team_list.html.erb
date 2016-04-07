@@ -51,6 +51,9 @@
               <%= link_to "#", "data-reveal-id" => "team_members_#{submission.id}" do %>
                 <i class="fontello-users" title="View team members"></i>
               <% end %>
+              <%= link_to @assignment.branch_url(submission.repository), target: "_blank" do %>
+                <i class="fontello-github" title="View on Github"></i>
+              <% end %>
             </td>
           </tr>
 

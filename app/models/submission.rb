@@ -5,7 +5,11 @@ class Submission < ActiveRecord::Base
   enum test_result: [ :passed, :failed, :error, :in_progress ]
 
   def repository
-    self.submitter.repository["ssh_url"]
+    if self.assignment.is_team_mode
+      self.submitter.repository
+    else
+      self.submitter.repository(self.assignment.course)
+    end
   end
 
   def test

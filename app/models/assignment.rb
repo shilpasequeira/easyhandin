@@ -19,7 +19,7 @@ class Assignment < ActiveRecord::Base
     submission_repo_sha = []
 
     submissions.each do |submission|
-      submission_repo_sha.push({repo: submission.repository, sha: submission.commit_sha})
+      submission_repo_sha.push({repo: submission.repository["ssh_url"], sha: submission.commit_sha})
     end
 
     self.submission_repo_sha = submission_repo_sha.to_json
@@ -42,15 +42,9 @@ class Assignment < ActiveRecord::Base
     end
   end
 
-  def skeleton_branch_url
-    if self.course.skeleton_repository.present?
-      self.course.skeleton_repository["html_url"] + "/tree/" + self.branch_name
-    end
-  end
-
-  def test_branch_url
-    if self.course.test_repository.present?
-      self.course.test_repository["html_url"] + "/tree/" + self.branch_name
+  def branch_url(repository)
+    if repository.present?
+      "#{repository["html_url"]}/tree/#{self.branch_name}"
     end
   end
 
