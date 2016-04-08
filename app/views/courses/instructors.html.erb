@@ -24,7 +24,7 @@
                 <% end %>
               </span>
               <span class="box-btn">
-                <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <%= link_to course_path(@course, instructor_id: user.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
                   <i class="fontello-trash-2" title="delete"></i>
                 <% end %>
               </span>

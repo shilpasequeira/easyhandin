@@ -46,9 +46,21 @@ class CoursesController < ApplicationController
   # DELETE /courses/1
   # DELETE /courses/1.json
   def destroy
-    @course.destroy
-    flash[:notice] = "Course was successfully destroyed."
-    redirect_to courses_url
+    if params[:student_id]
+      student = User.find(params[:student_id])
+      @course.students.delete(student)
+      flash[:notice] = "#{student.name} was removed from the course."
+      redirect_to action: :students
+    elsif params[:instructor_id]
+      instructor = User.find(params[:student_id])
+      @course.instructors.delete(instructor)
+      flash[:notice] = "#{instructor.name} was removed from the course."
+      redirect_to action: :instructors
+    else
+      @course.destroy
+      flash[:notice] = "Course was successfully destroyed."
+      redirect_to courses_url
+    end
   end
 
   def publish

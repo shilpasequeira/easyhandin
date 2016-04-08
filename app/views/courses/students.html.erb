@@ -23,8 +23,8 @@
                   <i class="fontello-pencil" title="edit"></i>
                 <% end %>
               </span>
-              <span class="box-btn">
-                <%= link_to user, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <span class="box-btn" data-widget="delete">
+                <%= link_to course_path(@course, student_id: user.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
                   <i class="fontello-trash-2" title="delete"></i>
                 <% end %>
               </span>
@@ -71,6 +71,9 @@
             <h5><%= invite.name %></h5>
             <h6><i class=" fontello-mail"></i> <%= invite.email %></h6>
             <h6><i class=" fontello-vcard"></i> <%= invite.university_id %></h6>
+            <% if invite.team_number %>
+              <h6><i class=" fontello-users"></i> Team <%= invite.team_number %></h6>
+            <% end %>
             <hr>
           <% end %>
         </div>

@@ -2,10 +2,10 @@ class Course < ActiveRecord::Base
   has_many :assignments, dependent: :destroy
 
   has_many :course_instructors, dependent: :destroy
-  has_many :instructors, through: :course_instructors, source: :user
+  has_many :instructors, through: :course_instructors, source: :user, after_remove: :delete_invitations
 
   has_many :course_students, dependent: :destroy
-  has_many :students, through: :course_students, source: :user
+  has_many :students, through: :course_students, source: :user, after_remove: [:delete_invitations, :delete_from_team]
 
   has_many :invites, dependent: :destroy
 
@@ -94,6 +94,17 @@ class Course < ActiveRecord::Base
   def test_repository_cannot_be_nil_when_published
     if is_published.present? && test_repository.nil?
       errors.add(:test_repository, "can't be nil when course is published")
+    end
+  end
+
+  def delete_invitations(user)
+    self.invites.where(recipient: user).destroy_all
+  end
+
+  def delete_from_team(user)
+    course_teams_with_user = self.teams.select {|team| team.users.include?(user)}
+    course_teams_with_user.each do |team|
+      team.users.delete(user)
     end
   end
 end
