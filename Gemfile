@@ -79,3 +79,5 @@ gem "octokit", "~> 4.0"
 
 # Use Faraday middleware http cache for Ocktokit
 gem 'faraday-http-cache'
+
+gem 'rails_12factor', group: :production
