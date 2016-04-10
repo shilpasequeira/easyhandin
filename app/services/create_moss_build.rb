@@ -1,5 +1,5 @@
 class CreateMossBuild < ComposableOperations::Operation
-  processes :submission_url
+  processes :skeleton_repo, :branch_name, :language, :file_extension, :submission_url
   property :message
 
   def execute
@@ -9,6 +9,10 @@ class CreateMossBuild < ComposableOperations::Operation
       "branch": "master",
       "message": "Running moss build",
       "env": {
+        "SKELETON_REPO": "' + skeleton_repo + '",
+        "BRANCH_NAME": "' + branch_name + '",
+        "LANGUAGE": "' + language + '",
+        "FILE_EXTENSION": "' + file_extension + '",
         "SUBMISSION_URL": "' + submission_url + '"
       }
     }')

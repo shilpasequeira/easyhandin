@@ -31,7 +31,15 @@ class Assignment < ActiveRecord::Base
     self.submission_repo_sha = submission_repo_sha.to_json
     self.save!
 
-    response = CreateMossBuild.perform(Rails.application.routes.url_helpers.submission_repo_sha_url(self))
+    submission_url = Rails.application.routes.url_helpers.submission_repo_sha_url(self)
+    response = CreateMossBuild.perform(
+      self.course.skeleton_repository["ssh_url"],
+      self.branch_name,
+      self.language,
+      self.file_extension,
+      submission_url
+    )
+
     self.bk_moss_build_id =  response["number"]
     self.bk_moss_job_id = response["jobs"][0]["id"]
     self.moss_output = nil
