@@ -11,6 +11,7 @@ class CreateAssignments < ActiveRecord::Migration
       t.string :bk_moss_job_id
       t.integer :moss_result
       t.text :moss_output
+      t.integer :language
       t.jsonb :submission_repo_sha
       t.belongs_to :course, index: true
 

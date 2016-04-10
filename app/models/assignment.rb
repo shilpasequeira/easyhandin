@@ -2,12 +2,18 @@ class Assignment < ActiveRecord::Base
   belongs_to :course
   has_many :submissions, dependent: :destroy
 
-  validates :name, :branch_name, :course_id, presence: true
+  validates :name, :branch_name, :course_id, :language, presence: true
   validate :test_deadline_cannot_be_nil_when_published, :test_grace_period_cannot_be_before_deadline
 
   after_create :create_submissions
 
   enum moss_result: [ :finished, :error, :in_progress ]
+  enum language: [ :java ]
+
+  def file_extension
+    file_extensions = { java: "java" }
+    file_extensions[self.language.to_sym]
+  end
 
   def run_tests(submissions)
     submissions.each do |submission|
