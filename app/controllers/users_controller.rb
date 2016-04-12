@@ -30,6 +30,7 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       flash[:error] = "User could not be created."
+      @errors = @user.errors
       render 'new'
     end
   end
@@ -42,6 +43,7 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       flash[:error] = "User could not be updated."
+      @errors = @user.errors
       render 'edit'
     end
   end

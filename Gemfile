@@ -80,4 +80,8 @@ gem "octokit", "~> 4.0"
 # Use Faraday middleware http cache for Ocktokit
 gem 'faraday-http-cache'
 
+# Use this gem for loggin in heroku and asset handling
 gem 'rails_12factor', group: :production
+
+# Use delayed job for background job queueing
+gem 'delayed_job_active_record'

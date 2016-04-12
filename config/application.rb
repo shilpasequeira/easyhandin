@@ -37,5 +37,7 @@ module Easyhandin
     end
 
     config.cache_store = :memory_store, { size: 64.megabytes }
+
+    config.active_job.queue_adapter = :delayed_job
   end
 end

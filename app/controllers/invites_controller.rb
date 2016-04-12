@@ -23,6 +23,7 @@ class InvitesController < ApplicationController
           flash[:notice] = "#{@invite.email} was successfully invited as a #{@invite.user_role}."
         else
           flash[:error] = "Could not send an invite to #{@invite.email}"
+          @errors = @invite.errors
         end
       end
     end
