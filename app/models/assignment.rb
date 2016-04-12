@@ -3,9 +3,13 @@ class Assignment < ActiveRecord::Base
   has_many :submissions, dependent: :destroy
 
   validates :name, :branch_name, :course_id, :language, presence: true
-  validate :test_deadline_cannot_be_nil_when_published, :test_grace_period_cannot_be_before_deadline
+  validate :test_deadline_cannot_be_nil_when_published
+  validate :test_grace_period_cannot_be_before_deadline
+  validate :test_deadline_cannot_be_nil_if_grace_period_present
 
   after_create :create_submissions
+
+  after_save :update_commit_sha
 
   enum moss_result: [ :finished, :error, :in_progress ]
   enum language: [ :java ]
@@ -62,6 +66,20 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def update_commit_sha
+    if self.deadline_changed? || self.grace_period_changed?
+      GetCommitBeforeDeadlineJob.set(wait_until: self.final_deadline).perform_later(self)
+    end
+  end
+
+  def final_deadline
+    if self.grace_period.present?
+      self.grace_period
+    else
+      self.deadline
+    end
+  end
+
   protected
 
   def create_submissions
@@ -73,6 +91,12 @@ class Assignment < ActiveRecord::Base
       self.course.students.each do |student|
         self.submissions.create(submitter: student)
       end
+    end
+  end
+
+  def test_deadline_cannot_be_nil_if_grace_period_present
+    if grace_period.present? && deadline.nil?
+      errors.add(:deadline, "can't be blank if a grace period exists")
     end
   end
 

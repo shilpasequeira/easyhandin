@@ -32,6 +32,7 @@ class CoursesController < ApplicationController
       redirect_to @course
     else
       flash[:error] = "Course could not be created."
+      @errors = @course.errors
       render 'new'
     end
   end
@@ -44,6 +45,7 @@ class CoursesController < ApplicationController
       redirect_to @course
     else
       flash[:error] = "Course could not be updated."
+      @errors = @course.errors
       render 'edit'
     end
   end

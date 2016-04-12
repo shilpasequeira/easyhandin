@@ -16,7 +16,7 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
-        <p class="bg-aqua"><%= flash[:notice] %></p>
+        <p class="bg-aqua"><%= flash[:info] %></p>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
-        <p class="text-white"><%= notice %></p>
+        <p class="text-white"><%= flash[:notice] %></p>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
-        <p class="text-white"><%= notice %></p>
+        <p class="text-white"><%= flash[:warning] %></p>
       </div>
     </div>
   </div>
@@ -91,7 +91,14 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
-        <p class="text-white"><%= notice %></p>
+        <p class="text-white"><%= flash[:error] %></p>
+        <% if @errors.present? %>
+          <ul>
+            <% @errors.full_messages.each do |message| %>
+            <li class="text-white"><%= message %></li>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     </div>
   </div>

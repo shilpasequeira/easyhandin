@@ -11,6 +11,7 @@ class SubmissionsController < ApplicationController
       redirect_to @submission
     else
       flash[:error] = "Submission could not be created."
+      @errors = @submission.errors
       render 'new'
     end
   end
@@ -23,6 +24,7 @@ class SubmissionsController < ApplicationController
       redirect_to assignment_path(@submission.assignment)
     else
       flash[:error] = "Submission could not be updated."
+      @errors = @submission.errors
       render 'edit'
     end
   end
