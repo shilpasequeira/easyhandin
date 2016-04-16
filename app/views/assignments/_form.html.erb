@@ -3,19 +3,26 @@
     <div class="large-12 columns">
       <form>
         <div class="row">
-          <div class="large-4 columns">
+          <div class="large-6 columns">
             <%= f.label :name do %>Title <small>required</small>
               <%= f.text_field :name %>
             <% end %>
           </div>
-          <div class="large-4 columns">
+          <div class="large-6 columns">
+            <%= f.label :language do %>Programming Language <small>required</small>
+              <%= f.select(:language, Assignment.languages.keys.to_a) %>
+            <% end %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-6 columns">
             <%= f.label :branch_name do %>Branch Name <small>required</small>
               <%= f.text_field :branch_name %>
             <% end %>
           </div>
-          <div class="large-4 columns">
-            <%= f.label :language do %>Programming Language <small>required</small>
-              <%= f.select(:language, Assignment.languages.keys.to_a) %>
+          <div class="large-6 columns">
+            <%= f.label :skeleton_branch_name do %>Skeleton Branch Name
+              <%= f.select(:skeleton_branch_name, @course.skeleton_branch_names) %>
             <% end %>
           </div>
         </div>

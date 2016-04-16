@@ -3,6 +3,7 @@ class CoursesController < ApplicationController
 
   before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :publish, :students, :instructors]
   before_action :set_course, only: [:show, :edit, :update, :destroy, :publish, :students, :instructors, :import_students_csv]
+  before_action :check_publish_status, only: [:show, :students]
 
   # GET /courses
   # GET /courses.json
@@ -68,7 +69,9 @@ class CoursesController < ApplicationController
       @course.create_test_skeleton_repos
       @course.create_student_repos
       @course.create_team_repos
-      flash[:notice] = "Course was published successfully!"
+      @course.is_published = true
+      @course.save!
+      flash[:notice] = "Successfully created the Skeleton, Test, Student and Team repositories!"
     rescue => e
       Rails.logger.error {
         "Error when trying to create a publish course #{e.message} #{e.backtrace.join("\n")}"
@@ -118,9 +121,16 @@ class CoursesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_course
     @course = Course.includes(:students, :assignments).find(params[:id])
+  end
+
+  def check_publish_status
+    @course.update_is_published
+
+    unless @course.is_published?
+      flash[:warning] = "There are repositories yet to be created. Publish the course to create them."
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

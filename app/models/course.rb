@@ -89,10 +89,55 @@ class Course < ActiveRecord::Base
     "#{Date.today.year}-#{team.name.parameterize}"
   end
 
+  def skeleton_repo_name
+    SKELETON_REPO_NAME
+  end
+
+  def test_repo_name
+    TEST_REPO_NAME
+  end
+
+  def skeleton_branch_names
+    GetRepoBranches.perform(self.org_name, SKELETON_REPO_NAME)
+  end
+
+  def check_easyhandin_team_is_published
+    self.easyhandin_team_id.present?
+  end
+
+  def check_test_repository_is_published
+    self.test_repository.present?
+  end
+
+  def check_skeleton_repository_is_published
+    self.skeleton_repository.present?
+  end
+
+  def check_team_repositories_is_published
+    !self.teams.exists?(repository = nil)
+  end
+
+  def check_student_repositories_is_published
+    !self.course_students.exists?(repository = nil)
+  end
+
+  def update_is_published
+    if check_student_repositories_is_published &&
+       check_team_repositories_is_published &&
+       check_test_repository_is_published &&
+       check_skeleton_repository_is_published &&
+       check_easyhandin_team_is_published
+      self.is_published = true
+    else
+      self.is_published = false
+    end
+    self.save!
+  end
+
   protected
 
   def test_repository_cannot_be_nil_when_published
-    if is_published.present? && test_repository.nil?
+    if self.is_published? && test_repository.nil?
       errors.add(:test_repository, "can't be nil when course is published")
     end
   end

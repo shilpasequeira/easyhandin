@@ -134,6 +134,13 @@
         </div>
       </div>
         <hr />
+        <div class="row">
+          <div class="large-12 columns">
+            <% unless @assignment.is_published? %>
+              <%= link_to "Publish", publish_assignment_path(@assignment), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </div>
+        </div>
       </div>
       <!-- end .timeline -->
     </div>

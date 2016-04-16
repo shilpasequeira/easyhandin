@@ -35,7 +35,7 @@ class Assignment < ActiveRecord::Base
     self.submission_repo_sha = submission_repo_sha.to_json
     self.save!
 
-    submission_url = Rails.application.routes.url_helpers.submission_repo_sha_url(self)
+    submission_url = Rails.application.routes.url_helpers.moss_build_submissions_url(self)
     response = CreateMossBuild.perform(
       self.course.skeleton_repository["ssh_url"],
       self.branch_name,
@@ -86,6 +86,50 @@ class Assignment < ActiveRecord::Base
     else
       self.submissions.find_by(submitter: user)
     end
+  end
+
+  def publish
+    return unless self.course.is_published
+
+    CreateBranch.perform(self.course.org_name, self.course.test_repo_name, self.branch_name)
+
+    submission_repo_urls = []
+    self.submissions.where(is_published: false).each do |submission|
+      submission_repo_urls.push({repo: submission.repository["ssh_url"]})
+    end
+
+    self.submission_repo_urls = submission_repo_urls.to_json
+    self.save!
+
+    submission_url = Rails.application.routes.url_helpers.branch_build_submissions_url(self)
+    CreateBranchBuild.perform(self.course.skeleton_repository, self.branch_name, submission_url)
+  end
+
+  def check_submissions_branch_is_published
+    self.submissions.where(is_published: false).each do |submission|
+      existing_branches = GetRepoBranches.perform(self.course.org_name, submission.repo_name)
+
+      if existing_branches.include?(self.branch_name)
+        submission.is_published = true
+        submission.save!
+      end
+    end
+
+    self.submissions.where(is_published: false).exists?
+  end
+
+  def check_test_repository_branch_is_published
+    test_branches = GetRepoBranches.perform(self.course.org_name, self.course.test_repo_name)
+    test_branches.include?(self.branch_name)
+  end
+
+  def update_is_published
+    if check_submissions_branch_is_published && check_test_repository_branch_is_published
+      self.is_published = true
+    else
+      self.is_published = false
+    end
+    self.save!
   end
 
   protected

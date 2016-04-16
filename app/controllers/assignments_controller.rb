@@ -1,7 +1,9 @@
 class AssignmentsController < ApplicationController
   before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_course, only: [:new, :index, :create]
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions, :submission_repo_sha]
+  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions,
+    :moss_build_submissions, :branch_build_submissions, :publish]
+  before_action :check_publish_status, only: [:show, :process_submissions]
   before_action :set_submissions, only: [:process_submissions]
   skip_before_action :require_login, only: :submission_repo_sha
 
@@ -87,13 +89,35 @@ class AssignmentsController < ApplicationController
     end
   end
 
-  def submission_repo_sha
-    render json: @assignment.submission_repo_sha
+  def moss_build_submissions
+    render json: @assignment.moss_build_submissions
+  end
+
+  def branch_build_submissions
+    render json: @assignment.branch_build_submissions
+  end
+
+  def publish
+    begin
+      if @assignment.course.is_published
+        @assignment.publish
+        flash[:notice] = "Started build to create assignment branches on submission repositories."
+      else
+        flash[:error] = "Course #{@assignment.course.name} must be published first."
+        redirect_to action: :show
+      end
+    rescue => e
+      Rails.logger.error {
+        "Error when trying to publish the assignment #{e.message} #{e.backtrace.join("\n")}"
+      }
+      flash[:error] = e.message
+    end
+
+    redirect_to action: :show
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_assignment
     @assignment = Assignment.includes(:submissions).find(params[:id])
   end
@@ -102,13 +126,22 @@ class AssignmentsController < ApplicationController
     @course = Course.find(params[:course_id])
   end
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_submissions
     @submissions = Submission.where(id: params[:submission_ids])
   end
 
+  def check_publish_status
+    @assignment.update_is_published
+
+    unless @assignment.is_published?
+      flash[:warning] = "There are branches yet to be created. Publish the assignment to create them."
+    end
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def assignment_params
-    params.require(:assignment).permit(:name, :branch_name, :is_published, :deadline, :grace_period, :is_team_mode, :bk_moss_build_id, :bk_moss_job_id, :moss_output, :language, :course_id)
+    params.require(:assignment).permit(:name, :branch_name, :is_published, :deadline, :grace_period,
+      :is_team_mode, :bk_moss_build_id, :bk_moss_job_id, :moss_output, :language, :course_id,
+      :skeleton_branch_name)
   end
 end
