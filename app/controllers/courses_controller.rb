@@ -1,6 +1,8 @@
 class CoursesController < ApplicationController
+  require 'csv'
+
   before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :publish, :students, :instructors]
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :publish, :students, :instructors]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :publish, :students, :instructors, :import_students_csv]
 
   # GET /courses
   # GET /courses.json
@@ -80,6 +82,37 @@ class CoursesController < ApplicationController
   def instructors
   end
 
+  def import_students_csv
+    csv_file = course_params[:students_csv]
+
+    CSV.foreach(csv_file.path, headers: true) do |row|
+      if @invite = Invite.find_by(course_id: @course.id, sender_id: current_user.id, email: row["Email"])
+        InviteMailer.existing_user_invite(@invite).deliver_now
+      else
+        @invite = Invite.new({
+          course_id: @course.id,
+          user_role: "student",
+          name: row["Name"],
+          email: row["Email"],
+          university_id: row["Student ID"],
+          team_number: row["Team"],
+          sender_id: current_user.id
+        })
+
+        if @invite.save
+          if @invite.recipient != nil
+            @invite.recipient.complete_invitation(@invite)
+            InviteMailer.existing_user_invite(@invite).deliver_now
+          else
+            InviteMailer.new_user_invite(@invite, signin_link(role: @invite.user_role, invite_token: @invite.token)).deliver_now
+          end
+        end
+      end
+    end
+
+    redirect_to action: :students
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -89,6 +122,6 @@ class CoursesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
-    params.require(:course).permit(:name, :org_name)
+    params.require(:course).permit(:name, :org_name, :students_csv)
   end
 end

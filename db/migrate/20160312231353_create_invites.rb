@@ -5,6 +5,7 @@ class CreateInvites < ActiveRecord::Migration
       t.string :user_role
       t.string :email
       t.string :university_id
+      t.integer :team_number
       t.boolean :is_accepted, default: false
       t.string :token
       t.belongs_to :course, index: true

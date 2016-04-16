@@ -50,6 +50,16 @@ class User < ActiveRecord::Base
       self.enrolled_courses.push(invite.course)
     end
 
+    if invite.team_number.present?
+      team = Team.find_by(name: "Team #{invite.team_number}", course_id: invite.course.id)
+
+      if team.nil?
+        team = Team.create(name: "Team #{invite.team_number}", course_id: invite.course.id)
+      end
+
+      team.users.push(self)
+    end
+
     self.save!
   end
 

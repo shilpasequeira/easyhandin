@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/courses/:id/publish', to: 'courses#publish', as: 'publish'
   get '/courses/:id/students', to: 'courses#students', as: 'students'
   get '/courses/:id/instructors', to: 'courses#instructors', as: 'instructors'
+  patch '/courses/:id/import_students_csv', to: 'courses#import_students_csv', as: 'import_students_csv'
 
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
