@@ -38,6 +38,6 @@ class InvitesController < ApplicationController
   private
 
   def invite_params
-    params.require(:invite).permit(:user_role, :name, :email, :university_id, :course_id, :sender_id, :recipient_id, :token)
+    params.require(:invite).permit(:user_role, :name, :email, :university_id, :team_number, :course_id, :sender_id, :recipient_id, :token)
   end
 end
