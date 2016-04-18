@@ -18,6 +18,7 @@
         <div class="school-timetable">
           <!-- tools box -->
           <div class="pull-right box-tools">
+            <% if current_user.instructor? %>
             <span class="box-btn" data-widget="edit">
               <%= link_to edit_assignment_path(@assignment) do %>
                 <i class="fontello-pencil" title="edit"></i>
@@ -28,6 +29,7 @@
                 <i class="fontello-trash-2" title="delete"></i>
               <% end %>
             </span>
+            <% end %>
             <span class="box-btn" >
               <%= link_to course_assignments_path(@assignment.course) do %>
                 <i class="fontello-reply" title="back"></i>
@@ -109,7 +111,7 @@
             </div>
           </div>
         <% end %>
-        <% if @assignment.course.test_repository.present? %>
+        <% if @assignment.course.test_repository.present? && current_user.instructor? %>
           <div class="row">
             <div class="large-2 columns">
               <h6>Tests</h6>
@@ -146,15 +148,23 @@
     <div class="box bg-white">
       <div class="box-header bg-transparent">
         <h3 class="box-title"><i class="fontello-paper-plane"></i>
+          <% if current_user.instructor? %>
           <span>SUBMISSIONS</span>
+          <% else %>
+          <span>SUBMISSION</span>
+          <% end %>
         </h3>
       </div>
       <!-- /.box-header -->
-      <% if @assignment.is_team_mode %>
-        <%= render 'submissions/team_list' %>
-      <% else %>
-        <%= render 'submissions/student_list' %>
-      <% end %>
+      <% if current_user.instructor? %>
+        <% if @assignment.is_team_mode %>
+          <%= render 'submissions/team_list' %>
+        <% else %>
+          <%= render 'submissions/student_list' %>
+        <% end %>
+      <% else %>      
+        <%= render 'submissions/student_submission' %>          
+      <% end %>  
       <!-- end of submissions box body -->
     </div>
     <!-- end of submissions box -->

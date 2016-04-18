@@ -8,18 +8,21 @@
         </h3>
         <!-- tools box -->
         <div class="pull-right box-tools">
-          <span class="box-btn" data-widget="new">
-            <%= link_to "#", class: "text-dark-blue", "data-reveal-id": "new_course" do %>
-              <i class="fontello-plus" title="new"></i>
-            <% end %>
-          </span>
+
+          <% if current_user.instructor? %>
+            <span class="box-btn" data-widget="new">
+              <%= link_to "#", class: "text-dark-blue", "data-reveal-id": "new_course" do %>
+                <i class="fontello-plus" title="new"></i>
+              <% end %>
+            </span>
+          <% end %>
         </div>
       </div>
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
         <div class="school-timetable">
           <hr>
-          <% current_user.courses.each do |course| %>
+          <% @courses.each do |course| %>
           <!-- tools box -->
           <div class="pull-right box-tools">
             <span class="box-btn" data-widget="show">
@@ -27,16 +30,19 @@
                 <i class="fontello-eye" title="show"></i>
               <% end %>
             </span>
-            <span class="box-btn" data-widget="edit">
-            <%= link_to "#", "data-reveal-id": "edit_course_#{course.id}" do %>
-              <i class="fontello-pencil" title="edit"></i>
-            <% end %>
-            </span>
-            <span class="box-btn" data-widget="delete">
-              <%= link_to course, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <i class="fontello-trash-2" title="delete"></i>
+
+            <% if current_user.instructor? %>
+              <span class="box-btn" data-widget="edit">
+              <%= link_to "#", "data-reveal-id": "edit_course_#{course.id}" do %>
+                <i class="fontello-pencil" title="edit"></i>
               <% end %>
-            </span>
+              </span>
+              <span class="box-btn" data-widget="delete">
+                <%= link_to course, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class="fontello-trash-2" title="delete"></i>
+                <% end %>
+              </span>
+            <% end %>
           </div>
           <h5>
             <%= link_to course do %>
@@ -57,15 +63,16 @@
 </div>
 <!-- End of Container Begin -->
 
-<% current_user.courses.each do |course| %>
-<div id="edit_course_<%= course.id %>" class="reveal-modal" data-reveal>
-  <%= render partial: 'courses/form', locals: {course: course} %>
-  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-</div>
+<% if current_user.instructor? %>
+  <% @courses.each do |course| %>
+    <div id="edit_course_<%= course.id %>" class="reveal-modal" data-reveal>
+      <%= render partial: 'courses/form', locals: {course: course} %>
+      <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+    </div>
+  <% end %>
+
+  <div id="new_course" class="reveal-modal" data-reveal>
+    <%= render partial: 'courses/form', locals: {course: @courses.new} %>
+    <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+  </div>
 <% end %>
-
-
-<div id="new_course" class="reveal-modal" data-reveal>
-  <%= render partial: 'courses/form', locals: {course: @courses.new} %>
-  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
-</div>
