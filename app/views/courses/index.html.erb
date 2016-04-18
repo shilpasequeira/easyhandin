@@ -22,7 +22,7 @@
       <div class="box-body " style="display: block;">
         <div class="school-timetable">
           <hr>
-          <% current_user.courses.each do |course| %>
+          <% @courses.each do |course| %>
           <!-- tools box -->
           <div class="pull-right box-tools">
             <span class="box-btn" data-widget="show">
@@ -64,7 +64,7 @@
 <!-- End of Container Begin -->
 
 <% if current_user.instructor? %>
-  <% current_user.courses.each do |course| %>
+  <% @courses.each do |course| %>
     <div id="edit_course_<%= course.id %>" class="reveal-modal" data-reveal>
       <%= render partial: 'courses/form', locals: {course: course} %>
       <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
