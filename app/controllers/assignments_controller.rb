@@ -1,6 +1,6 @@
 class AssignmentsController < ApplicationController
   before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_course, only: [:new, :index, :create]
+  before_action :set_course, only: [:index, :new, :create, :edit, :update]
   before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions,
     :moss_build_submissions, :branch_build_submissions, :publish]
   before_action :check_publish_status, only: [:show, :process_submissions]
@@ -16,6 +16,8 @@ class AssignmentsController < ApplicationController
   # GET /assignments/1
   # GET /assignments/1.json
   def show
+    @course = @assignment.course
+
     @assignment.submissions.each do |submission|
       submission.update_test_output
     end
@@ -25,7 +27,13 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/new
   def new
-    @assignment = Assignment.new
+    if @course.skeleton_repository.nil?
+      flash[:error] = "Skeleton repository must be created before an assignment is created. Publish the course."
+      redirect_to course_path(@course)
+      return
+    else
+      @assignment = Assignment.new
+    end
   end
 
   # GET /assignments/1/edit
@@ -38,7 +46,7 @@ class AssignmentsController < ApplicationController
     @assignment = @course.assignments.new(assignment_params)
     if @assignment.save
       flash[:notice] = "Assignment was successfully created."
-      redirect_to @assignment
+      redirect_to action: :show
     else
       flash[:error] = "Assignment could not be created."
       @errors = @assignment.errors
@@ -51,7 +59,7 @@ class AssignmentsController < ApplicationController
   def update
     if @assignment.update(assignment_params)
       flash[:notice] = "Assignment was successfully updated."
-      redirect_to @assignment
+      redirect_to action: :show
     else
       flash[:error] = "Assignment could not be updated."
       @errors = @assignment.errors
@@ -98,6 +106,8 @@ class AssignmentsController < ApplicationController
   end
 
   def publish
+    redirect_to action: :show if @assignment.is_published?
+
     begin
       if @assignment.course.is_published
         @assignment.publish

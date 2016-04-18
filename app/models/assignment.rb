@@ -66,6 +66,12 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def skeleton_branch_url
+    if self.course.skeleton_repository.present?
+      "#{self.course.skeleton_repository["html_url"]}/tree/#{self.skeleton_branch_name}"
+    end
+  end
+
   def update_commit_sha
     if self.deadline_changed? || self.grace_period_changed?
       GetCommitBeforeDeadlineJob.set(wait_until: self.final_deadline).perform_later(self)
@@ -89,7 +95,7 @@ class Assignment < ActiveRecord::Base
   end
 
   def publish
-    return unless self.course.is_published
+    return unless self.course.is_published?
 
     CreateBranch.perform(self.course.org_name, self.course.test_repository["name"], self.branch_name)
 
@@ -98,7 +104,7 @@ class Assignment < ActiveRecord::Base
       submission_repo_urls.push({repo: submission.repository["ssh_url"]})
     end
 
-    self.submission_repo_urls = submission_repo_urls.to_json
+    self.branch_build_submissions = submission_repo_urls.to_json
     self.save!
 
     submission_url = Rails.application.routes.url_helpers.branch_build_submissions_url(self)
@@ -115,10 +121,11 @@ class Assignment < ActiveRecord::Base
       end
     end
 
-    self.submissions.where(is_published: false).exists?
+    self.submissions.where(is_published: false).empty?
   end
 
   def check_test_repository_branch_is_published
+    return false unless self.course.test_repository.present?
     test_branches = GetRepoBranches.perform(self.course.org_name, self.course.test_repository["name"])
     test_branches.include?(self.branch_name)
   end

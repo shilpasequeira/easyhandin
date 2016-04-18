@@ -4,10 +4,11 @@ Rails.application.routes.draw do
   resources :submissions, except: [:index, :new, :show, :edit]
   resources :users
   resources :invites
+  resources :assignments, only: [:show, :destroy]
 
   resources :courses do
     resources :teams
-    resources :assignments, shallow: true
+    resources :assignments, only: [:index, :new, :create, :edit, :update]
   end
 
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'

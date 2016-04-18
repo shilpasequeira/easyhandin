@@ -65,6 +65,8 @@ class CoursesController < ApplicationController
   end
 
   def publish
+    redirect_to action: :show if @course.is_published?
+
     begin
       @course.create_test_skeleton_repos
       @course.create_student_repos

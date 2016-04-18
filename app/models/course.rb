@@ -82,19 +82,19 @@ class Course < ActiveRecord::Base
   end
 
   def test_repo_name_format
-    "#{Date.today.year}-#{self.name.parameterize}-test_repository"
+    "#{Date.today.year}-#{self.name.parameterize.upcase}-grading-tests"
   end
 
   def skeleton_repo_name_format
-    "#{Date.today.year}-#{self.name.parameterize}-skeleton_repository"
+    "#{Date.today.year}-#{self.name.parameterize.upcase}-skeleton-code"
   end
 
   def student_repo_name_format(student)
-    "#{Date.today.year}-#{self.name.parameterize}-#{student.username}"
+    "#{Date.today.year}-#{self.name.parameterize.upcase}-#{student.username}"
   end
 
   def team_repo_name_format(team)
-    "#{Date.today.year}-#{self.name.parameterize}-#{team.name.parameterize}"
+    "#{Date.today.year}-#{self.name.parameterize.upcase}-#{team.name.parameterize}"
   end
 
   def skeleton_branch_names
@@ -114,11 +114,11 @@ class Course < ActiveRecord::Base
   end
 
   def check_team_repositories_is_published
-    !self.teams.exists?(repository = nil)
+    !self.teams.exists?(repository: nil)
   end
 
   def check_student_repositories_is_published
-    !self.course_students.exists?(repository = nil)
+    !self.course_students.exists?(repository: nil)
   end
 
   def update_is_published

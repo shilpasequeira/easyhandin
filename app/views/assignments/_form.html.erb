@@ -17,12 +17,12 @@
         <div class="row">
           <div class="large-6 columns">
             <%= f.label :branch_name do %>Branch Name <small>required</small>
-              <%= f.text_field :branch_name %>
+              <%= f.text_field :branch_name, {disabled: @assignment.is_published?} %>
             <% end %>
           </div>
           <div class="large-6 columns">
             <%= f.label :skeleton_branch_name do %>Skeleton Branch Name
-              <%= f.select(:skeleton_branch_name, @course.skeleton_branch_names) %>
+              <%= f.select(:skeleton_branch_name, @course.skeleton_branch_names, {}, {disabled: @assignment.is_published?}) %>
             <% end %>
           </div>
         </div>
@@ -38,6 +38,7 @@
             <% end %>
           </div>
         </div>
+        <% if @assignment.new_record? %>
         <div class="row">
           <div class="large-6 columns">
             <%= f.check_box :is_team_mode %>
@@ -48,6 +49,7 @@
             <%= f.label :is_published do %>To publish the assignment now, please check the box.<% end %>
           </div>
         </div>
+        <% end %>
         <div class="row">
           &nbsp;
         </div>
