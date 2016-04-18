@@ -45,9 +45,19 @@ table.fixed-ellipsis {
 }
 
 .menu_items{
-  width: 70px !important;
+  width: 100px !important;
 }
 
 .spacer{
   margin-right: 10px;
+}
+
+#selectAll {
+  margin: 0px;
+  vertical-align: bottom;
+}
+
+.selectAll {
+  margin: 5px !important;
+  vertical-align: middle;
 }

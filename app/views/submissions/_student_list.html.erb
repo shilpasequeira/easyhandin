@@ -37,7 +37,7 @@
         <% @assignment.submissions.each do |submission| %>
           <tr>
             <td class="text-center">
-              <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}" %>
+              <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}", class: "selectAll" %>
             </td>
             <td>
               <%= submission.submitter.name %>

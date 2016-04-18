@@ -9,11 +9,14 @@
     </h3>
     <!-- tools box -->
     <div class="pull-right box-tools">
+
+      <% if current_user.instructor? %>
       <span class="box-btn" data-widget="new">
         <%= link_to "#", "data-reveal-id" => "add_team", class: "text-dark-blue", remote: true do %>
           <i class="fontello-plus" title="add a team"></i>
         <% end %>
       </span>
+      <% end %>
     </div>
   </div>
   <!-- /.box-header -->
@@ -28,6 +31,8 @@
             <i class="fontello-users" title="View team members"></i>
           <% end %>
         </span>
+
+        <% if current_user.instructor? %>
         <span class="box-btn">
           <%= link_to "#", "data-reveal-id" => "edit_team_#{team.id}" do %>
             <i class="fontello-pencil" title="edit"></i>
@@ -38,6 +43,7 @@
             <i class="fontello-trash-2" title="delete"></i>
           <% end %>
         </span>
+        <% end %>
       </div>
       <h5><%= team.name %></h5>
       <% if team.repository.present? %>
@@ -52,18 +58,20 @@
 </div>
 <!-- box -->
 
+<% if current_user.instructor? %>
 <div id="add_team" class="reveal-modal" data-reveal>
   <%= render partial: 'teams/form', locals: {team: @course.teams.new} %>
   <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
 </div>
-
+<% end %>
 
 <% @course.teams.each do |team| %>
+  <% if current_user.instructor? %>
   <div id="edit_team_<%= team.id %>" class="reveal-modal" data-reveal>
     <%= render partial: 'teams/form', locals: {team: team}  %>
     <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
   </div>
-
+  <% end %>
   <!-- Reveal Modals team members -->
   <div id="team_members_<%= team.id %>" class="reveal-modal" data-reveal>
     <%= render '/teams/team_members', team: team %>
