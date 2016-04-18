@@ -43,25 +43,17 @@
             <ul id="menu-showhide" class="topnav slicknav">
               <li><!-- id="menu-select" -->
                 <%= link_to dashboard_path do %>
-                <i class="icon-monitor"></i><span>Dashboard</span>
+                  <i class="icon-monitor"></i><span>Dashboard</span>
                 <% end %>
               </li>
-
               <li>
-                <a class="tooltip-tip" href="#" title="Courses">
-                  <i class=" icon-window"></i>
-                  <span>Courses</span>
-                </a>
-                <ul>
-                  <li>
-                    <%= link_to( "View all Courses", courses_path) %>
-                  </li>
-                </ul>
+                <%= link_to courses_path do %>
+                  <i class="icon-window"></i><span>Courses</span>
+                <% end %>
               </li>
-
               <li>
                 <a class="tooltip-tip" href="#" title="Students">
-                  <i class=" icon-preview"></i>
+                  <i class="icon-preview"></i>
                   <span>Students</span>
                 </a>
 
@@ -73,6 +65,11 @@
                     <%= link_to( "Add a new Student", new_user_path) %>
                   </li>
                 </ul>
+              </li>
+              <li>
+                <%= link_to signout_path do %>
+                  <i class="icon-upload"></i><span> Logout</span>
+                <% end %>
               </li>
             </ul>
           </div>
@@ -98,11 +95,6 @@
                   <img class="admin-pic img-circle" src="https://fleep.io/blog/wp-content/uploads/2014/07/github_icon.png">
                   <span class="admin-pic-text text-gray">Logged in as <%= current_user.name %> (<%= current_user.username %>)</span>
                 </a>
-              </li>
-              <li class="bg-white">
-                <%= link_to signout_path, class: "bg-white text-gray" do %>
-                  <strong><i class="icon-upload"></i><span> Logout</span></strong>
-                <% end %>
               </li>
             </ul>
           </section>
