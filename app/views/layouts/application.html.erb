@@ -96,57 +96,17 @@
             </li>
           </ul>
           <section class="top-bar-section ">
-            <!-- Right Nav Section -->
-            <ul class="left">
-              <li class="has-dropdown bg-white">
-                <a class="bg-white" href="#"><i class="text-green fa fa-bell"></i> <span
-                    class="label edumix-noft">3</span></a>
-                <ul class="dropdown dropdown-nest">
-                  <li class="top-dropdown-nest"><span class="label round bg-green">INFO</span>
-                  </li>
-                  <li>
-                    <div class="slim-scroll">
-                      <div>
-                        <i class="fontello-megaphone"></i>
-                        <a href="#">
-                          <h3>New Assignment <span class="text-green fontello-record"></span></h3>
-                          <p>New assignment added!</p>
-                        </a>
-                      </div>
-                      <div>
-                        <i class="fontello-calendar-1"></i>
-                        <a href="#">
-                          <h3>Assignment 6<span class="text-yellow fontello-record"></span></h3>
-                          <p>due February, 20th</p>
-                        </a>
-                      </div>
-                      <div>
-                        <i class="fontello-pencil"></i>
-                        <a href="#">
-                          <h3>Grades<span class="text-yellow fontello-record"></span></h3>
-                          <p>A new grade was added</p>
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-
             <ul class="right">
-              <li class=" has-dropdown bg-white">
-                <a class="bg-white" href="#"><img class="admin-pic img-circle"
-                                                  src="https://fleep.io/blog/wp-content/uploads/2014/07/github_icon.png"><span
-                    class="admin-pic-text text-gray"><!--%= current_user.name %--></span>
+              <li class=" bg-white">
+                <a class="bg-white">
+                  <img class="admin-pic img-circle" src="https://fleep.io/blog/wp-content/uploads/2014/07/github_icon.png">
+                  <span class="admin-pic-text text-gray">Logged in as <%= current_user.name %> (<%= current_user.username %>)</span>
                 </a>
-                <ul class="dropdown dropdown-nest profile-dropdown">
-                  <li>
-                    <i class="icon-upload"></i>
-                    <%= link_to signout_path do %>
-                      <h4>Logout<span class="text-dark-blue"></span></h4>
-                    <% end %>
-                  </li>
-                </ul>
+              </li>
+              <li class="bg-white">
+                <%= link_to signout_path, class: "bg-white text-gray" do %>
+                  <strong><i class="icon-upload"></i><span> Logout</span></strong>
+                <% end %>
               </li>
             </ul>
           </section>
