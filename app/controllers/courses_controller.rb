@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
 
   before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :publish, :students, :instructors]
   before_action :set_course, only: [:show, :edit, :update, :destroy, :publish, :students, :instructors, :import_students_csv]
-  before_action :check_publish_status, only: [:show, :students]
+  before_action :check_publish_status, only: [:show]
 
   # GET /courses
   # GET /courses.json

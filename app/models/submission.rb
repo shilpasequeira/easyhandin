@@ -48,10 +48,6 @@ class Submission < ActiveRecord::Base
   end
 
   def repo_name
-    if self.assignment.is_team_mode
-      self.assignment.course.team_repo_name(self.submitter)
-    else
-      self.assignment.course.student_repo_name(self.submitter)
-    end
+    self.repository["name"]
   end
 end

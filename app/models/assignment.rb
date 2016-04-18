@@ -91,7 +91,7 @@ class Assignment < ActiveRecord::Base
   def publish
     return unless self.course.is_published
 
-    CreateBranch.perform(self.course.org_name, self.course.test_repo_name, self.branch_name)
+    CreateBranch.perform(self.course.org_name, self.course.test_repository["name"], self.branch_name)
 
     submission_repo_urls = []
     self.submissions.where(is_published: false).each do |submission|
@@ -102,7 +102,7 @@ class Assignment < ActiveRecord::Base
     self.save!
 
     submission_url = Rails.application.routes.url_helpers.branch_build_submissions_url(self)
-    CreateBranchBuild.perform(self.course.skeleton_repository, self.branch_name, submission_url)
+    CreateBranchBuild.perform(self.course.skeleton_repository["ssh_url"], self.branch_name, submission_url)
   end
 
   def check_submissions_branch_is_published
@@ -119,7 +119,7 @@ class Assignment < ActiveRecord::Base
   end
 
   def check_test_repository_branch_is_published
-    test_branches = GetRepoBranches.perform(self.course.org_name, self.course.test_repo_name)
+    test_branches = GetRepoBranches.perform(self.course.org_name, self.course.test_repository["name"])
     test_branches.include?(self.branch_name)
   end
 
