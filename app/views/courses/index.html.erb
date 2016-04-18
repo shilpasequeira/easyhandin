@@ -9,7 +9,7 @@
         <!-- tools box -->
         <div class="pull-right box-tools">
           <span class="box-btn" data-widget="new">
-            <%= link_to new_course_path(), class: "text-dark-blue" do %>
+            <%= link_to "#", class: "text-dark-blue", "data-reveal-id": "new_course" do %>
               <i class="fontello-plus" title="new"></i>
             <% end %>
           </span>
@@ -28,9 +28,9 @@
               <% end %>
             </span>
             <span class="box-btn" data-widget="edit">
-              <%= link_to edit_course_path(course) do %>
-                <i class="fontello-pencil" title="edit"></i>
-              <% end %>
+            <%= link_to "#", "data-reveal-id": "edit_course_#{course.id}" do %>
+              <i class="fontello-pencil" title="edit"></i>
+            <% end %>
             </span>
             <span class="box-btn" data-widget="delete">
               <%= link_to course, method: :delete, data: { confirm: 'Are you sure?' } do %>
@@ -56,3 +56,16 @@
   </div>
 </div>
 <!-- End of Container Begin -->
+
+<% current_user.courses.each do |course| %>
+<div id="edit_course_<%= course.id %>" class="reveal-modal" data-reveal>
+  <%= render partial: 'courses/form', locals: {course: course} %>
+  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+</div>
+<% end %>
+
+
+<div id="new_course" class="reveal-modal" data-reveal>
+  <%= render partial: 'courses/form', locals: {course: @courses.new} %>
+  <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
+</div>
