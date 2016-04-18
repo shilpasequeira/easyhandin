@@ -12,11 +12,13 @@
         </h3>
         <!-- tools box -->
         <div class="pull-right box-tools">
+          <% if current_user.instructor? %>
           <span class="box-btn" data-widget="new">
             <%= link_to new_course_team_path(@course), class: "text-dark-blue" do %>
               <i class="fontello-plus" title="new"></i>
             <% end %>
           </span>
+          <% end %>
         </div>
       </div>
       <!-- /.box-header -->
@@ -31,6 +33,7 @@
                 <i class="fontello-eye" title="show team members"></i>
               <% end %>
             </span>
+            <% if current_user.instructor? %>
             <span class="box-btn" data-widget="edit">
               <%= link_to edit_team_path(team) do %>
                 <i class="fontello-pencil" title="edit"></i>
@@ -41,14 +44,17 @@
                 <i class="fontello-trash-2" title="delete"></i>
               <% end %>
             </span>
+            <% end %>
           </div>
           <h5>
             <%= link_to team do %>
             <strong><%= team.name %></strong>
             <% end %>
           </h5>
+          <% if current_user.instructor? %>
           <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= team.slug %></a></h6>
           <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= team.repository %></a></h6>
+          <% end %>
           <hr>
           <% end %>
         </div>

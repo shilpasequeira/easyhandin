@@ -57,3 +57,29 @@
     </div>
   </div>
 <% end %>
+
+<%= javascript_include_tag 'jquery.date-dropdowns.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery.datetimepicker.js', 'data-turbolinks-track' => true %>
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        //default date & time picker
+        $('#datetimepicker').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en',
+            format:'d/M/Y H:m',
+            defaultDate: new Date()
+        });
+        $('#datetimepicker2').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en',
+            format:'d/M/Y H:m',
+            defaultDate: new Date()
+        });
+    })(jQuery);
+    </script>
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+    })(jQuery);
+</script>

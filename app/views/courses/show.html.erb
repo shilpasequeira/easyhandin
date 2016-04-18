@@ -14,16 +14,19 @@
         </h3>
         <!-- tools box -->
         <div class="pull-right box-tools">
-          <span class="box-btn">
-            <%= link_to "#", "data-reveal-id": "edit_course" do %>
-              <i class="fontello-pencil" title="edit"></i>
-            <% end %>
-          </span>
-          <span class="box-btn" data-widget="delete">
-            <%= link_to @course, method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <i class="fontello-trash-2" title="delete"></i>
-            <% end %>
-          </span>
+
+          <% if current_user.instructor? %>
+            <span class="box-btn">
+              <%= link_to "#", "data-reveal-id": "edit_course" do %>
+                <i class="fontello-pencil" title="edit"></i>
+              <% end %>
+            </span>
+            <span class="box-btn" data-widget="delete">
+              <%= link_to @course, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fontello-trash-2" title="delete"></i>
+              <% end %>
+            </span>
+          <% end %>
         </div>
       </div>
       <!-- /.box-header -->
@@ -87,44 +90,48 @@
               <h6><%= @course.instructors.count %></h6>
             </div>
           </div>
-          <% if @course.test_repository.present? %>
-            <div class="row">
-              <div class="large-2 columns">
-                <h6>Tests Repository: </h6>
+          <% if current_user.instructor? %>
+            <% if @course.test_repository.present? && current_user.instructor? %>
+              <div class="row">
+                <div class="large-2 columns">
+                  <h6>Tests Repository: </h6>
+                </div>
+                <div class="large-10 columns">
+                  <h6>
+                    <i class=" fontello-flow-split"></i>
+                    <%= link_to html_url(@course.test_repository), html_url(@course.test_repository), target: "_blank" %>
+                  </h6>
+                </div>
               </div>
-              <div class="large-10 columns">
-                <h6>
-                  <i class=" fontello-flow-split"></i>
-                  <%= link_to html_url(@course.test_repository), html_url(@course.test_repository), target: "_blank" %>
-                </h6>
+            <% end %>
+            <% if @course.skeleton_repository.present? %>
+              <div class="row">
+                <div class="large-2 columns">
+                  <h6>Skeleton Repository: </h6>
+                </div>
+                <div class="large-10 columns">
+                  <h6>
+                    <i class=" fontello-flow-split"></i>
+                    <%= link_to html_url(@course.skeleton_repository), html_url(@course.skeleton_repository), target: "_blank" %>
+                  </h6>
+                </div>
               </div>
-            </div>
-          <% end %>
-          <% if @course.skeleton_repository.present? %>
-            <div class="row">
-              <div class="large-2 columns">
-                <h6>Skeleton Repository: </h6>
-              </div>
-              <div class="large-10 columns">
-                <h6>
-                  <i class=" fontello-flow-split"></i>
-                  <%= link_to html_url(@course.skeleton_repository), html_url(@course.skeleton_repository), target: "_blank" %>
-                </h6>
-              </div>
-            </div>
+            <% end %>
           <% end %>
         </div>
         <hr />
-        <div class="row">
-          <div class="large-12 columns">
-            <%= link_to "View students", students_path(@course), class: "button tiny" %>
-            <span class="spacer"></span>
-            <%= link_to "View instructors", instructors_path(@course), class: "button tiny" %>
-            <% if !@course.is_published %>
-              <%= link_to "Publish", publish_path(@course), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
-            <% end %>
+        <% if current_user.instructor? %>
+          <div class="row">
+            <div class="large-12 columns">
+              <%= link_to "View students", students_path(@course), class: "button tiny" %>
+              <span class="spacer"></span>
+              <%= link_to "View instructors", instructors_path(@course), class: "button tiny" %>
+              <% if !@course.is_published && current_user.instructor? %>
+                <%= link_to "Publish", publish_path(@course), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
       <!-- end .timeline -->
     </div>
@@ -136,7 +143,7 @@
 <!-- Container Begin -->
 <div class="row">
   <div class="large-6 columns">
-    <%= render '/assignments/assignment' %> <!-- tried to render @course.assignments, but this results in a multiplied rendering of the assignments-->
+    <%= render '/assignments/assignment' %>
   </div>
   <div class="large-6 columns">
     <%= render '/teams/team' %>
@@ -144,6 +151,7 @@
 </div>
 <!-- End of Container Begin -->
 
+<% if current_user.instructor? %>
 <div id="edit_course" class="reveal-modal" data-reveal>
   <%= render partial: 'courses/form', locals: {course: @course} %>
   <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
@@ -158,3 +166,4 @@
   <%= render partial: 'invites/form', locals: {invite: @course.invites.new, course: @course, role: :instructor} %>
   <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
 </div>
+<% end %>
