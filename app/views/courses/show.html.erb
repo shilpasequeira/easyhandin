@@ -145,7 +145,7 @@
 <!-- End of Container Begin -->
 
 <div id="edit_course" class="reveal-modal" data-reveal>
-  <%= render partial: 'courses/form' %>
+  <%= render partial: 'courses/form', locals: {course: @course} %>
   <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
 </div>
 
