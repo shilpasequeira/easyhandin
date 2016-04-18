@@ -3,7 +3,7 @@ class AssignmentsController < ApplicationController
   before_action :set_course, only: [:index, :new, :create, :edit, :update]
   before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions,
     :moss_build_submissions, :branch_build_submissions, :publish]
-  before_action :check_publish_status, only: [:show, :process_submissions]
+  before_action :check_publish_status, only: [:show]
   before_action :set_submissions, only: [:process_submissions]
   skip_before_action :require_login, only: :submission_repo_sha
 
@@ -46,7 +46,7 @@ class AssignmentsController < ApplicationController
     @assignment = @course.assignments.new(assignment_params)
     if @assignment.save
       flash[:notice] = "Assignment was successfully created."
-      redirect_to action: :show
+      redirect_to @assignment
     else
       flash[:error] = "Assignment could not be created."
       @errors = @assignment.errors
@@ -76,6 +76,12 @@ class AssignmentsController < ApplicationController
   end
 
   def process_submissions
+    unless @assignment.is_published?
+      flash[:error] = "Cannot process submissions when assignment is not published."
+      redirect_to action: :show
+      return
+    end
+
     begin
       if params[:run_tests]
         @assignment.run_tests(@submissions)
@@ -106,21 +112,24 @@ class AssignmentsController < ApplicationController
   end
 
   def publish
-    redirect_to action: :show if @assignment.is_published?
+    if @assignment.is_published?
+      flash[:error] = "Assignment is already published."
+      redirect_to action: :show
+      return
+    end
 
-    begin
-      if @assignment.course.is_published
+    if @assignment.course.is_published
+      begin
         @assignment.publish
         flash[:notice] = "Started build to create assignment branches on submission repositories."
-      else
-        flash[:error] = "Course #{@assignment.course.name} must be published first."
-        redirect_to action: :show
+      rescue => e
+        Rails.logger.error {
+          "Error when trying to publish the assignment #{e.message} #{e.backtrace.join("\n")}"
+        }
+        flash[:error] = e.message
       end
-    rescue => e
-      Rails.logger.error {
-        "Error when trying to publish the assignment #{e.message} #{e.backtrace.join("\n")}"
-      }
-      flash[:error] = e.message
+    else
+      flash[:error] = "Course #{@assignment.course.name} must be published first."
     end
 
     redirect_to action: :show
@@ -141,8 +150,6 @@ class AssignmentsController < ApplicationController
   end
 
   def check_publish_status
-    @assignment.update_is_published
-
     unless @assignment.is_published?
       flash[:warning] = "There are branches yet to be created. Publish the assignment to create them."
     end

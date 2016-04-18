@@ -48,6 +48,6 @@ class Submission < ActiveRecord::Base
   end
 
   def repo_name
-    self.repository["name"]
+    self.repository["name"] if self.repository.present?
   end
 end

@@ -128,8 +128,6 @@ class CoursesController < ApplicationController
   end
 
   def check_publish_status
-    @course.update_is_published
-
     unless @course.is_published?
       flash[:warning] = "There are repositories yet to be created. Publish the course to create them."
     end

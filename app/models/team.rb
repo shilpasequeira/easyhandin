@@ -4,6 +4,7 @@ class Team < ActiveRecord::Base
   has_many :submissions, as: :submitter
 
   after_create :create_team_submissions
+  after_create :unpublish_course
 
   protected
 
@@ -13,5 +14,9 @@ class Team < ActiveRecord::Base
         assignment.submissions.create(submitter: self)
       end
     end
+  end
+
+  def unpublish_course
+    self.course.unpublish_course
   end
 end

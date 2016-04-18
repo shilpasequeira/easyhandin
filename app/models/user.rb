@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :teach_courses, through: :course_instructors, source: :course
 
   has_many :course_students, dependent: :destroy
-  has_many :enrolled_courses, through: :course_students, source: :course, after_add: :create_student_submissions
+  has_many :enrolled_courses, through: :course_students, source: :course, after_add: [:create_student_submissions, :unpublish_course]
 
   has_many :invitations, :class_name => "Invite", :foreign_key => 'recipient_id'
   has_many :sent_invites, :class_name => "Invite", :foreign_key => 'sender_id'
@@ -69,6 +69,10 @@ class User < ActiveRecord::Base
         assignment.submissions.create!(submitter: self)
       end
     end
+  end
+
+  def unpublish_course(course)
+    course.unpublish_course
   end
 
   def courses

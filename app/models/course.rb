@@ -134,6 +134,16 @@ class Course < ActiveRecord::Base
     self.save!
   end
 
+  def unpublish_course
+    self.is_published = false
+    self.save!
+
+    self.assignments.each do |assignment|
+      assignment.is_published = false
+      assignment.save!
+    end
+  end
+
   protected
 
   def test_repository_cannot_be_nil_when_published
