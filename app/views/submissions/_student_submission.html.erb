@@ -1,0 +1,70 @@
+<div class="box-body" style="display: block;">
+  <div class="school-timetable">
+  <hr />
+    <div class="row">
+      <div class="large-2 columns">
+        <h6>Repository: </h6>
+      </div>
+      <div class="large-10 columns">
+        <h6>
+          <%= link_to @assignment.branch_url(@assignment.submissions_for_user(current_user).repository), target: "_blank" do %>
+            <i class="fontello-github" title="View on Github"></i>
+          <% end %>
+        </h6>
+      </div>
+    </div>
+    <div class="row">
+      <% if @assignment.submissions_for_user(current_user).new_record? %>
+        <div class="large-2 columns">
+          <h6>Created on:</h6>
+        </div>
+        <div class="large-10 columns">
+          <h6><i class=" fontello-clock"></i> <%= @assignment.submissions_for_user(current_user).created_at.strftime("%B %-d, %Y") %></h6>
+        </div>
+      <% else %>
+        <div class="large-2 columns">
+          <h6>Updated on:</h6>
+        </div>
+        <div class="large-10 columns">
+          <h6><i class=" fontello-clock"></i> <%= @assignment.submissions_for_user(current_user).updated_at.strftime("%B %-d, %Y") %></h6>
+        </div>
+      <% end %>
+    </div>
+    <div class="row">
+      <div class="large-2 columns">
+        <h6>Test status: </h6>
+      </div>
+      <div class="large-10 columns">
+        <h6>
+          <% if @assignment.submissions_for_user(current_user).test_result.present? %>
+            <% if @assignment.submissions_for_user(current_user).test_result.titleize == 'PASSED' %>
+              <i class=" fontello-sun"></i>
+            <% elsif @assignment.submissions_for_user(current_user).test_result.titleize == 'ERROR'%>
+              <i class=" fontello-cloud-flash"></i>
+            <% else %>
+              <i class=" fontello-cloud-sun"></i>
+            <% end %>  
+            <%= @assignment.submissions_for_user(current_user).test_result.titleize %>
+          <% end %>
+        </h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-2 columns">
+        <h6>Grade: </h6>
+      </div>
+      <div class="large-10 columns">
+        <h6><i class=" fontello-edit"></i> <%= @assignment.submissions_for_user(current_user).grade %></h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-2 columns">
+        <h6>Feedback: </h6>
+      </div>
+      <div class="large-10 columns">
+        <h6><i class=" fontello-lightbulb"></i> <%= @assignment.submissions_for_user(current_user).feedback %></h6>
+      </div>
+    </div>    
+  <hr />
+  </div>
+</div>  

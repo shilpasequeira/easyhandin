@@ -80,6 +80,14 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def submissions_for_user(user)
+    if self.is_team_mode?
+      self.submissions.detect {|submission| submission.submitter.users.include?(user)}
+    else
+      self.submissions.find_by(submitter: user)
+    end
+  end
+
   protected
 
   def create_submissions
