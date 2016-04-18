@@ -125,8 +125,8 @@
               <%= link_to "View students", students_path(@course), class: "button tiny" %>
               <span class="spacer"></span>
               <%= link_to "View instructors", instructors_path(@course), class: "button tiny" %>
-              <% if !@course.is_published %>
-                <%= link_to "Publish", publish_path(@course), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
+              <% unless @course.is_published? %>
+                <%= link_to "Publish", publish_course_path(@course), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
               <% end %>
             </div>
           </div>
