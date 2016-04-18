@@ -62,7 +62,7 @@ class AssignmentsController < ApplicationController
   def destroy
     @assignment.destroy
     flash[:notice] = "Assignment was successfully destroyed."
-    redirect_to assignments_url
+    redirect_to course_path(@assignment.course)
   end
 
   def process_submissions
