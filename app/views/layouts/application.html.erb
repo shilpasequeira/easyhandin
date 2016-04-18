@@ -41,40 +41,17 @@
           <!-- Menu sidebar begin-->
           <div class="side-bar">
             <ul id="menu-showhide" class="topnav slicknav">
-              <li><!-- id="menu-select" -->
-                <%= link_to dashboard_path do %>
-                <i class="icon-monitor"></i><span>Dashboard</span>
-                <% end %>
-              </li>
-
               <li>
                 <a class="tooltip-tip" href="#" title="Courses">
                   <i class=" icon-window"></i>
                   <span>Courses</span>
                 </a>
-
                 <ul>
                   <li>
                     <%= link_to( "View all Courses", courses_path) %>
                   </li>
                   <li>
                     <%= link_to( "Add a new Course", new_course_path) %>
-                  </li>
-                </ul>
-              </li>
-
-              <li>
-                <a class="tooltip-tip" href="#" title="Students">
-                  <i class=" icon-preview"></i>
-                  <span>Students</span>
-                </a>
-
-                <ul>
-                  <li>
-                    <%= link_to( "View all Students", users_path) %>
-                  </li>
-                  <li>
-                    <%= link_to( "Add a new Student", new_user_path) %>
                   </li>
                 </ul>
               </li>
@@ -117,7 +94,7 @@
       <!-- breadcrumbs -->
       <ul class="breadcrumbs">
         <li><!-- link to dashboard once it is set up -->
-          <%= link_to dashboard_path do %>
+          <%= link_to courses_path do %>
           <span class="entypo-home"></span>
           <% end %>
         </li>

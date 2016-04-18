@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "Thank you for accepting the invitation to the course #{invite.course.name}"
     end
 
-    redirect_to dashboard_url
+    redirect_to courses_url
   end
 
   def destroy
