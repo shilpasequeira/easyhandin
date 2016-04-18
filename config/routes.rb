@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     resources :assignments, shallow: true
   end
 
-  get 'courses', to: 'courses#index'
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'
   post '/assignments/:id/process_submissions', to: 'assignments#process_submissions', as: 'process_submissions'
   get '/assignments/:id/submission_repo_sha', to: 'assignments#submission_repo_sha', as: 'submission_repo_sha'
