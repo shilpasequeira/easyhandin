@@ -5,7 +5,7 @@ class AssignmentsController < ApplicationController
     :moss_build_submissions, :branch_build_submissions, :publish]
   before_action :check_publish_status, only: [:show]
   before_action :set_submissions, only: [:process_submissions]
-  skip_before_action :require_login, only: :moss_build_submissions, :branch_build_submissions
+  skip_before_action :require_login, only: [:moss_build_submissions, :branch_build_submissions]
 
   # GET /assignments
   # GET /assignments.json
