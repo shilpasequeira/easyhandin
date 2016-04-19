@@ -34,16 +34,16 @@ class Assignment < ActiveRecord::Base
       submission_repo_sha.push({repo: submission.repository["ssh_url"], sha: submission.commit_sha})
     end
 
-    self.submission_repo_sha = submission_repo_sha.to_json
+    self.moss_build_submissions = submission_repo_sha.to_json
     self.save!
 
-    submission_url = Rails.application.routes.url_helpers.moss_build_submissions_url(self)
+    #submission_url = Rails.application.routes.url_helpers.moss_build_submissions_url(self)
     response = CreateMossBuild.perform(
       self.course.skeleton_repository["ssh_url"],
       self.branch_name,
       self.language,
       self.file_extension,
-      submission_url
+      JSON.dump(self.moss_build_submissions)
     )
 
     self.bk_moss_build_id =  response["number"]
@@ -116,8 +116,13 @@ class Assignment < ActiveRecord::Base
     self.branch_build_submissions = submission_repo_urls.to_json
     self.save!
 
-    submission_url = Rails.application.routes.url_helpers.branch_build_submissions_url(self)
-    CreateBranchBuild.perform(self.course.skeleton_repository["ssh_url"], self.branch_name, submission_url)
+    #submission_url = Rails.application.routes.url_helpers.branch_build_submissions_url(self)
+    CreateBranchBuild.perform(
+      self.course.skeleton_repository["ssh_url"],
+      self.skeleton_branch_name,
+      self.branch_name,
+      JSON.dump(self.branch_build_submissions)
+    )
   end
 
   # IMPORTANT BUT NOT BEING USED
