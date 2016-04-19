@@ -40,13 +40,9 @@
         </div>
         <% if @assignment.new_record? %>
         <div class="row">
-          <div class="large-6 columns">
+          <div class="large-12 columns">
             <%= f.check_box :is_team_mode %>
             <%= f.label :is_team_mode do %>Are students in teams?<% end %>
-          </div>
-          <div class="large-6 columns">
-            <%= f.check_box :is_published %>
-            <%= f.label :is_published do %>To publish the assignment now, please check the box.<% end %>
           </div>
         </div>
         <% end %>
