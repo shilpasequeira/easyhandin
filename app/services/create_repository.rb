@@ -9,21 +9,21 @@ class CreateRepository < ComposableOperations::Operation
 
   def execute
     org_repos = GetOrgRepositories.perform(org_name)
+    repository = org_repos.find {|org_repo| org_repo["name"] == repo_name}
 
-    if (repository = org_repos.find {|org_repo| org_repo["name"] == repo_name})
-      Octokit.client.add_team_repository(team_id, org_name + "/" + repo_name, "permission" => "push")
-    else
+    if repository.nil?
       repository = Octokit.client.create_repository(
         repo_name,
         {
           :organization => org_name,
           :private => private_repo,
           :description => description,
-          :auto_init => auto_init_repo,
-          :team_id => team_id
+          :auto_init => auto_init_repo
         }
       )
     end
+
+    Octokit.client.add_team_repository(team_id, org_name + "/" + repo_name, :permission => 'push')
 
     repository
   end
