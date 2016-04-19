@@ -1,11 +1,11 @@
 class AssignmentsController < ApplicationController
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
+  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :process_submissions, :publish]
   before_action :set_course, only: [:index, :new, :create, :edit, :update]
   before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions,
     :moss_build_submissions, :branch_build_submissions, :publish]
   before_action :check_publish_status, only: [:show]
   before_action :set_submissions, only: [:process_submissions]
-  skip_before_action :require_login, only: :submission_repo_sha
+  skip_before_action :require_login, only: :moss_build_submissions, :branch_build_submissions
 
   # GET /assignments
   # GET /assignments.json
@@ -150,7 +150,7 @@ class AssignmentsController < ApplicationController
   end
 
   def check_publish_status
-    unless @assignment.is_published?
+    if current_user.instructor? && !@assignment.is_published?
       flash[:warning] = "There are branches yet to be created. Publish the assignment to create them."
     end
   end
