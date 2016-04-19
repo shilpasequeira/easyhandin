@@ -32,7 +32,7 @@
         </span>
         <% if current_user.instructor? %>
         <span class="box-btn" data-widget="edit">
-          <%= link_to edit_assignment_path(assignment) do %>
+          <%= link_to edit_course_assignment_path(@course, assignment) do %>
             <i class="fontello-pencil" title="edit"></i>
           <% end %>
         </span>

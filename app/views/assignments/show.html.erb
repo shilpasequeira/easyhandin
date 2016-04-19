@@ -20,27 +20,23 @@
           <div class="pull-right box-tools">
             <% if current_user.instructor? %>
             <span class="box-btn" data-widget="edit">
-              <%= link_to edit_assignment_path(@assignment) do %>
+              <%= link_to edit_course_assignment_path(@course, @assignment) do %>
                 <i class="fontello-pencil" title="edit"></i>
               <% end %>
             </span>
             <span class="box-btn" data-widget="delete">
-              <%= link_to @assignment, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= link_to course_assignment_path(@course, @assignment), method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <i class="fontello-trash-2" title="delete"></i>
               <% end %>
             </span>
             <% end %>
             <span class="box-btn" >
-              <%= link_to course_assignments_path(@assignment.course) do %>
+              <%= link_to course_path(@course) do %>
                 <i class="fontello-reply" title="back"></i>
               <% end %>
             </span>
           </div>
-          <h5>
-            <%= link_to @assignment do %>
-            <i class="fontello-doc-1"></i> <strong><%= @assignment.name %></strong>
-            <% end %>
-          </h5>
+          <h5><i class="fontello-doc-1"></i> <%= @assignment.name %></h5>
         <hr>
         <div class="row">
           <div class="large-12 columns">
@@ -51,7 +47,7 @@
             <h6>Course:</h6>
           </div>
           <div class="large-10 columns">
-            <h6><i class=" fontello-tag"></i><span class="bg-green"><%= @assignment.course.name %></span></h6>
+            <h6><i class=" fontello-tag"></i><span class="bg-green"><%= @course.name %></span></h6>
           </div>
         </div>
         <div class="row">
@@ -98,7 +94,7 @@
             <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.branch_name %></a></h6>
           </div>
         </div>
-        <% if @assignment.course.skeleton_repository.present? %>
+        <% if @course.skeleton_repository.present? %>
           <div class="row">
             <div class="large-2 columns">
               <h6>Skeleton code</h6>
@@ -106,12 +102,12 @@
             <div class="large-10 columns">
               <h6>
                 <i class=" fontello-flow-split"></i>
-                <%= link_to @assignment.branch_url(@assignment.course.skeleton_repository), @assignment.branch_url(@assignment.course.skeleton_repository), target: "_blank" %>
+                <%= link_to @assignment.skeleton_branch_url, @assignment.skeleton_branch_url, target: "_blank" %>
               </h6>
             </div>
           </div>
         <% end %>
-        <% if @assignment.course.test_repository.present? && current_user.instructor? %>
+        <% if @assignment.check_test_repository_branch_is_published && current_user.instructor? %>
           <div class="row">
             <div class="large-2 columns">
               <h6>Tests</h6>
@@ -119,7 +115,7 @@
             <div class="large-10 columns">
               <h6>
                 <i class=" fontello-flow-split"></i>
-                <%= link_to @assignment.branch_url(@assignment.course.test_repository), @assignment.branch_url(@assignment.course.test_repository), target: "_blank" %>
+                <%= link_to @assignment.branch_url(@course.test_repository), @assignment.branch_url(@course.test_repository), target: "_blank" %>
               </h6>
             </div>
           </div>
@@ -134,6 +130,13 @@
         </div>
       </div>
         <hr />
+        <div class="row">
+          <div class="large-12 columns">
+            <% unless @assignment.is_published? %>
+              <%= link_to "Publish", publish_assignment_path(@assignment), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </div>
+        </div>
       </div>
       <!-- end .timeline -->
     </div>

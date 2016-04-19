@@ -1,11 +1,11 @@
 <%= form_for course do |f| %>
-    <% if course.id.present? %>
-      <%= f.hidden_field :id, :value => course.id %>
-    <% end %>
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  <%= f.label :org_name do %>Organization<br>
-    <%= f.select(:org_name, user_organizations, {disabled: course.is_published?}) %>
+  <% if course.id.present? %>
+    <%= f.hidden_field :id, :value => course.id %>
   <% end %>
-    <%= f.button 'Save', :class => 'tiny right', :type => 'submit' %>
+  <%= f.label :name %><br>
+  <%= f.text_field :name %>
+  <%= f.label :org_name do %>Organization<br>
+    <%= f.select(:org_name, user_organizations, {}, {disabled: course.is_published?}) %>
+  <% end %>
+  <%= f.button 'Save', :class => 'tiny right', :type => 'submit' %>
 <% end %>

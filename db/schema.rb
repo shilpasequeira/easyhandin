@@ -19,19 +19,21 @@ ActiveRecord::Schema.define(version: 20160412005718) do
   create_table "assignments", force: :cascade do |t|
     t.string   "name"
     t.string   "branch_name"
-    t.boolean  "is_published",        default: false
+    t.string   "skeleton_branch_name"
+    t.boolean  "is_published",             default: false
     t.datetime "deadline"
     t.datetime "grace_period"
-    t.boolean  "is_team_mode",        default: false
+    t.boolean  "is_team_mode",             default: false
     t.integer  "bk_moss_build_id"
     t.string   "bk_moss_job_id"
     t.integer  "moss_result"
     t.text     "moss_output"
     t.integer  "language"
-    t.jsonb    "submission_repo_sha"
+    t.jsonb    "moss_build_submissions"
+    t.jsonb    "branch_build_submissions"
     t.integer  "course_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "assignments", ["course_id"], name: "index_assignments_on_course_id", using: :btree
@@ -107,14 +109,15 @@ ActiveRecord::Schema.define(version: 20160412005718) do
     t.string   "submitter_type"
     t.integer  "grade"
     t.text     "feedback"
+    t.boolean  "is_published",     default: false
     t.integer  "test_result"
     t.text     "test_output"
     t.integer  "bk_test_build_id"
     t.string   "bk_test_job_id"
     t.string   "commit_sha"
     t.integer  "assignment_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "submissions", ["assignment_id"], name: "index_submissions_on_assignment_id", using: :btree

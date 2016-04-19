@@ -4,6 +4,7 @@ class CreateSubmissions < ActiveRecord::Migration
       t.belongs_to :submitter, polymorphic: true, index: true
       t.integer :grade
       t.text :feedback
+      t.boolean :is_published, default: false
       t.integer :test_result
       t.text :test_output
       t.integer :bk_test_build_id

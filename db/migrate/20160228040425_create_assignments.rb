@@ -3,6 +3,7 @@ class CreateAssignments < ActiveRecord::Migration
     create_table :assignments do |t|
       t.string :name
       t.string :branch_name
+      t.string :skeleton_branch_name
       t.boolean :is_published, default: false
       t.datetime :deadline
       t.datetime :grace_period
@@ -12,7 +13,8 @@ class CreateAssignments < ActiveRecord::Migration
       t.integer :moss_result
       t.text :moss_output
       t.integer :language
-      t.jsonb :submission_repo_sha
+      t.jsonb :moss_build_submissions
+      t.jsonb :branch_build_submissions
       t.belongs_to :course, index: true
 
       t.timestamps null: false

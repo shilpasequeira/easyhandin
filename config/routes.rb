@@ -4,16 +4,19 @@ Rails.application.routes.draw do
   resources :submissions, except: [:index, :new, :show, :edit]
   resources :users
   resources :invites
+  resources :assignments, only: [:show, :destroy]
 
   resources :courses do
     resources :teams
-    resources :assignments, shallow: true
+    resources :assignments, only: [:index, :new, :create, :edit, :update]
   end
 
   get '/submissions/:id/test', to: 'submissions#test', as: 'test'
   post '/assignments/:id/process_submissions', to: 'assignments#process_submissions', as: 'process_submissions'
-  get '/assignments/:id/submission_repo_sha', to: 'assignments#submission_repo_sha', as: 'submission_repo_sha'
-  get '/courses/:id/publish', to: 'courses#publish', as: 'publish'
+  get '/assignments/:id/moss_build_submissions', to: 'assignments#moss_build_submissions', as: 'moss_build_submissions'
+  get '/assignments/:id/branch_build_submissions', to: 'assignments#branch_build_submissions', as: 'branch_build_submissions'
+  get '/assignments/:id/publish', to: 'assignments#publish', as: 'publish_assignment'
+  get '/courses/:id/publish', to: 'courses#publish', as: 'publish_course'
   get '/courses/:id/students', to: 'courses#students', as: 'students'
   get '/courses/:id/instructors', to: 'courses#instructors', as: 'instructors'
   patch '/courses/:id/import_students_csv', to: 'courses#import_students_csv', as: 'import_students_csv'

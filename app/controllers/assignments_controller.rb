@@ -1,7 +1,9 @@
 class AssignmentsController < ApplicationController
   before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_course, only: [:new, :index, :create]
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions, :submission_repo_sha]
+  before_action :set_course, only: [:index, :new, :create, :edit, :update]
+  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :process_submissions,
+    :moss_build_submissions, :branch_build_submissions, :publish]
+  before_action :check_publish_status, only: [:show]
   before_action :set_submissions, only: [:process_submissions]
   skip_before_action :require_login, only: :submission_repo_sha
 
@@ -14,6 +16,8 @@ class AssignmentsController < ApplicationController
   # GET /assignments/1
   # GET /assignments/1.json
   def show
+    @course = @assignment.course
+
     @assignment.submissions.each do |submission|
       submission.update_test_output
     end
@@ -23,7 +27,13 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/new
   def new
-    @assignment = Assignment.new
+    if @course.skeleton_repository.nil?
+      flash[:error] = "Skeleton repository must be created before an assignment is created. Publish the course."
+      redirect_to course_path(@course)
+      return
+    else
+      @assignment = Assignment.new
+    end
   end
 
   # GET /assignments/1/edit
@@ -49,7 +59,7 @@ class AssignmentsController < ApplicationController
   def update
     if @assignment.update(assignment_params)
       flash[:notice] = "Assignment was successfully updated."
-      redirect_to @assignment
+      redirect_to action: :show
     else
       flash[:error] = "Assignment could not be updated."
       @errors = @assignment.errors
@@ -66,6 +76,12 @@ class AssignmentsController < ApplicationController
   end
 
   def process_submissions
+    unless @assignment.is_published?
+      flash[:error] = "Cannot process submissions when assignment is not published."
+      redirect_to action: :show
+      return
+    end
+
     begin
       if params[:run_tests]
         @assignment.run_tests(@submissions)
@@ -87,13 +103,40 @@ class AssignmentsController < ApplicationController
     end
   end
 
-  def submission_repo_sha
-    render json: @assignment.submission_repo_sha
+  def moss_build_submissions
+    render json: @assignment.moss_build_submissions
+  end
+
+  def branch_build_submissions
+    render json: @assignment.branch_build_submissions
+  end
+
+  def publish
+    if @assignment.is_published?
+      flash[:error] = "Assignment is already published."
+      redirect_to action: :show
+      return
+    end
+
+    if @assignment.course.is_published
+      begin
+        @assignment.publish
+        flash[:notice] = "Started build to create assignment branches on submission repositories."
+      rescue => e
+        Rails.logger.error {
+          "Error when trying to publish the assignment #{e.message} #{e.backtrace.join("\n")}"
+        }
+        flash[:error] = e.message
+      end
+    else
+      flash[:error] = "Course #{@assignment.course.name} must be published first."
+    end
+
+    redirect_to action: :show
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_assignment
     @assignment = Assignment.includes(:submissions).find(params[:id])
   end
@@ -102,13 +145,20 @@ class AssignmentsController < ApplicationController
     @course = Course.find(params[:course_id])
   end
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_submissions
     @submissions = Submission.where(id: params[:submission_ids])
   end
 
+  def check_publish_status
+    unless @assignment.is_published?
+      flash[:warning] = "There are branches yet to be created. Publish the assignment to create them."
+    end
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def assignment_params
-    params.require(:assignment).permit(:name, :branch_name, :is_published, :deadline, :grace_period, :is_team_mode, :bk_moss_build_id, :bk_moss_job_id, :moss_output, :language, :course_id)
+    params.require(:assignment).permit(:name, :branch_name, :is_published, :deadline, :grace_period,
+      :is_team_mode, :bk_moss_build_id, :bk_moss_job_id, :moss_output, :language, :course_id,
+      :skeleton_branch_name)
   end
 end
