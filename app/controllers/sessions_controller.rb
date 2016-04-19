@@ -12,6 +12,10 @@ class SessionsController < ApplicationController
         redirect_to root_url
         return
       end
+    elsif request.params[:role] == "student"
+      flash[:error] = "You cannot sign up as a student without an invitation."
+      redirect_to root_url
+      return
     end
 
     user = User.create_with_omniauth(auth, request.params[:role])
