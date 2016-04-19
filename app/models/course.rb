@@ -20,6 +20,11 @@ class Course < ActiveRecord::Base
   EASYHANDIN_TEAM_NAME = "easyhandin"
   EASYHANDIN_USERNAME = "easyhandin"
 
+  def students_not_in_teams
+    students_in_teams = self.teams.map { |team| team.users }.flatten
+    self.students - students_in_teams
+  end
+
   def create_test_skeleton_repos
     create_easyhandin_secret_team
 
