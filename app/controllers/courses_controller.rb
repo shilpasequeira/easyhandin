@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   require 'csv'
 
-  before_action :check_user_is_instructor, only: [:new, :create, :edit, :update, :destroy, :publish, :students, :instructors]
+  before_action :check_user_is_instructor, only: [:create, :update, :destroy, :publish, :students, :instructors, :import_students_csv]
   before_action :set_course, only: [:show, :edit, :update, :destroy, :publish, :students, :instructors, :import_students_csv]
   before_action :check_publish_status, only: [:show]
 
@@ -128,7 +128,7 @@ class CoursesController < ApplicationController
   end
 
   def check_publish_status
-    unless @course.is_published?
+    if current_user.instructor? && !@course.is_published?
       flash[:warning] = "There are repositories yet to be created. Publish the course to create them."
     end
   end
