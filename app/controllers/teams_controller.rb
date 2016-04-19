@@ -16,8 +16,8 @@ class TeamsController < ApplicationController
     if @team.save
       flash[:notice] = "Team was successfully created."
     else
-      flash[:error] = "Team @team.name could not be saved."
-      @errors = @team.errors
+      flash[:error] = "Team could not be created."
+      flash[:error_messages] = @team.errors.full_messages
     end
     redirect_to course_path(@course)
   end
@@ -28,8 +28,8 @@ class TeamsController < ApplicationController
     if @team.update(team_params)
       flash[:notice] = "Team was successfully updated."
     else
-      flash[:error] = "Team @team.name could not be updated."
-      @errors = @team.errors
+      flash[:error] = "Team could not be updated."
+      flash[:error_messages] = @team.errors.full_messages
     end
     redirect_to course_path(@course)
   end

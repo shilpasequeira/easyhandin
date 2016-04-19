@@ -3,6 +3,8 @@ class Team < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :submissions, as: :submitter, dependent: :destroy
 
+  validates_uniqueness_of :name, scope: :course_id
+
   after_create :create_team_submissions
   after_create :unpublish_course
 

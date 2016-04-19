@@ -3,6 +3,8 @@ class Assignment < ActiveRecord::Base
   has_many :submissions, dependent: :destroy
 
   validates :name, :branch_name, :course_id, :language, presence: true
+  validates_uniqueness_of :name, scope: :course_id
+  validates_uniqueness_of :branch_name, scope: :course_id
   validate :test_deadline_cannot_be_nil_when_published
   validate :test_grace_period_cannot_be_before_deadline
   validate :test_deadline_cannot_be_nil_if_grace_period_present

@@ -49,8 +49,8 @@ class AssignmentsController < ApplicationController
       redirect_to @assignment
     else
       flash[:error] = "Assignment could not be created."
-      @errors = @assignment.errors
-      render 'new'
+      flash[:error_messages] = @assignment.errors.full_messages
+      redirect_to @course
     end
   end
 
@@ -62,8 +62,8 @@ class AssignmentsController < ApplicationController
       redirect_to action: :show
     else
       flash[:error] = "Assignment could not be updated."
-      @errors = @assignment.errors
-      render 'edit'
+      flash[:error_messages] = @assignment.errors.full_messages
+      redirect_to action: :show
     end
   end
 

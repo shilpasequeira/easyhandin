@@ -15,6 +15,8 @@ class Course < ActiveRecord::Base
 
   validate :test_repository_cannot_be_nil_when_published
 
+  validates_uniqueness_of :name
+
   EASYHANDIN_TEAM_NAME = "easyhandin"
   EASYHANDIN_USERNAME = "easyhandin"
 

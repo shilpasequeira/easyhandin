@@ -92,9 +92,9 @@
       <!-- /.box-header -->
       <div class="box-body " style="display: block;">
         <p class="text-white"><%= flash[:error] %></p>
-        <% if @errors.present? %>
+        <% if flash[:error_messages].present? %>
           <ul>
-            <% @errors.full_messages.each do |message| %>
+            <% flash[:error_messages].each do |message| %>
             <li class="text-white"><%= message %></li>
             <% end %>
           </ul>
