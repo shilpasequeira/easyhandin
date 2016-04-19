@@ -51,7 +51,7 @@
             <td id="test_result_<%= submission.id %>">
               <% if submission.test_result.present? %>
                 <% if submission.test_output.present? %>
-                  <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}" %>
+                  <%= link_to submission.test_result.titleize, "#", "data-reveal-id" => "test_output_#{submission.id}", "data-reveal": true %>
                 <% else %>
                   <%= submission.test_result.titleize %>
                 <% end %>
@@ -59,7 +59,7 @@
             </td>
             <td><%= submission.grade %></td>
             <td>
-              <%= link_to "#", "data-reveal-id" => "edit_submission_#{submission.id}" do %>
+              <%= link_to "#", "data-reveal-id" => "edit_submission_#{submission.id}", "data-reveal": true do %>
                 <i class="fontello-pencil" title="Edit"></i>
               <% end %>
               <%= link_to @assignment.branch_url(submission.repository), target: "_blank" do %>
