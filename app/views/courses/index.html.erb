@@ -11,7 +11,7 @@
 
           <% if current_user.instructor? %>
             <span class="box-btn" data-widget="new">
-              <%= link_to "#", class: "text-dark-blue", "data-reveal-id": "new_course" do %>
+              <%= link_to "#", class: "text-dark-blue", "data-reveal-id": "new_course", "data-reveal": true do %>
                 <i class="fontello-plus" title="new"></i>
               <% end %>
             </span>
@@ -33,7 +33,7 @@
 
             <% if current_user.instructor? %>
               <span class="box-btn" data-widget="edit">
-              <%= link_to "#", "data-reveal-id": "edit_course_#{course.id}" do %>
+              <%= link_to "#", "data-reveal-id": "edit_course_#{course.id}", "data-reveal": true do %>
                 <i class="fontello-pencil" title="edit"></i>
               <% end %>
               </span>

@@ -12,7 +12,7 @@
 
       <% if current_user.instructor? %>
       <span class="box-btn" data-widget="new">
-        <%= link_to "#", "data-reveal-id" => "add_team", class: "text-dark-blue", remote: true do %>
+        <%= link_to "#", "data-reveal-id" => "add_team", class: "text-dark-blue", "data-reveal": true, remote: true do %>
           <i class="fontello-plus" title="add a team"></i>
         <% end %>
       </span>
@@ -27,14 +27,14 @@
       <!-- tools box -->
       <div class="pull-right box-tools">
         <span class="box-btn">
-          <%= link_to "#", "data-reveal-id" => "team_members_#{team.id}" do %>
+          <%= link_to "#", "data-reveal-id" => "team_members_#{team.id}", "data-reveal": true do %>
             <i class="fontello-users" title="View team members"></i>
           <% end %>
         </span>
 
         <% if current_user.instructor? %>
         <span class="box-btn">
-          <%= link_to "#", "data-reveal-id" => "edit_team_#{team.id}" do %>
+          <%= link_to "#", "data-reveal-id" => "edit_team_#{team.id}","data-reveal": true do %>
             <i class="fontello-pencil" title="edit"></i>
           <% end %>
         </span>

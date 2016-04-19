@@ -19,4 +19,21 @@
       <% end %>
       </tbody>
     </table>
+    <%= form_tag do %>
+      <select class="chosen" multiple="true">
+        <option>Choose...</option>
+        <option>jQuery</option>
+        <option selected="selected">MooTools</option>
+        <option>Prototype</option>
+        <option selected="selected">Dojo Toolkit</option>
+      </select>
+    <% end %>
   </div>
+
+  <script type="text/javascript">
+    (function($) {
+        "use strict";
+        jQuery(".chosen").data("placeholder","Select Students...").chosen();
+    })(jQuery);
+</script>
+
