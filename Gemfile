@@ -85,3 +85,6 @@ gem 'rails_12factor', group: :production
 
 # Use delayed job for background job queueing
 gem 'delayed_job_active_record'
+
+# Use compass-rails for chosen
+gem 'compass-rails'

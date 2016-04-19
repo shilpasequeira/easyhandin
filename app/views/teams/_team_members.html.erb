@@ -1,22 +1,40 @@
-  <div class="modal-dialog">
-    <p><strong>Members of <%= team.name %></strong></p>
-    <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Student ID</th>
-        <th>Username</th>
-      </tr>
-      </thead>
+<div class="modal-dialog">
+  <p><strong>Members of <%= team.name %></strong></p>
+  <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Student ID</th>
+      <th>Username</th>
+    </tr>
+    </thead>
 
-      <tbody>
-      <% team.users.each do |member| %>
-      <tr>
-        <td><%= member.name %></td>
-        <td><%= member.university_id %></td>
-        <td><%= member.username %></td>
-      </tr>
+    <tbody>
+    <% team.users.each do |member| %>
+    <tr>
+      <td><%= member.name %></td>
+      <td><%= member.university_id %></td>
+      <td><%= member.username %></td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <% if !@course.students_not_in_teams.empty? %>
+    <%= form_tag({multipart: true}) do %>
+      <%= label_tag :students do %>Select Students:<br>
+        <%= select_tag "students", options_from_collection_for_select(@course.students_not_in_teams, "id", "name"), 
+            class: "chosen", multiple: "true", "data-placeholder": "Enter the student name/s here ..." %>
       <% end %>
-      </tbody>
-    </table>
-  </div>
+      <br />
+      <%= content_tag :button, 'Add Students', :type => :submit, :class => 'tiny right' %>
+    <% end %>
+  <% else %>
+    <p>All students in this course are assigned to a team!</p> 
+  <% end %> 
+</div>
+<script type="text/javascript">
+    (function($) {
+        jQuery(".chosen").chosen();
+    })(jQuery);
+</script>
