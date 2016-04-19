@@ -14,6 +14,7 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
+    add_breadcrumb @course.name.upcase
   end
 
   # POST /courses
@@ -85,9 +86,13 @@ class CoursesController < ApplicationController
   end
 
   def students
+    add_breadcrumb @course.name.upcase, :course_path
+    add_breadcrumb "STUDENTS"
   end
 
   def instructors
+    add_breadcrumb @course.name.upcase, :course_path
+    add_breadcrumb "INSTRUCTORS"
   end
 
   def import_students_csv

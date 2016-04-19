@@ -4,7 +4,7 @@
 <%= stylesheet_link_tag    'footable-demos', media: 'all', 'data-turbolinks-track' => true %>
 <div class="box">
   <div class="box-header bg-transparent">
-    <h3 class="box-title"><i class="fontello-doc-text"></i>
+    <h3 class="box-title"><span class="fontello-doc-text"></span>
       <span>ASSIGNMENTS</span>
     </h3>
     <!-- tools box -->
@@ -48,9 +48,13 @@
         <strong><%= assignment.name %></strong>
         <% end %>
       </h5>
-      <h6><i class=" fontello-flow-split"></i> <a class="text-gray" href="#"><%= assignment.branch_name %></a></h6>
-      <h6><i class=" fontello-clock"></i>&nbsp;<%= assignment.deadline.strftime("%a, %B %-d") %>
+      <h6><i class=" fontello-users"></i> <% if assignment.is_team_mode %>In teams<% end %></h6>
+      <h6><i class=" fontello-flow-split"></i> <%= assignment.branch_name %> </h6>
+      <h6><i class=" fontello-clock"></i> <%= assignment.deadline.strftime("%a, %B %-d") %>
         <span class="bg-black"><%= assignment.deadline.strftime("%I:%M %p") %></span>
+        <% if assignment.grace_period.present? %>
+          &nbsp; - &nbsp; <%= assignment.grace_period.strftime("%a, %B %-d") %><span class="bg-black"><%= assignment.grace_period.strftime("%I:%M %p") %></span>
+        <% end %>
       </h6>
       <hr>
       <% end %>

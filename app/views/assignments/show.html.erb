@@ -12,135 +12,117 @@
 <!-- Container Begin -->
 <div class="row">
   <div class="large-12 columns">
-    <div class="box">
+    <div class="box">      
+      <div class="box-header bg-transparent">
+        <h3 class="box-title"><span class="fontello-doc-text"></span>
+          <span><%= @assignment.name.upcase %></span>
+        </h3>
       <!-- /.box-header -->
-      <div class="box-body " style="display: block;">
+        <div class="pull-right box-tools">
+          <% if current_user.instructor? %>
+          <span class="box-btn" data-widget="edit">
+            <%= link_to edit_course_assignment_path(@course, @assignment) do %>
+              <i class="fontello-pencil" title="edit"></i>
+            <% end %>
+          </span>
+          <span class="box-btn" data-widget="delete">
+            <%= link_to course_assignment_path(@course, @assignment), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="fontello-trash-2" title="delete"></i>
+            <% end %>
+          </span>
+          <% end %>
+          <span class="box-btn" >
+            <%= link_to course_path(@course) do %>
+              <i class="fontello-reply" title="back"></i>
+            <% end %>
+          </span>
+        </div>   
+      </div>      
+      <!-- /.box-header -->
+      <div class="box-body" style="display: block;">
         <div class="school-timetable">
-          <!-- tools box -->
-          <div class="pull-right box-tools">
-            <% if current_user.instructor? %>
-            <span class="box-btn" data-widget="edit">
-              <%= link_to edit_course_assignment_path(@course, @assignment) do %>
-                <i class="fontello-pencil" title="edit"></i>
-              <% end %>
-            </span>
-            <span class="box-btn" data-widget="delete">
-              <%= link_to course_assignment_path(@course, @assignment), method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <i class="fontello-trash-2" title="delete"></i>
-              <% end %>
-            </span>
-            <% end %>
-            <span class="box-btn" >
-              <%= link_to course_path(@course) do %>
-                <i class="fontello-reply" title="back"></i>
-              <% end %>
-            </span>
+          <hr>  
+          <div class="row">
+            <div class="large-12 columns">
+            </div>
           </div>
-          <h5><i class="fontello-doc-1"></i> <%= @assignment.name %></h5>
-        <hr>
-        <div class="row">
-          <div class="large-12 columns">
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Course:</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-tag"></i><span class="bg-green"><%= @course.name %></span></h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Programming Language:</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-desktop-1"></i> <%= @assignment.language.titleize %></h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6> Is a team assignment?</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-users"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.is_team_mode %></a></h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Deadline: </h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.deadline.strftime("%a, %B %-d") %></a>
-              <span class="bg-black"><%= @assignment.deadline.strftime("%I:%M %p") %></span>
-            </h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Grace period:</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.grace_period.strftime("%a, %B %-d") %></a>
-              <span class="bg-black"><%= @assignment.grace_period.strftime("%I:%M %p") %></span>
-            </h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Branch name</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.branch_name %></a></h6>
-          </div>
-        </div>
-        <% if @course.skeleton_repository.present? %>
           <div class="row">
             <div class="large-2 columns">
-              <h6>Skeleton code</h6>
+              <h6>Programming Language:</h6>
             </div>
             <div class="large-10 columns">
-              <h6>
-                <i class=" fontello-flow-split"></i>
-                <%= link_to @assignment.skeleton_branch_url, @assignment.skeleton_branch_url, target: "_blank" %>
+              <h6><i class=" fontello-desktop-1"></i> <%= @assignment.language.titleize %></h6>
+            </div>
+          </div>        
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Deadline: </h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.deadline.strftime("%a, %B %-d") %></a>
+                <span class="bg-black"><%= @assignment.deadline.strftime("%I:%M %p") %></span>
               </h6>
             </div>
           </div>
-        <% end %>
-        <% if @assignment.check_test_repository_branch_is_published && current_user.instructor? %>
+          <% if @assignment.grace_period.present? %>
           <div class="row">
             <div class="large-2 columns">
-              <h6>Tests</h6>
+              <h6>Grace period:</h6>
             </div>
             <div class="large-10 columns">
-              <h6>
-                <i class=" fontello-flow-split"></i>
-                <%= link_to @assignment.branch_url(@course.test_repository), @assignment.branch_url(@course.test_repository), target: "_blank" %>
+              <h6><i class=" fontello-clock"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.grace_period.strftime("%a, %B %-d") %></a>
+                <span class="bg-black"><%= @assignment.grace_period.strftime("%I:%M %p") %></span>
               </h6>
             </div>
           </div>
-        <% end %>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Is published?</h6>
+          <% end %>
+          <div class="row">
+            <div class="large-2 columns">
+              <h6>Branch name</h6>
+            </div>
+            <div class="large-10 columns">
+              <h6><i class=" fontello-flow-split"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.branch_name %></a></h6>
+            </div>
           </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-lock-open"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.is_published %></a></h6>
+          <% if @course.skeleton_repository.present? %>
+            <div class="row">
+              <div class="large-2 columns">
+                <h6>Skeleton code</h6>
+              </div>
+              <div class="large-10 columns">
+                <h6>
+                  <i class=" fontello-flow-split"></i>
+                  <%= link_to @assignment.skeleton_branch_url, @assignment.skeleton_branch_url, target: "_blank" %>
+                </h6>
+              </div>
+            </div>
+          <% end %>
+          <% if @assignment.check_test_repository_branch_is_published && current_user.instructor? %>
+            <div class="row">
+              <div class="large-2 columns">
+                <h6>Tests</h6>
+              </div>
+              <div class="large-10 columns">
+                <h6>
+                  <i class=" fontello-flow-split"></i>
+                  <%= link_to @assignment.branch_url(@course.test_repository), @assignment.branch_url(@course.test_repository), target: "_blank" %>
+                </h6>
+              </div>
+            </div>
+          <% end %>
+          <hr />
+          <div class="row">
+            <div class="large-12 columns">
+              <% unless @assignment.is_published? %>
+                <%= link_to "Publish", publish_assignment_path(@assignment), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </div>
           </div>
         </div>
+        <!-- end .timeline -->
       </div>
-        <hr />
-        <div class="row">
-          <div class="large-12 columns">
-            <% unless @assignment.is_published? %>
-              <%= link_to "Publish", publish_assignment_path(@assignment), class: "button tiny right", data: { confirm: 'Are you sure?' } %>
-            <% end %>
-          </div>
-        </div>
-      </div>
-      <!-- end .timeline -->
+      <!-- box -->
     </div>
-    <!-- box -->
   </div>
 </div>
 <!-- End of Container Begin -->
@@ -150,7 +132,7 @@
   <div class="large-12 columns">
     <div class="box bg-white">
       <div class="box-header bg-transparent">
-        <h3 class="box-title"><i class="fontello-paper-plane"></i>
+        <h3 class="box-title"><span class="fontello-paper-plane"></span>
           <% if current_user.instructor? %>
           <span>SUBMISSIONS</span>
           <% else %>

@@ -10,7 +10,7 @@
           </div>
           <div class="large-6 columns">
             <%= f.label :language do %>Programming Language <small>required</small>
-              <%= f.select(:language, Assignment.languages.keys.to_a) %>
+              <%= f.select(:language, Assignment.languages.keys.to_a, {}, {disabled: @assignment.is_published?}) %>
             <% end %>
           </div>
         </div>

@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user, :current_uri, :path, :current_controller, :current_action, :indefinite_articlerize, :signin_link
   before_action :require_login, :configure_octokit
+  
+  add_breadcrumb 'HOME', :courses_path
 
   def index
   end
