@@ -50,12 +50,9 @@
           &nbsp;
         </div>
         <div class="row">
-          <div class="large-10 columns">
-            &nbsp;
-          </div>
-          <div class="large-2 columns">
-            <%= f.button 'Save', :class => 'tiny ', :type => 'submit' %>
-            <%= link_to 'Cancel', :back, class: "radius button tiny secondary right" %>
+          <div class="large-12 columns">
+            <%= link_to 'Cancel', :back, class: "button tiny secondary right" %>
+            <%= f.button 'Save', :class => 'tiny right spacer', :type => 'submit' %>
           </div>
         </div>
       </form>
