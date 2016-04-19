@@ -36,18 +36,12 @@
               <% end %>
             </span>
           </div>
-          <h5><i class="fontello-doc-1"></i> <%= @assignment.name %></h5>
+          <h5>
+            <i class="fontello-doc-1"></i> <%= @assignment.name %> 
+          </h5>
         <hr>
         <div class="row">
           <div class="large-12 columns">
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Course:</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-tag"></i><span class="bg-green"><%= @course.name %></span></h6>
           </div>
         </div>
         <div class="row">
@@ -76,6 +70,7 @@
             </h6>
           </div>
         </div>
+        <% if @assignment.grace_period.present? %>
         <div class="row">
           <div class="large-2 columns">
             <h6>Grace period:</h6>
@@ -86,6 +81,7 @@
             </h6>
           </div>
         </div>
+        <% end %>
         <div class="row">
           <div class="large-2 columns">
             <h6>Branch name</h6>
@@ -120,15 +116,6 @@
             </div>
           </div>
         <% end %>
-        <div class="row">
-          <div class="large-2 columns">
-            <h6>Is published?</h6>
-          </div>
-          <div class="large-10 columns">
-            <h6><i class=" fontello-lock-open"></i>&nbsp;<a class="text-gray" href="#"><%= @assignment.is_published %></a></h6>
-          </div>
-        </div>
-      </div>
         <hr />
         <div class="row">
           <div class="large-12 columns">
