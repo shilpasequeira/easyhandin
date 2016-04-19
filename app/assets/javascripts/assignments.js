@@ -9,21 +9,5 @@ $( document ).ready(function() {
   });
 });
 
-(function($) {
-    "use strict";
-    //default date & time picker
-    $('#datetimepicker').datetimepicker({
-        dayOfWeekStart: 1,
-        lang: 'en',
-        format:'d/M/Y H:m',
-        defaultDate: new Date()
-    });
-    $('#datetimepicker2').datetimepicker({
-        dayOfWeekStart: 1,
-        lang: 'en',
-        format:'d/M/Y H:m',
-        defaultDate: new Date()
-    });
-})(jQuery);
 
 
