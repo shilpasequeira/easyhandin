@@ -102,7 +102,7 @@ class Assignment < ActiveRecord::Base
     submission_repo_urls = []
     self.submissions.where(is_published: false).each do |submission|
       existing_branches = GetRepoBranches.perform(self.course.org_name, submission.repo_name)
-      binding.pry
+
       if existing_branches.include?(self.branch_name)
         submission.is_published = true
         submission.save!
