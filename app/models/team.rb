@@ -1,7 +1,7 @@
 class Team < ActiveRecord::Base
   belongs_to :course
   has_and_belongs_to_many :users
-  has_many :submissions, as: :submitter
+  has_many :submissions, as: :submitter, dependent: :destroy
 
   after_create :create_team_submissions
   after_create :unpublish_course
