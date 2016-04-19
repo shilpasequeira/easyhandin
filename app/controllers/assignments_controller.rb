@@ -12,6 +12,10 @@ class AssignmentsController < ApplicationController
   def index
     @assignments = @course.assignments
   end
+  
+  def home_icon
+    render html: '<span class="entypo-home"></span>'
+  end
 
   # GET /assignments/1
   # GET /assignments/1.json
@@ -23,6 +27,9 @@ class AssignmentsController < ApplicationController
     end
 
     @assignment.update_moss_output
+
+    add_breadcrumb @course.name, :course_path
+    add_breadcrumb @assignment.name
   end
 
   # GET /assignments/new

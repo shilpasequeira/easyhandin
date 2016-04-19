@@ -84,15 +84,7 @@
 
       <!-- breadcrumbs -->
       <ul class="breadcrumbs">
-        <li><!-- link to dashboard once it is set up -->
-          <%= link_to courses_path do %>
-          <span class="entypo-home"></span>
-          <% end %>
-        </li>
-        <li><%= current_controller %>
-        </li>
-        <li><%= current_action %>
-        </li>
+        <%= render_breadcrumbs :tag => :li, :separator => "" %>       
       </ul>
       <!-- end of breadcrumbs -->
       <%= render partial: 'shared/alert' %>

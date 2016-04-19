@@ -88,3 +88,6 @@ gem 'delayed_job_active_record'
 
 # Use compass-rails for chosen
 gem 'compass-rails'
+
+# Use breadcrumps_on_rails for breadcrumps
+gem "breadcrumbs_on_rails"
