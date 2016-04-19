@@ -101,7 +101,14 @@ class Assignment < ActiveRecord::Base
 
     submission_repo_urls = []
     self.submissions.where(is_published: false).each do |submission|
-      submission_repo_urls.push({repo: submission.repository["ssh_url"]})
+      existing_branches = GetRepoBranches.perform(self.course.org_name, submission.repo_name)
+      binding.pry
+      if existing_branches.include?(self.branch_name)
+        submission.is_published = true
+        submission.save!
+      else
+        submission_repo_urls.push({repo: submission.repository["ssh_url"]})
+      end
     end
 
     self.branch_build_submissions = submission_repo_urls.to_json
@@ -111,6 +118,7 @@ class Assignment < ActiveRecord::Base
     CreateBranchBuild.perform(self.course.skeleton_repository["ssh_url"], self.branch_name, submission_url)
   end
 
+  # IMPORTANT BUT NOT BEING USED
   def check_submissions_branch_is_published
     self.submissions.where(is_published: false).each do |submission|
       existing_branches = GetRepoBranches.perform(self.course.org_name, submission.repo_name)
@@ -124,12 +132,14 @@ class Assignment < ActiveRecord::Base
     self.submissions.where(is_published: false).empty?
   end
 
+  # IMPORTANT BUT NOT BEING USED
   def check_test_repository_branch_is_published
     return false unless self.course.test_repository.present?
     test_branches = GetRepoBranches.perform(self.course.org_name, self.course.test_repository["name"])
     test_branches.include?(self.branch_name)
   end
 
+  # IMPORTANT BUT NOT BEING USED
   def update_is_published
     if check_submissions_branch_is_published && check_test_repository_branch_is_published
       self.is_published = true
