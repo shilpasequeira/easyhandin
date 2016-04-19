@@ -86,8 +86,5 @@ gem 'rails_12factor', group: :production
 # Use delayed job for background job queueing
 gem 'delayed_job_active_record'
 
-# Use chosen for select boxes
-gem 'chosen-rails', '~> 1.5', '>= 1.5.1', :path => "vendor/chosen-rails-1.5.1"
-
-# Use compass-rails
+# Use compass-rails for chosen
 gem 'compass-rails'
