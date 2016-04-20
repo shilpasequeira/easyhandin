@@ -27,24 +27,30 @@
 <%= javascript_include_tag 'jquery.date-dropdowns.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'jquery.datetimepicker.js', 'data-turbolinks-track' => true %>
 <script type="text/javascript">
-  (function($) {
-    "use strict";
-
-    $('#deadlineDateTimePicker').datetimepicker({
-      dayOfWeekStart: 1,
-      lang: 'en',
-      format:'d/M/Y H:m',
-      minDate: new Date()
-    });
-    $('#gracePeriodDateTimePicker').datetimepicker({
-      dayOfWeekStart: 1,
-      lang: 'en',
-      format:'d/M/Y H:m',
-      minDate: new Date(),
-      onSelect: function() { 
-        var deadline = $("#deadlineDateTimePicker").datepicker( 'getDate' );      
-        $("#deadlineDateTimePicker").datepicker( 'minDate' ) = deadline;
-      }
-    });
-  })(jQuery);
+jQuery(function(){
+  jQuery('#deadlineDateTimePicker').datetimepicker({
+    dayOfWeekStart: 1,
+    lang: 'en',
+    format:'d/M/Y H:00',
+    minDate: new Date(),
+    onShow:function( ct ){
+      this.setOptions({
+        maxDate:jQuery('#gracePeriodDateTimePicker').val() ? new Date(jQuery('#gracePeriodDateTimePicker').val()) : false
+      })
+    },
+    timepicker:true
+  });
+  jQuery('#gracePeriodDateTimePicker').datetimepicker({
+    dayOfWeekStart: 1,
+    lang: 'en',
+    format:'d/M/Y H:00',
+    minDate: new Date(),
+    onShow:function( ct ){
+      this.setOptions({
+        minDate:jQuery('#deadlineDateTimePicker').val() ? new Date(jQuery('#deadlineDateTimePicker').val()) : new Date()
+      })
+    },
+    timepicker:true
+  });
+});
 </script>
