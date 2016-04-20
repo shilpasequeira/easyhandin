@@ -81,6 +81,7 @@ GEM
     composable_operations (0.10.1)
       smart_properties (~> 1.10)
     concurrent-ruby (1.0.1)
+    daemons (1.2.3)
     debug_inspector (0.0.2)
     delayed_job (4.1.1)
       activesupport (>= 3.0, < 5.0)
@@ -266,6 +267,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   compass-rails
   composable_operations
+  daemons
   delayed_job_active_record
   factory_girl_rails
   faker
