@@ -24,7 +24,7 @@ class AssignmentsController < ApplicationController
 
     @assignment.update_moss_output
 
-    add_breadcrumb @course.name.upcase, :course_path
+    add_breadcrumb @course.name.upcase, course_path(@course)
     add_breadcrumb @assignment.name.upcase
   end
 
