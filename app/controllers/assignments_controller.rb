@@ -79,8 +79,20 @@ class AssignmentsController < ApplicationController
   end
 
   def process_submissions
+    if @submissions.empty?
+      flash[:error] = "No submissions selected."
+      redirect_to action: :show
+      return
+    end
+
     unless @assignment.is_published?
       flash[:error] = "Cannot process submissions when assignment is not published."
+      redirect_to action: :show
+      return
+    end
+
+    if @assignment.final_deadline.future?
+      flash[:error] = "Cannot process submissions when assignment deadline has not passed."
       redirect_to action: :show
       return
     end
@@ -154,7 +166,18 @@ class AssignmentsController < ApplicationController
 
   def check_publish_status
     if current_user.instructor? && !@assignment.is_published?
-      flash[:warning] = "There are branches yet to be created. Publish the assignment to create them."
+      begin
+        @assignment.update_is_published
+
+        unless @assignment.is_published?
+          flash[:warning] = "There are branches yet to be created. Publish the assignment to create them."
+        end
+      rescue => e
+        Rails.logger.error {
+          "Error when checking if assignment is published #{e.message} #{e.backtrace.join("\n")}"
+        }
+        flash[:error] = e.message
+      end
     end
   end
 
