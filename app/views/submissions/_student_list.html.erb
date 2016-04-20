@@ -8,6 +8,8 @@
   </span>
 
   <div class="box-body" style="display: block;">
+    <%= select("submission_id", "submitter_name", @assignment.submissions.collect {|submission| [submission.submitter.name, submission.id]}, { include_blank: true }, 
+      {class: "chosen", multiple: "true", "data-placeholder": "Search submitters ..."}) %>
     <table id="footable-res2" class="fixed-ellipsis demo no-paging footable-loaded footable tablet breakpoint" data-filter="#filter" data-filter-text-only="true">
       <thead>
         <tr>
@@ -35,7 +37,7 @@
       </thead>
       <tbody>
         <% @assignment.submissions.each do |submission| %>
-          <tr>
+          <tr id="submission_row_<%= submission.id %>">
             <td class="text-center">
               <%= check_box_tag "submission_ids[]", submission.id, false, :id => "submission_#{submission.id}", class: "selectAll" %>
             </td>
@@ -92,3 +94,26 @@
     <%= link_to "&#215;".html_safe, "#", class: "close-reveal-modal" %>
   </div>
 <% end %>
+
+<script>
+(function($) {
+  "use strict";
+  $("#submission_id_submitter_name").chosen().change(function(e, params){
+      var show_vals = $('#submission_id_submitter_name').chosen().val();
+      var rows = document.getElementsByTagName("tr");
+      for (var i = 0; i < rows.length; i++) {  
+        rows[i].style.display = '';
+      }
+      if (show_vals !== null ) { 
+        for (var i = 0; i < rows.length; i++) { 
+          if(rows[i].parentElement.tagName.toLowerCase() == "tbody") {          
+            rows[i].style.display = 'none';
+          }
+        }  
+        for (var j = 0; j < show_vals.length; j++) {         
+          document.getElementById("submission_row_"+show_vals[j]).style.display = ''; 
+        }
+      }
+  });
+})(jQuery);   
+</script>
