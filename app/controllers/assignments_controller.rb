@@ -91,11 +91,11 @@ class AssignmentsController < ApplicationController
       return
     end
 
-    if @assignment.final_deadline.future?
-      flash[:error] = "Cannot process submissions when assignment deadline has not passed."
-      redirect_to action: :show
-      return
-    end
+    # if @assignment.final_deadline.future?
+    #   flash[:error] = "Cannot process submissions when assignment deadline has not passed."
+    #   redirect_to action: :show
+    #   return
+    # end
 
     begin
       if params[:run_tests]

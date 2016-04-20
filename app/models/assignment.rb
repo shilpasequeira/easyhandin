@@ -11,7 +11,7 @@ class Assignment < ActiveRecord::Base
 
   after_create :create_submissions
 
-  after_save :update_commit_sha
+  after_save :deadline_changed
 
   enum moss_result: [ :finished, :error, :in_progress ]
   enum language: [ :java ]
@@ -23,6 +23,7 @@ class Assignment < ActiveRecord::Base
 
   def run_tests(submissions)
     submissions.each do |submission|
+      submission.update_commit_sha if submission.commit_sha.nil?
       submission.test
     end
   end
@@ -31,6 +32,7 @@ class Assignment < ActiveRecord::Base
     submission_repo_sha = []
 
     submissions.each do |submission|
+      submission.update_commit_sha if submission.commit_sha.nil?
       submission_repo_sha.push({repo: submission.repository["ssh_url"], sha: submission.commit_sha})
     end
 
@@ -74,9 +76,12 @@ class Assignment < ActiveRecord::Base
     end
   end
 
-  def update_commit_sha
+  def deadline_changed
     if self.deadline_changed? || self.grace_period_changed?
-      GetCommitBeforeDeadlineJob.set(wait_until: self.final_deadline).perform_later(self)
+      self.submissions.each do |submission|
+        submission.commit_sha = nil
+        submission.save!
+      end
     end
   end
 

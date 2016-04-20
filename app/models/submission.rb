@@ -51,4 +51,14 @@ class Submission < ActiveRecord::Base
   def repo_name
     self.repository["name"] if self.repository.present?
   end
+
+  def update_commit_sha
+    self.commit_sha = GetCommitBeforeDeadline.perform(
+      self.assignment.course.org_name,
+      self.repo_name,
+      self.assignment.branch_name,
+      self.assignment.final_deadline
+    )
+    self.save!
+  end
 end
