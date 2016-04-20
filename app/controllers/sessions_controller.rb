@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     end
 
     if invite_token.present?
-      invite = Invite.find_by_token(token)
+      invite = Invite.find_by_token(invite_token)
 
       if invite.email != auth["info"]["email"]
         flash[:error] = "Only the Github user with email #{invite.email} can accept this invitation."
