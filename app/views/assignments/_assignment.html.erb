@@ -48,7 +48,9 @@
         <strong><%= assignment.name %></strong>
         <% end %>
       </h5>
-      <h6><i class=" fontello-users"></i> <% if assignment.is_team_mode %>In teams<% end %></h6>
+      <% if assignment.is_team_mode %>
+        <h6><i class=" fontello-users"></i> In teams</h6>
+      <% end %>
       <h6><i class=" fontello-flow-split"></i> <%= assignment.branch_name %> </h6>
       <h6><i class=" fontello-clock"></i> <%= assignment.deadline.strftime("%a, %B %-d") %>
         <span class="bg-black"><%= assignment.deadline.strftime("%I:%M %p") %></span>

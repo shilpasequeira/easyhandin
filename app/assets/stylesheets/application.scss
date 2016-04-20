@@ -64,8 +64,15 @@ table.fixed-ellipsis {
 
 .chosen-container-multi{
   width: 100% !important;
+  margin-bottom: 20px;
 }
 
 .breadcrumbs > * {
   font-size: 13px !important;
+}
+
+#submission_id_submitter_name_chosen {
+  width: 300px !important;
+  float: left;  
+  margin-right: 10px;  
 }

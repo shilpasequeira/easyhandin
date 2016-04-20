@@ -22,10 +22,8 @@
 
   <% if !@course.students_not_in_teams.empty? %>
     <%= form_for [@course, team] do |f| %>
-      <%= f.label :user_ids do %>Select Students<br>
-        <%= f.select :user_ids, options_from_collection_for_select(@course.students_not_in_teams, "id", "name"),
-            {}, {class: "chosen", multiple: "true", "data-placeholder": "Enter the student name/s here ..."} %>
-      <% end %>
+      <%= f.select :user_ids, options_from_collection_for_select(@course.students_not_in_teams, "id", "name"),
+          {}, {class: "chosen", multiple: "true", "data-placeholder": "Search students ..."} %>
       <br />
       <%= f.button 'Add Students', type: :submit, class: 'tiny right' %>
     <% end %>
