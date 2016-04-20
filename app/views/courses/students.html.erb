@@ -102,7 +102,11 @@
       </div>
       <div class="box-body">
         <%= form_for @course, url: import_students_csv_path, html: { multipart: true } do |f| %>
-          <%= f.file_field :students_csv %>
+          <%= f.text_field :students_csv, :value => "choose a csv file", id: "uploadFile", disabled: "disabled" %>
+          <span class="fileUpload btn btn-primary">
+            Choose file
+            <%= f.file_field :students_csv, id: "uploadBtn", class: "upload tiny button", accept:".csv" %>
+          </span><br />
           <%= f.button 'Upload csv', :class => 'tiny', :type => 'submit' %>
         <% end %>
       </div>
@@ -110,3 +114,9 @@
   </div>
 </div>
 <!-- End of Container Begin -->
+<script>
+  document.getElementById("uploadBtn").onchange = function () {
+    document.getElementById("uploadFile").value = this.value.replace("C:\\fakepath\\", '');
+  };
+</script> 
+
