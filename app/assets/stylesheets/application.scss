@@ -76,3 +76,31 @@ table.fixed-ellipsis {
   float: left;  
   margin-right: 10px;  
 }
+
+#uploadFile {
+  position: relative;
+  overflow: hidden;
+  display: inline;
+  width: 40%;
+}
+
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  display: inline;
+  margin-left: 10px;
+  color: white;
+}
+
+.fileUpload input.upload {
+  display: inline;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+} 
