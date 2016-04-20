@@ -62,6 +62,13 @@
           <hr>
           <% @course.invites.where(user_role: "instructor", is_accepted: false).each do |invite| %>
             <h5><%= invite.name %></h5>
+            <div class="pull-right box-tools">
+              <span class="box-btn" data-widget="delete">
+                <%= link_to invite, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class="fontello-trash-2" title="delete"></i>
+                <% end %>
+              </span>
+            </div>
             <h6><i class=" fontello-mail"></i> <%= invite.email %></h6>
             <h6><i class=" fontello-vcard"></i> <%= invite.university_id %></h6>
             <hr>
