@@ -17,6 +17,7 @@ class Submission < ActiveRecord::Base
       self.repository["ssh_url"],
       self.assignment.branch_name,
       self.assignment.course.test_repository["ssh_url"],
+      self.commit_sha,
       message: "Creating build for assignment #{self.assignment.course.name} - #{self.assignment.name} by #{self.submitter.name}"
     )
 
