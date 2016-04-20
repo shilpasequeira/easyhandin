@@ -97,7 +97,7 @@
               </div>
             </div>
           <% end %>
-          <% if @assignment.check_test_repository_branch_is_published && current_user.instructor? %>
+          <% if current_user.instructor? && @assignment.check_test_repository_branch_is_published %>
             <div class="row">
               <div class="large-2 columns">
                 <h6>Tests</h6>
