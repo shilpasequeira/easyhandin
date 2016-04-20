@@ -86,12 +86,12 @@ class CoursesController < ApplicationController
   end
 
   def students
-    add_breadcrumb @course.name.upcase, :course_path
+    add_breadcrumb @course.name.upcase, course_path(@course)
     add_breadcrumb "STUDENTS"
   end
 
   def instructors
-    add_breadcrumb @course.name.upcase, :course_path
+    add_breadcrumb @course.name.upcase, course_path(@course)
     add_breadcrumb "INSTRUCTORS"
   end
 
