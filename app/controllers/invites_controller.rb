@@ -1,6 +1,7 @@
 class InvitesController < ApplicationController
   before_action :check_user_is_instructor
-
+  before_action :set_invite, only: [:destroy]
+  
   def create
     if !current_user.teach_courses.include?(Course.find(invite_params[:course_id]))
       flash[:warning] = "You don't have permissions to do that!!"
@@ -35,7 +36,17 @@ class InvitesController < ApplicationController
     end
   end
 
+  def destroy
+    @invite.destroy
+    flash[:notice] = "Invitation was successfully destroyed."
+    redirect_to :back
+  end
+
   private
+
+  def set_invite
+    @invite = Invite.find(params[:id])
+  end
 
   def invite_params
     params.require(:invite).permit(:user_role, :name, :email, :university_id, :team_number, :course_id, :sender_id, :recipient_id, :token)
